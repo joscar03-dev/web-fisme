@@ -42,5 +42,16 @@ class Evento extends Model
         return $query->where('tipo_evento', 'destacado'); // O ajusta según tu lógica.
     }
 
+    public function tema()
+    {
+        return $this->belongsTo(Temas::class, 'tema_id');
+    }
+
+    // Relación con el modelo Organizador
+    public function organizador()
+    {
+        return $this->belongsTo(Organizadores::class, 'organizador_id');
+    }
+
     
 }

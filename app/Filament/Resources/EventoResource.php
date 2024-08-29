@@ -8,6 +8,7 @@ use App\Models\Evento;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\TimePicker;
@@ -34,9 +35,9 @@ class EventoResource extends Resource
                 TextInput::make('nombre_evento')
                     ->required()
                     ->maxLength(255),
-                TextInput::make('tema_id')
-                    ->required()
-                    ->maxLength(20),
+                Select::make('tema_id')
+                    ->relationship('tema', 'nombre_tema')
+                    ->required(),
                 DatePicker::make('fecha_inicio')
                     ->required(),
                 DatePicker::make('fecha_fin')
@@ -54,23 +55,25 @@ class EventoResource extends Resource
                 TextInput::make('area_evento')
                     ->required()
                     ->maxLength(255),
-                TextInput::make('organizador')
-                    ->required()
-                    ->maxLength(255),
+                Select::make('organizador_id')
+                    ->relationship('organizador', 'nombre')
+                    ->required(),
                 Textarea::make('descripcion_breve')
                     ->required(),
                 TextInput::make('precio_inscripcion')
                     ->numeric()
                     ->required(),
-                /* FileUpload::make('imagen_banner')
+                FileUpload::make('imagen_banner')
+                    ->disk('public')
+                    ->directory('eventos')
                     ->image(),
-                FileUpload::make('video_banner')
+                /* FileUpload::make('video_banner')
+                    ->disk('public')
+                    ->directory('eventos')
                     ->video(), */
                 TextInput::make('enlace_inscripcion')
                     ->url()
                     ->required(),
-                Toggle::make('is_featured')
-                    ->label('Evento destacado'),
             ]);
     }
 
@@ -82,7 +85,8 @@ class EventoResource extends Resource
                 TextColumn::make('fecha_inicio')->sortable(),
                 TextColumn::make('fecha_fin')->sortable(),
                 ImageColumn::make('imagen_banner'),
-                // BooleanColumn::make('is_featured')->label('Destacado'),
+                TextColumn::make('tipo_evento')->sortable()->searchable(),
+                TextColumn::make('organizador.nombre')->label('Organizador'),
             ])
             ->filters([
                 //

@@ -8,4 +8,22 @@ use Illuminate\Database\Eloquent\Model;
 class Organizadores extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'nombre',
+        'imagen',
+        'correo_electronico',
+        'telefono',
+        'biografia_breve',
+    ];
+
+    protected $casts = [
+        'imagen' => 'string'
+    ];
+
+
+    public function evento()
+    {
+        return $this->hasMany(Evento::class, 'organizador_id');
+    }
 }
