@@ -15,7 +15,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', Evento::class);
+Route::get('/', HomePage::class);
+Route::get('/evento/{id}', Evento::class)->name('evento.detalle');
 
 
 // Route::get('/', HomePage::class);

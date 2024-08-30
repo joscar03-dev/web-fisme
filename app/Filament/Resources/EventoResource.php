@@ -67,6 +67,10 @@ class EventoResource extends Resource
                     ->disk('public')
                     ->directory('eventos')
                     ->image(),
+                FileUpload::make('imagen_catalogo')
+                    ->disk('public')
+                    ->directory('eventos')
+                    ->image(),
                 /* FileUpload::make('video_banner')
                     ->disk('public')
                     ->directory('eventos')

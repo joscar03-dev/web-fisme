@@ -24,10 +24,19 @@ class Evento extends Model
         'descripcion_breve',
         'precio_inscripcion',
         'imagen_banner',
+        'imagen_catalogo',
         'video_banner',
         'organizador_id',
         'enlace_inscripcion'
     ];
+    protected $dates = [
+        'fecha_inicio',
+        'fecha_fin',
+    ];
+    public function getRouteKeyName()
+    {
+        return 'tipo_evento'; // O cualquier otro campo que estés usando para buscar
+    }
 
     public function scopeUpcoming(Builder $query)
     {

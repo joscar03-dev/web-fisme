@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
@@ -9,14 +10,18 @@
     @livewireStyles
     @vite('resources/css/app.css')
 
+
 </head>
 
 <body>
+    @livewire('partials.navbar')
     <main>
         {{ $slot }}
     </main>
-
+    @livewire('partials.footer')
     @livewireScripts
+    @vite('resources/js/app.js')
+    <script src=" {{ asset('js/app.js') }}"></script>
 </body>
 
 </html>
