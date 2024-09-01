@@ -7,6 +7,8 @@ use App\Filament\Resources\TemasResource\RelationManagers;
 use App\Models\Temas;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Group;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -29,23 +31,53 @@ class TemasResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-        ->schema([
-            TextInput::make('nombre_tema')
-                ->required()
-                ->maxLength(255),
-            Textarea::make('descripcion_tema')
-                ->required(),
-            DatePicker::make('fecha')
-                ->required(),
-            TimePicker::make('hora_inicio')
-                ->required(),
-            TimePicker::make('hora_fin')
-                ->required(),
-            Select::make('ponente_id')
-                ->label('Ponente')
-                ->relationship('ponente', 'nombre')
-                ->required(),
-        ]);
+            ->schema([
+                Group::make()->schema(
+                    [
+                        //segmento 
+                        Section::make('Informacion de  Tema')->schema(
+                            [
+                                TextInput::make('nombre_tema')
+                                    ->required()
+                                    ->maxLength(255),
+                                Select::make('ponente_id')
+                                    ->label('Ponente')
+                                    ->relationship('ponente', 'nombre')
+                                    ->required(),
+
+                            ]
+                        )->columns(2),
+                        Section::make('Descripcion del Tema')->schema(
+                            [
+                                Textarea::make('descripcion_tema')
+                                    ->required(),
+                            ]
+                        )->columnSpan(2),
+                    ]
+                )->columnSpan(2),
+
+                Group::make()->schema(
+                    [
+                        //segmento 
+                        Section::make('Otra Informacion')->schema(
+                            [
+                                DatePicker::make('fecha')
+                                    ->required(),
+                                TimePicker::make('hora_inicio')
+                                    ->required(),
+                                TimePicker::make('hora_fin')
+                                    ->required(),
+
+                            ]
+                        )->columnSpanFull(),
+
+
+                    ]
+                )->columnSpan(1),
+                
+
+
+            ])->columns(3);
     }
 
     public static function table(Table $table): Table

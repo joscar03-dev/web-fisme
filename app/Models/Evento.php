@@ -20,7 +20,6 @@ class Evento extends Model
         'lugar',
         'tipo_evento',
         'area_evento',
-        'organizador',
         'descripcion_breve',
         'precio_inscripcion',
         'imagen_banner',
@@ -61,6 +60,6 @@ class Evento extends Model
     {
         return $this->belongsTo(Organizadores::class, 'organizador_id');
     }
-
+  
     
 }

@@ -1,6 +1,8 @@
 <?php
 
+use App\Livewire\Contact;
 use App\Livewire\Evento;
+use App\Livewire\Eventos;
 use App\Livewire\HomePage;
 use Illuminate\Support\Facades\Route;
 
@@ -17,6 +19,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', HomePage::class);
 Route::get('/evento/{id}', Evento::class)->name('evento.detalle');
+Route::get('/eventos', Eventos::class);
 
 
+Route::get('/contact', Contact::class);
 // Route::get('/', HomePage::class);

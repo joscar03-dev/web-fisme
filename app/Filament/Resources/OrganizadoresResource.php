@@ -7,6 +7,8 @@ use App\Filament\Resources\OrganizadoresResource\RelationManagers;
 use App\Models\Organizadores;
 use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Group;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -28,23 +30,41 @@ class OrganizadoresResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('nombre')
-                    ->required()
-                    ->maxLength(255),
-                FileUpload::make('imagen')
-                    ->image()
-                    ->disk('public')
-                    ->directory('imagen_organizador')
-                    ->visibility('private'),
-                TextInput::make('correo_electronico')
-                    ->email()
-                    ->required(),
-                TextInput::make('telefono')
-                    ->tel()
-                    ->required(),
-                Textarea::make('biografia_breve')
-                    ->required(),
-            ]);
+                Group::make()->schema(
+                    [
+                        //segmento 
+                        Section::make('Informacion de  Ponente')->schema(
+                            [
+                                TextInput::make('nombre')
+                                    ->required()
+                                    ->maxLength(255),
+
+                                TextInput::make('correo_electronico')
+                                    ->email()
+                                    ->required(),
+                                TextInput::make('telefono')
+                                    ->tel()
+                                    ->required(),
+                            ]
+                        )->columns(3),
+                    ]
+                )->columnSpan(3),
+
+
+                Section::make('Descripcion del Ponente')->schema(
+                    [
+                        Textarea::make('biografia_breve')
+                            ->required(),
+                        FileUpload::make('imagen')
+                            ->image()
+                            ->disk('public')
+                            ->directory('imagen_organizador')
+                            ->visibility('private'),
+                    ]
+                )->columnSpan(3),
+
+
+            ])->columns(3);
     }
 
     public static function table(Table $table): Table

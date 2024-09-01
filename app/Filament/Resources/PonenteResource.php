@@ -7,6 +7,8 @@ use App\Filament\Resources\PonenteResource\RelationManagers;
 use App\Models\Ponente;
 use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Group;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -28,32 +30,61 @@ class PonenteResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('nombre')
-                    ->required()
-                    ->maxLength(255),
-                TextInput::make('apellidos')
-                    ->required()
-                    ->maxLength(255),
-                TextInput::make('especialidad')
-                    ->required()
-                    ->maxLength(255),
-                FileUpload::make('imagen')
-                    ->image()
-                    ->disk('public')
-                    ->directory('imagen_ponente')
-                    ->visibility('private'),
-                TextInput::make('institucion')
-                    ->required()
-                    ->maxLength(255),
-                TextInput::make('correo_electronico')
-                    ->email()
-                    ->required(),
-                TextInput::make('telefono')
-                    ->tel()
-                    ->required(),
-                Textarea::make('biografia_breve')
-                    ->required(),
-            ]);
+                Group::make()->schema(
+                    [
+                        //segmento 
+                        Section::make('Informacion de  Ponente')->schema(
+                            [
+                                TextInput::make('nombre')
+                                    ->required()
+                                    ->maxLength(255),
+                                TextInput::make('apellidos')
+                                    ->required()
+                                    ->maxLength(255),
+                                TextInput::make('correo_electronico')
+                                    ->email()
+                                    ->required(),
+                                TextInput::make('telefono')
+                                    ->tel()
+                                    ->required(),
+                            ]
+                        )->columns(2),
+                    ]
+                )->columnSpan(2),
+              
+                Group::make()->schema(
+                    [
+                        //segmento 
+                        Section::make('Otra Informacion')->schema(
+                            [
+                                TextInput::make('especialidad')
+                                    ->required()
+                                    ->maxLength(255),
+
+                                TextInput::make('institucion')
+                                    ->required()
+                                    ->maxLength(255),
+
+                            ]
+                        )->columnSpanFull(),
+
+
+                    ]
+                )->columnSpan(1),
+                Section::make('Descripcion del Ponente')->schema(
+                    [
+                        Textarea::make('biografia_breve')
+                            ->required(),
+                        FileUpload::make('imagen')
+                            ->image()
+                            ->disk('public')
+                            ->directory('imagen_ponente')
+                            ->visibility('private'),
+                    ]
+                    )->columnSpan(3),
+
+
+            ])->columns(3);
     }
 
     public static function table(Table $table): Table

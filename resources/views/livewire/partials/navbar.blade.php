@@ -51,7 +51,7 @@
                 
             </a>
             <div class="hidden md:flex items-center space-x-8">
-                <a href="https://www.untrm.edu.pe/portal/es/" class="flex items-center text-gray-700 text-lg hover:text-gray-900">
+              {{--  <a href="https://www.untrm.edu.pe/portal/es/" class="flex items-center text-gray-700 text-lg hover:text-gray-900">
                     
                     UNIVERSIDAD
                 </a>
@@ -63,12 +63,16 @@
                 <a href="https://www.untrm.edu.pe/portal/es/noticias.html" class="flex items-center text-gray-700 text-lg hover:text-gray-900">
                     
                     NOTICIAS
+                </a>--}}
+                <a href="/" wire:navigate class="flex items-center text-gray-700 text-lg hover:text-gray-900">
+                   
+                    FISME
                 </a>
-                <a href="#" class="flex items-center text-gray-700 text-lg hover:text-gray-900">
+                <a href="/eventos" wire:navigate class="flex items-center text-gray-700 text-lg hover:text-gray-900">
                    
                     EVENTOS
                 </a>
-                <a href="#" class="flex items-center text-gray-700 text-lg hover:text-gray-900">
+                <a href="/contact" wire:navigate class="flex items-center text-gray-700 text-lg hover:text-gray-900">
                   
                    CONTACTANOS
                 </a>
