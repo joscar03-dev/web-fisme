@@ -26,7 +26,7 @@ class TemasResource extends Resource
 {
     protected static ?string $model = Temas::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-newspaper';
 
     public static function form(Form $form): Form
     {
@@ -94,7 +94,13 @@ class TemasResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\ActionGroup::make(
+                    [ // botones que se necesitan para editar  y elimnar 
+                        Tables\Actions\EditAction::make(),
+                        Tables\Actions\ViewAction::make(),
+                        Tables\Actions\DeleteAction::make(),
+                    ]
+                )
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

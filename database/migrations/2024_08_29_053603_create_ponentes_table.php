@@ -20,7 +20,10 @@ return new class extends Migration
             $table->string('institucion');
             $table->string('correo_electronico');
             $table->string('telefono');
+            $table->string('logo_pais')->nullable();
+            $table->string('logo_instituccion')->nullable();
             $table->text('biografia_breve');
+
             $table->timestamps();
         });
     }

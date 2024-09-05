@@ -60,6 +60,8 @@ class Evento extends Model
     {
         return $this->belongsTo(Organizadores::class, 'organizador_id');
     }
-  
-    
+    public function temas()
+    {
+        return $this->belongsToMany(Temas::class, 'evento_has_temas', 'evento_id', 'tema_id');
+    }
 }

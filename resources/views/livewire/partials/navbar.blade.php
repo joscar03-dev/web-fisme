@@ -72,6 +72,10 @@
                    
                     EVENTOS
                 </a>
+                <a href="/inscripcion" wire:navigate class="flex items-center text-gray-700 text-lg hover:text-gray-900">
+                   
+                    RESGISTRARSE
+                </a>
                 <a href="/contact" wire:navigate class="flex items-center text-gray-700 text-lg hover:text-gray-900">
                   
                    CONTACTANOS

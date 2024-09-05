@@ -24,7 +24,7 @@ class PonenteResource extends Resource
 {
     protected static ?string $model = Ponente::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-user-circle';
 
     public static function form(Form $form): Form
     {
@@ -46,9 +46,21 @@ class PonenteResource extends Resource
                                     ->required(),
                                 TextInput::make('telefono')
                                     ->tel()
+                                    ->maxLength(9)
                                     ->required(),
                             ]
                         )->columns(2),
+                        Section::make('Descripcion del Ponente')->schema(
+                            [
+                                Textarea::make('biografia_breve')
+                                    ->required(),
+                                FileUpload::make('imagen')
+                                    ->image()
+                                    ->disk('public')
+                                    ->directory('imagen_ponente')
+                                    ->visibility('private'),
+                            ]
+                            )->columnSpan(2),
                     ]
                 )->columnSpan(2),
               
@@ -57,13 +69,23 @@ class PonenteResource extends Resource
                         //segmento 
                         Section::make('Otra Informacion')->schema(
                             [
-                                TextInput::make('especialidad')
+                                Textarea::make('especialidad')
                                     ->required()
                                     ->maxLength(255),
 
                                 TextInput::make('institucion')
                                     ->required()
                                     ->maxLength(255),
+                                    FileUpload::make('logo_pais')
+                                    ->image()
+                                    ->disk('public')
+                                    ->directory('ponentes')
+                                    ->visibility('private'),
+                                    FileUpload::make('logo_instituccion')
+                                    ->image()
+                                    ->disk('public')
+                                    ->directory('ponentes')
+                                    ->visibility('private'),
 
                             ]
                         )->columnSpanFull(),
@@ -71,17 +93,7 @@ class PonenteResource extends Resource
 
                     ]
                 )->columnSpan(1),
-                Section::make('Descripcion del Ponente')->schema(
-                    [
-                        Textarea::make('biografia_breve')
-                            ->required(),
-                        FileUpload::make('imagen')
-                            ->image()
-                            ->disk('public')
-                            ->directory('imagen_ponente')
-                            ->visibility('private'),
-                    ]
-                    )->columnSpan(3),
+              
 
 
             ])->columns(3);
@@ -102,7 +114,13 @@ class PonenteResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\ActionGroup::make(
+                    [ // botones que se necesitan para editar  y elimnar 
+                        Tables\Actions\EditAction::make(),
+                        Tables\Actions\ViewAction::make(),
+                        Tables\Actions\DeleteAction::make(),
+                    ]
+                )
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

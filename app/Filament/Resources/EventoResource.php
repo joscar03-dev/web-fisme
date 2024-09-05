@@ -9,6 +9,7 @@ use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Group;
+use Filament\Forms\Components\MultiSelect;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -28,61 +29,66 @@ class EventoResource extends Resource
 {
     protected static ?string $model = Evento::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-calendar-date-range';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-            
-                        //segmento 
-                        Section::make('Informacion de  Evento')->schema(
-                            [
-                                TextInput::make('nombre_evento')
-                                    ->required()
-                                    ->maxLength(255),
-                                Select::make('tema_id')
-                                    ->relationship('tema', 'nombre_tema')
-                                    ->required(),
-                                TextInput::make('tipo_evento')
-                                    ->required()
-                                    ->maxLength(255),
-                                TextInput::make('area_evento')
-                                    ->required()
-                                    ->maxLength(255),
-                                Select::make('organizador_id')
-                                    ->relationship('organizador', 'nombre')
-                                    ->required(),
-                                TextInput::make('precio_inscripcion')
-                                    ->numeric()
-                                    ->required(),
-                            ]
-                        )->columns(2),
-                        Section::make('Descripcion del Evento')->schema(
-                            [
-                                Textarea::make('descripcion_breve')
-                                    ->required(),
-                                FileUpload::make('imagen_banner')
-                                    ->image()
-                                    ->disk('public')
-                                    ->visibility('private')
-                                    ->directory('eventos'),
 
-                                FileUpload::make('imagen_catalogo')
-                                    ->image()
-                                    ->disk('public')
-                                    ->visibility('private')
-                                    ->directory('eventos'),
-                                /* FileUpload::make('video_banner')
+                //segmento 
+                Section::make('Informacion de  Evento')->schema(
+                    [
+                        TextInput::make('nombre_evento')
+                            ->required()
+                            ->maxLength(255),
+                        Select::make('tema_id')
+                            ->multiple()
+                            ->searchable()
+                            ->relationship('temas', 'nombre_tema')
+                            ->required()
+                            ->placeholder('Selecciona los temas relacionados')
+                            ->label('Temas'),
+
+                        TextInput::make('tipo_evento')
+                            ->required()
+                            ->maxLength(255),
+                        TextInput::make('area_evento')
+                            ->required()
+                            ->maxLength(255),
+                        Select::make('organizador_id')
+                            ->relationship('organizador', 'nombre')
+                            ->required(),
+                        TextInput::make('precio_inscripcion')
+                            ->numeric()
+                            ->required(),
+                    ]
+                )->columns(2),
+                Section::make('Descripcion del Evento')->schema(
+                    [
+                        Textarea::make('descripcion_breve')
+                            ->required(),
+                        FileUpload::make('imagen_banner')
+                            ->image()
+                            ->disk('public')
+                            ->visibility('private')
+                            ->directory('eventos'),
+
+                        FileUpload::make('imagen_catalogo')
+                            ->image()
+                            ->disk('public')
+                            ->visibility('private')
+                            ->directory('eventos'),
+                        /* FileUpload::make('video_banner')
                     ->disk('public')
                     ->directory('eventos')
                     ->video(), */
-                                TextInput::make('enlace_inscripcion')
-                                    ->url()
-                                    ->required(),
-                            ]
-                        )->columnSpan(2),
-                   
+                        TextInput::make('enlace_inscripcion')
+                            ->url()
+                            ->required(),
+                    ]
+                )->columnSpan(2),
+
                 Group::make()->schema(
                     [
                         //segmento 
