@@ -80,7 +80,13 @@ class OrganizadoresResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\ActionGroup::make(
+                    [ // botones que se necesitan para editar  y elimnar 
+                        Tables\Actions\EditAction::make(),
+                        Tables\Actions\ViewAction::make(),
+                        Tables\Actions\DeleteAction::make(),
+                    ]
+                )
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
