@@ -10,7 +10,7 @@
                             {{ \Carbon\Carbon::parse($eventos[$currentIndex]->fecha_inicio)->format('d \\d\\e F \\d\\e\\l Y') }}
                         </p>
                         <h2 class="text-5xl font-bold mb-6 leading-tight">{{ $eventos[$currentIndex]->nombre_evento }}</h2>
-                        <a href="{{ $eventos[$currentIndex]->enlace_inscripcion }}"
+                        <a href="{{ route('evento.detalle', $eventos[$currentIndex]->id) }}"
                             class="bg-teal-500 hover:bg-teal-600 text-white font-bold py-3 px-8 rounded-full transition duration-300 inline-flex items-center">
                             <span>MÁS INFORMACIÓN</span>
                             <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>

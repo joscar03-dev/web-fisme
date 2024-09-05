@@ -27,11 +27,15 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
-            ->brandName('Fisme Eventos')
-            ->brandLogoHeight('2rem')
+            ->brandLogo(asset('images/logo-small.png')) // Icono en la esquina superior izquierda
+            ->brandLogoHeight('3.5rem')
+            
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => '#133E6B', // Color principal (botones, enlaces, etc.)
+
             ])
+
+            ->globalSearch()
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
@@ -39,9 +43,9 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
-                Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
+               
             ])
+            ->sidebarCollapsibleOnDesktop()
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,

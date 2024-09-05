@@ -18,8 +18,10 @@
             </ul>
 
             <div class="flex space-x-4">
-                <a href="{{ $evento->enlace_inscripcion }}"
-                    class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Inscribirme</a>
+                <a href="{{ route('event.registration', ['eventoId' => $evento->id]) }}"
+                    class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+                    Inscribirme
+                </a>
                 <button class="bg-gray-700 hover:bg-gray-800 text-white font-bold py-2 px-4 rounded">Agregar a Google
                     Calendar</button>
             </div>

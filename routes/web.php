@@ -4,6 +4,8 @@ use App\Livewire\Contact;
 use App\Livewire\Evento;
 use App\Livewire\Eventos;
 use App\Livewire\HomePage;
+use App\Livewire\Inscripciones;
+use App\Livewire\Registrarse;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,3 +26,5 @@ Route::get('/eventos', Eventos::class);
 
 Route::get('/contact', Contact::class);
 // Route::get('/', HomePage::class);
+Route::get('/inscripcion', Inscripciones::class);
+Route::get('/event-registration/{eventoId}', Registrarse::class)->name('event.registration');

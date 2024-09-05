@@ -17,6 +17,8 @@ class Ponente extends Model
         'institucion',
         'correo_electronico',
         'telefono',
+        'logo_pais',
+        'logo_instituccion',
         'biografia_breve',
     ];
 
