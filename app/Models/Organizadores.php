@@ -26,4 +26,8 @@ class Organizadores extends Model
     {
         return $this->hasMany(Evento::class, 'organizador_id');
     }
+    public function eventos()
+    {
+        return $this->belongsToMany(Evento::class, 'evento_has_organizadores');
+    }
 }

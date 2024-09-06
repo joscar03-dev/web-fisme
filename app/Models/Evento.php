@@ -64,4 +64,13 @@ class Evento extends Model
     {
         return $this->belongsToMany(Temas::class, 'evento_has_temas', 'evento_id', 'tema_id');
     }
+
+    public function organizadores()
+    {
+        return $this->belongsToMany(Organizadores::class, 'evento_has_organizadores');
+    }
+    public function patrocinadores()
+    {
+        return $this->belongsToMany(Patrocinadores::class, 'evento_has_patrocinadores');
+    }
 }
