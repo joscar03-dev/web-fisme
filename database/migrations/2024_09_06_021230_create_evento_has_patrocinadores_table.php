@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('evento_has_patrocinadores', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('evento_id')->constrained('eventos')->onDelete('cascade');
-            $table->foreignId('patrocinador_id')->constrained('patrocinadores')->onDelete('cascade');
+            $table->foreignId('evento_id')->constrained('eventos');
+            $table->foreignId('patrocinador_id')->constrained('patrocinadores');
             $table->timestamps();
         });
     }

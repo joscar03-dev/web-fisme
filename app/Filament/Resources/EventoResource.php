@@ -42,22 +42,17 @@ class EventoResource extends Resource
                         TextInput::make('nombre_evento')
                             ->required()
                             ->maxLength(255),
-                        Select::make('tema_id')
-                            ->multiple()
-                            ->searchable()
-                            ->relationship('temas', 'nombre_tema')
-                            ->required()
-                            ->placeholder('Selecciona los temas relacionados')
-                            ->label('Temas'),
-
                         TextInput::make('tipo_evento')
                             ->required()
                             ->maxLength(255),
                         TextInput::make('area_evento')
                             ->required()
                             ->maxLength(255),
-                        Select::make('organizador_id')
-                            ->relationship('organizador', 'nombre')
+                        Select::make('')
+                            ->relationship('organizadores', 'nombre')
+                            ->required(),
+                        Select::make('')
+                            ->relationship('patrocinadores', 'nombre')
                             ->required(),
                         TextInput::make('precio_inscripcion')
                             ->numeric()

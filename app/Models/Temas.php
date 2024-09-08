@@ -15,20 +15,19 @@ class Temas extends Model
         'fecha',
         'hora_inicio',
         'hora_fin',
-        'ponente_id',
+   
     ];
 
     // Relación con el modelo Ponente
-    public function ponente()
+    public function evento()
     {
-        return $this->belongsTo(Ponente::class, 'ponente_id');
+        return $this->belongsTo(Evento::class);
     }
-    public function eventos()
-    {
-        return $this->belongsToMany(Evento::class, 'evento_has_temas', 'tema_id', 'evento_id');
-    }
+
+    // Relación uno a muchos con Ponente
     public function ponentes()
     {
-        return $this->belongsToMany(Ponente::class, 'tema_has_ponentes');
+        return $this->hasMany(Ponente::class);
     }
+    
 }

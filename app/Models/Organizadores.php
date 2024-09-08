@@ -16,18 +16,13 @@ class Organizadores extends Model
         'telefono',
         'biografia_breve',
     ];
-
     protected $casts = [
         'imagen' => 'string'
     ];
 
 
-    public function evento()
-    {
-        return $this->hasMany(Evento::class, 'organizador_id');
-    }
     public function eventos()
     {
-        return $this->belongsToMany(Evento::class, 'evento_has_organizadores');
+        return $this->belongsToMany(Evento::class, 'evento_has_patrocinadores');
     }
 }

@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('evento_has_temas', function (Blueprint $table) {
+        Schema::create('dias_asistencias', function (Blueprint $table) {
             $table->id();
+            $table->dateTime('fecha');
             $table->foreignId('evento_id')->constrained('eventos');
-            $table->foreignId('tema_id')->constrained('temas');
             $table->timestamps();
         });
     }
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('evento_has_temas');
+        Schema::dropIfExists('dias_asistencias');
     }
 };

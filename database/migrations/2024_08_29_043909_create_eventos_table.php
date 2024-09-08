@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('eventos', function (Blueprint $table) {
             $table->id();
             $table->string('nombre_evento');
-            $table->unsignedBigInteger('tema_id');
+            $table->string('slug');
             $table->date('fecha_inicio');
             $table->date('fecha_fin')->nullable();
             $table->time('hora_inicio');
@@ -27,11 +27,9 @@ return new class extends Migration
             $table->decimal('precio_inscripcion', 8, 2)->nullable();
             $table->string('imagen_banner')->nullable();
             $table->string('video_banner')->nullable();
-            $table->unsignedBigInteger('organizador_id')->nullable();
             $table->string('enlace_inscripcion');
             $table->timestamps();
-            $table->foreign('tema_id')->references('id')->on('temas');
-            $table->foreign('organizador_id')->references('id')->on('organizadores');
+          
         });
     }
 

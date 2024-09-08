@@ -14,13 +14,14 @@ return new class extends Migration
         Schema::create('temas', function (Blueprint $table) {
             $table->id();
             $table->string('nombre_tema');
+            $table->string('slug');
             $table->text('descripcion_tema');
             $table->date('fecha');
             $table->time('hora_inicio');
             $table->time('hora_fin');
-            $table->unsignedBigInteger('ponente_id');
+            $table->unsignedBigInteger('evento_id');
             $table->timestamps();
-            $table->foreign('ponente_id')->references('id')->on('ponentes');
+            $table->foreign('evento_id')->references('id')->on('eventos');
         });
     }
 

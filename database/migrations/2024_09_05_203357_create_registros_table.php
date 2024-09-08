@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('resgistros', function (Blueprint $table) {
+        Schema::create('registros', function (Blueprint $table) {
             $table->id();
             //tipo de documento
             $table->string('tipo_documento', 20);
+            $table->string('slug', 20);
             $table->string('numero_documento', 15);
             $table->string('nombres');
             $table->string('apellidos');
@@ -26,8 +27,8 @@ return new class extends Migration
             $table->foreignId('evento_id')->constrained('eventos');
             $table->timestamp('fecha_registro')->useCurrent();
             $table->boolean('verificado')->default(false);
-            //usuario de verificacion
-            //fecha de verficacion timestamps
+            $table->foreignId('usuario_verificacion')->nullable()->constrained('users');
+            $table->timestamp('fecha_verificacion')->nullable();
             
             $table->boolean('estado')->default(true);
             $table->timestamps();
@@ -39,6 +40,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('resgistros');
+        Schema::dropIfExists('registros');
     }
 };

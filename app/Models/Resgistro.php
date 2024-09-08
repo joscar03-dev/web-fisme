@@ -9,8 +9,10 @@ use Illuminate\Database\Eloquent\Model;
 class Resgistro extends Model
 {
     use HasFactory;
-    protected $fillable=[
+    protected $table = 'registro';
+    protected $fillable = [
         'tipo_documento',
+        'slug',
         'numero_documento',
         'nombres',
         'apellidos',
@@ -21,22 +23,28 @@ class Resgistro extends Model
         'img_boucher',
         'evento_id',
         'verificado',
-        'estado'
+        'estado',
+        'usuario_verificacion',
 
 
     ];
     public function evento()
     {
-        return $this->belongsTo(Evento::class, 'evento_id');
+        return $this->belongsTo(Evento::class);
     }
-      // Método para generar el QR a partir del número de documento
-      public function generateQrCode()
-      {
-          return QrCode::size(200)->generate($this->numero_documento);
-      }
-      public function asistencias()
-      {
-          return $this->hasMany(Asistencia::class);
-      }
 
+    // Relación opcional: Registro pertenece a un Usuario que lo verificó
+    public function usuarioVerificacion()
+    {
+        return $this->belongsTo(User::class, 'usuario_verificacion');
+    }
+    // Método para generar el QR a partir del número de documento
+    public function generateQrCode()
+    {
+        return QrCode::size(200)->generate($this->numero_documento);
+    }
+    public function asistencias()
+    {
+        return $this->hasMany(Asistencia::class);
+    }
 }

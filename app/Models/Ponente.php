@@ -24,12 +24,8 @@ class Ponente extends Model
     ];
 
     // Relación inversa con el modelo Tema
-    public function temas()
+    public function tema()
     {
-        return $this->hasMany(Temas::class, 'ponente_id');
-    }
-    public function temass()
-    {
-        return $this->belongsToMany(Temas::class, 'tema_has_ponentes');
+        return $this->belongsTo(Temas::class);
     }
 }

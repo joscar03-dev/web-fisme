@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('patrocinadores', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
+            $table->string('slug');
             $table->string('imagen')->nullable();
             $table->string('correo_electronico');
             $table->text('biografia_breve');

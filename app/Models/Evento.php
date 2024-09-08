@@ -12,7 +12,6 @@ class Evento extends Model
 
     protected $fillable = [
         'nombre_evento',
-        'tema_id',
         'fecha_inicio',
         'fecha_fin',
         'hora_inicio',
@@ -25,7 +24,7 @@ class Evento extends Model
         'imagen_banner',
         'imagen_catalogo',
         'video_banner',
-        'organizador_id',
+  
         'enlace_inscripcion'
     ];
     protected $dates = [
@@ -50,27 +49,30 @@ class Evento extends Model
         return $query->where('tipo_evento', 'destacado'); // O ajusta según tu lógica.
     }
 
-    public function tema()
-    {
-        return $this->belongsTo(Temas::class, 'tema_id');
-    }
-
-    // Relación con el modelo Organizador
-    public function organizador()
-    {
-        return $this->belongsTo(Organizadores::class, 'organizador_id');
-    }
     public function temas()
     {
-        return $this->belongsToMany(Temas::class, 'evento_has_temas', 'evento_id', 'tema_id');
+        return $this->hasMany(Temas::class);
     }
 
+
+
+    public function registros()
+    {
+        return $this->hasMany(Resgistro::class);
+    }
+
+    // Relación muchos a muchos con Organizador
     public function organizadores()
     {
         return $this->belongsToMany(Organizadores::class, 'evento_has_organizadores');
     }
+
+    // Relación muchos a muchos con Patrocinador
     public function patrocinadores()
     {
         return $this->belongsToMany(Patrocinadores::class, 'evento_has_patrocinadores');
     }
+
+
+    
 }
