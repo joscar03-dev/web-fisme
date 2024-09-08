@@ -24,7 +24,11 @@ class Temas extends Model
         return $this->belongsTo(Ponente::class, 'ponente_id');
     }
     public function eventos()
-{
-    return $this->belongsToMany(Evento::class, 'evento_has_temas', 'tema_id', 'evento_id');
-}
+    {
+        return $this->belongsToMany(Evento::class, 'evento_has_temas', 'tema_id', 'evento_id');
+    }
+    public function ponentes()
+    {
+        return $this->belongsToMany(Ponente::class, 'tema_has_ponentes');
+    }
 }
