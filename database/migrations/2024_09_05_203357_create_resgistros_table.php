@@ -26,6 +26,9 @@ return new class extends Migration
             $table->foreignId('evento_id')->constrained('eventos');
             $table->timestamp('fecha_registro')->useCurrent();
             $table->boolean('verificado')->default(false);
+            //usuario de verificacion
+            //fecha de verficacion timestamps
+            
             $table->boolean('estado')->default(true);
             $table->timestamps();
         });

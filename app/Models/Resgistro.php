@@ -34,5 +34,9 @@ class Resgistro extends Model
       {
           return QrCode::size(200)->generate($this->numero_documento);
       }
+      public function asistencias()
+      {
+          return $this->hasMany(Asistencia::class);
+      }
 
 }

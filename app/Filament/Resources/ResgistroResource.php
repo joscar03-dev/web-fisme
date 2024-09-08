@@ -109,8 +109,7 @@ class ResgistroResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('evento.nombre_evento')
-                    ->searchable(),
+
                 Tables\Columns\TextColumn::make('nombres')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')

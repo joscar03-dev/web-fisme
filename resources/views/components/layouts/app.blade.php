@@ -9,8 +9,6 @@
     <title>{{ $title ?? 'Eventos Fisme' }}</title>
     @livewireStyles
     @vite('resources/css/app.css')
-
-
 </head>
 
 <body>
@@ -22,6 +20,8 @@
     @livewireScripts
  
     @vite('resources/js/app.js')
+   
+
     <script src=" {{ asset('js/app.js') }}"></script>
 </body>
 

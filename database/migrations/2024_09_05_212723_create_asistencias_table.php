@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('nombres_completos');
             $table->foreignId('registro_id')->constrained('resgistros');
             $table->boolean('estado')->default(true);
+            
             $table->timestamps();
         });
     }

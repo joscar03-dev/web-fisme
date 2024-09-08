@@ -1,5 +1,6 @@
 <?php
 
+use App\Filament\Resources\AsistenciaResource\Pages\EscanearAsistenciaPage;
 use App\Livewire\Contact;
 use App\Livewire\Evento;
 use App\Livewire\Eventos;
@@ -28,3 +29,5 @@ Route::get('/contact', Contact::class);
 // Route::get('/', HomePage::class);
 Route::get('/inscripcion', Inscripciones::class);
 Route::get('/event-registration/{eventoId}', Registrarse::class)->name('event.registration');
+Route::post('/asistencias/store', [EscanearAsistenciaPage::class, 'registerAsistencia'])
+    ->name('filament.asistencias.store');
