@@ -14,12 +14,12 @@ return new class extends Migration
         Schema::create('organizadores', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
-            $table->string('slug');
+            $table->string('slug')->unique(); // Si el slug debe ser único
             $table->string('imagen')->nullable();
             $table->string('correo_electronico');
             $table->string('telefono');
             $table->text('biografia_breve');
-
+            $table->boolean('estado')->default(true);
             $table->timestamps();
 
         });

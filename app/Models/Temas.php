@@ -11,6 +11,8 @@ class Temas extends Model
 
     protected $fillable = [
         'nombre_tema',
+        'slug',
+        'evento_id',
         'descripcion_tema',
         'fecha',
         'hora_inicio',
@@ -21,13 +23,13 @@ class Temas extends Model
     // Relación con el modelo Ponente
     public function evento()
     {
-        return $this->belongsTo(Evento::class);
+        return $this->belongsTo(Evento::class, 'evento_id');
     }
 
     // Relación uno a muchos con Ponente
     public function ponentes()
     {
-        return $this->hasMany(Ponente::class);
+        return $this->hasMany(Ponente::class , 'tema_id');
     }
     
 }

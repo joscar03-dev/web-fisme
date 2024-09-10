@@ -13,8 +13,14 @@ return new class extends Migration
     {
         Schema::create('evento_has_patrocinadores', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('evento_id')->constrained('eventos');
-            $table->foreignId('patrocinador_id')->constrained('patrocinadores');
+            $table->foreignId('evento_id')
+                ->constrained('eventos')
+                ->onDelete('cascade'); // Elimina la relación, pero deja al patrocinador intacto
+
+            // No elimines el patrocinador si un evento se elimina
+            $table->foreignId('patrocinador_id')
+                ->constrained('patrocinadores')
+                ->onDelete('restrict'); // El patrocinador permanece intacto
             $table->timestamps();
         });
     }

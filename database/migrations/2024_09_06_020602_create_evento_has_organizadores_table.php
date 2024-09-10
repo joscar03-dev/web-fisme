@@ -13,8 +13,14 @@ return new class extends Migration
     {
         Schema::create('evento_has_organizadores', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('evento_id')->constrained('eventos');
-            $table->foreignId('organizador_id')->constrained('organizadores');
+            $table->foreignId('evento_id')
+                ->constrained('eventos')
+                ->onDelete('cascade'); // Elimina la relación, pero deja al organizador intacto
+
+            // No elimines el organizador si un evento se elimina
+            $table->foreignId('organizador_id')
+                ->constrained('organizadores')
+                ->onDelete('restrict'); // El organizador permanece intacto
             $table->timestamps();
         });
     }

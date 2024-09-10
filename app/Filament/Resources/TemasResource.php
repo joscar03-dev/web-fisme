@@ -21,7 +21,8 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Date;
-
+use Filament\Forms\Set;
+use Illuminate\Support\Str;
 class TemasResource extends Resource
 {
     protected static ?string $model = Temas::class;
@@ -37,13 +38,24 @@ class TemasResource extends Resource
                         //segmento 
                         Section::make('Informacion de  Tema')->schema(
                             [
-                                TextInput::make('nombre_tema')
+                           
+                                    TextInput::make('nombre_tema')
                                     ->required()
+                                    ->live(onBlur: true)
+                                    ->afterStateUpdated(fn(string $operation, $state, Set $set)
+                                    => $operation === 'create' ? $set('slug', Str::slug($state)) : null)
                                     ->maxLength(255),
-                                Select::make('ponente_id')
-                                    ->label('Ponente')
-                                    ->relationship('ponente', 'nombre')
+                                TextInput::make('slug')
+                                    ->required()
+                                    ->disabled()
+                                    ->maxLength('255')
+                                    ->dehydrated()
+                                    ->unique(Temas::class, 'slug', ignoreRecord: true),
+                                Forms\Components\Select::make('evento_id')
+                                    ->label('Evento')
+                                    ->relationship('evento', 'nombre_evento',) // Relación
                                     ->required(),
+
 
                             ]
                         )->columns(2),
@@ -74,7 +86,7 @@ class TemasResource extends Resource
 
                     ]
                 )->columnSpan(1),
-                
+
 
 
             ])->columns(3);

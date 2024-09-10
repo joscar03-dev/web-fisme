@@ -11,6 +11,7 @@ class Organizadores extends Model
 
     protected $fillable = [
         'nombre',
+       
         'imagen',
         'correo_electronico',
         'telefono',
@@ -23,6 +24,6 @@ class Organizadores extends Model
 
     public function eventos()
     {
-        return $this->belongsToMany(Evento::class, 'evento_has_patrocinadores');
+        return $this->belongsToMany(Evento::class, 'evento_has_patrocinadores', 'organizador_id', 'evento_id');
     }
 }

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('eventos', function (Blueprint $table) {
             $table->id();
             $table->string('nombre_evento');
-            $table->string('slug');
+            $table->string('slug')->unique(); // Si el slug debe ser único
             $table->date('fecha_inicio');
             $table->date('fecha_fin')->nullable();
             $table->time('hora_inicio');
@@ -22,12 +22,13 @@ return new class extends Migration
             $table->string('lugar');
             $table->string('tipo_evento');
             $table->string('area_evento')->nullable();
-            $table->string('organizador');
             $table->text('descripcion_breve');
             $table->decimal('precio_inscripcion', 8, 2)->nullable();
+            $table->string('imagen_catalogo')->nullable();
             $table->string('imagen_banner')->nullable();
             $table->string('video_banner')->nullable();
             $table->string('enlace_inscripcion');
+            $table->boolean('estado')->default(true);
             $table->timestamps();
           
         });

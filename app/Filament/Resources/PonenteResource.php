@@ -19,6 +19,8 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Forms\Set;
+use Illuminate\Support\Str;
 
 class PonenteResource extends Resource
 {
@@ -36,8 +38,17 @@ class PonenteResource extends Resource
                         Section::make('Informacion de  Ponente')->schema(
                             [
                                 TextInput::make('nombre')
-                                    ->required()
-                                    ->maxLength(255),
+                                ->required()
+                                ->live(onBlur: true)
+                                ->afterStateUpdated(fn(string $operation, $state, Set $set)
+                                => $operation === 'create' ? $set('slug', Str::slug($state)) : null)
+                                ->maxLength(255),
+                                TextInput::make('slug')
+                                ->required()
+                                ->disabled()
+                                ->maxLength('255')
+                                ->dehydrated()
+                                ->unique(Ponente::class, 'slug', ignoreRecord: true),
                                 TextInput::make('apellidos')
                                     ->required()
                                     ->maxLength(255),
@@ -52,6 +63,11 @@ class PonenteResource extends Resource
                         )->columns(2),
                         Section::make('Descripcion del Ponente')->schema(
                             [
+                                Forms\Components\Select::make('tema_id')
+                                    ->label('Tema')
+                                    ->multiple() // Permite seleccionar múltiples eventos
+                                    ->relationship('tema', 'nombre_tema',) // Relación
+                                    ->required(),
                                 Textarea::make('biografia_breve')
                                     ->required(),
                                 FileUpload::make('imagen')

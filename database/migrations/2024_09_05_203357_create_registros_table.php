@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             //tipo de documento
             $table->string('tipo_documento', 20);
-            $table->string('slug', 20);
+           
             $table->string('numero_documento', 15);
             $table->string('nombres');
             $table->string('apellidos');

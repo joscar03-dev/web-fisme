@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('ponentes', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
-            $table->string('slug');
+            $table->string('slug')->unique(); // Si el slug debe ser único
             $table->string('apellidos');
             $table->string('especialidad');
             $table->string('imagen')->nullable();
@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('logo_instituccion')->nullable();
             $table->text('biografia_breve');
             $table->unsignedBigInteger('tema_id');
+            $table->boolean('estado')->default(true);
            
             $table->foreign('tema_id')->references('id')->on('temas');
             $table->timestamps();

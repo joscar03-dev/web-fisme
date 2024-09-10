@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -12,6 +13,7 @@ class Evento extends Model
 
     protected $fillable = [
         'nombre_evento',
+        'slug',
         'fecha_inicio',
         'fecha_fin',
         'hora_inicio',
@@ -24,7 +26,7 @@ class Evento extends Model
         'imagen_banner',
         'imagen_catalogo',
         'video_banner',
-  
+        'estado',
         'enlace_inscripcion'
     ];
     protected $dates = [
@@ -51,9 +53,8 @@ class Evento extends Model
 
     public function temas()
     {
-        return $this->hasMany(Temas::class);
+        return $this->hasMany(Temas::class, 'evento_id'); // Asegúrate que 'evento_id' es la columna correcta
     }
-
 
 
     public function registros()
@@ -64,15 +65,23 @@ class Evento extends Model
     // Relación muchos a muchos con Organizador
     public function organizadores()
     {
-        return $this->belongsToMany(Organizadores::class, 'evento_has_organizadores');
+        return $this->belongsToMany(Organizadores::class, 'evento_has_organizadores', 'evento_id', 'organizador_id');
     }
 
     // Relación muchos a muchos con Patrocinador
     public function patrocinadores()
     {
-        return $this->belongsToMany(Patrocinadores::class, 'evento_has_patrocinadores');
+        return $this->belongsToMany(Patrocinadores::class, 'evento_has_patrocinadores', 'evento_id', 'patrocinador_id');
     }
 
-
+    public function getHoraInicioAttribute($value)
+    {
+        return Carbon::createFromFormat('H:i:s', $value);
+    }
+    
+    public function getHoraSalidaAttribute($value)
+    {
+        return Carbon::createFromFormat('H:i:s', $value);
+    }
     
 }

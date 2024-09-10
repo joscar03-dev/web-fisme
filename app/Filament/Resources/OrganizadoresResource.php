@@ -19,7 +19,8 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-
+use Filament\Forms\Set;
+use Illuminate\Support\Str;
 class OrganizadoresResource extends Resource
 {
     protected static ?string $model = Organizadores::class;
@@ -36,9 +37,18 @@ class OrganizadoresResource extends Resource
                         Section::make('Informacion de  Ponente')->schema(
                             [
                                 TextInput::make('nombre')
-                                    ->required()
-                                    ->maxLength(255),
-
+                                ->required()
+                                ->live(onBlur: true)
+                                ->afterStateUpdated(fn(string $operation, $state, Set $set)
+                                => $operation === 'create' ? $set('slug', Str::slug($state)) : null)
+                                ->maxLength(255),
+                                TextInput::make('slug')
+                                ->required()
+                                ->disabled()
+                                ->maxLength('255')
+                                ->dehydrated()
+                                ->unique(Organizadores::class, 'slug', ignoreRecord: true),
+                              
                                 TextInput::make('correo_electronico')
                                     ->email()
                                     ->required(),

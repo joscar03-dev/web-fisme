@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('asistencias', function (Blueprint $table) {
             $table->id();
             $table->string('numero_documento');
-            $table->string('slug');
+        
             $table->date('fecha');
             $table->time('hora')->nullable(); // agragr por efecto 
             $table->string('nombres_completos');

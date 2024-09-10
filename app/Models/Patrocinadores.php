@@ -10,12 +10,13 @@ class Patrocinadores extends Model
     use HasFactory;
     protected $fillable = [
         'nombre',
+        'slug',
         'imagen',
         'correo_electronico',
         'biografia_breve',
     ];
     public function eventos()
     {
-        return $this->belongsToMany(Evento::class, 'evento_has_patrocinadores');
+        return $this->belongsToMany(Evento::class, 'evento_has_patrocinadores', 'patrocinador_id', 'evento_id');
     }
 }

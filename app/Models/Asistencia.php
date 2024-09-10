@@ -13,6 +13,7 @@ class Asistencia extends Model
     // Define los campos que pueden ser asignados en masa
     protected $fillable = [
         'numero_documento',
+        'slug',
         'fecha',
         'hora',
         'nombres_completos',

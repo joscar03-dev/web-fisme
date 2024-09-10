@@ -12,6 +12,7 @@ class Ponente extends Model
 
     protected $fillable = [
         'nombre',
+        'slug',
         'apellidos',
         'especialidad',
         'imagen',
@@ -21,11 +22,12 @@ class Ponente extends Model
         'logo_pais',
         'logo_instituccion',
         'biografia_breve',
+        'tema_id'
     ];
 
     // Relación inversa con el modelo Tema
     public function tema()
     {
-        return $this->belongsTo(Temas::class);
+        return $this->belongsTo(Temas::class, 'tema_id' );
     }
 }
