@@ -1,132 +1,85 @@
 <x-filament-panels::page>
-    <div class="flex flex-col items-center justify-center">
-        <h3 class="text-lg font-semibold mb-4">Escanear QR para Registrar Asistencia</h3>
+    @vite('resources/css/app.css')
+    <div id="qr-code" class="flex flex-col items-center p-6 bg-white shadow-xl rounded-lg max-w-4xl mx-auto mt-8">
+        <h1 class="text-3xl font-bold mb-6 text-gray-800">Escáner de Código QR</h1>
 
-        <div id="reader" class="w-64 h-64 border-2 border-gray-300 rounded-lg overflow-hidden"></div>
+        <div class="flex flex-col md:flex-row justify-center items-center gap-8 w-full">
+            <!-- Opción para escanear con la cámara -->
+            <div id="my-qr-reader" class="w-full md:w-80 h-100 border border-gray-300 rounded-lg shadow-lg"></div>
 
-        <form id="attendance-form" method="POST" action="{{ route('filament.asistencias.store') }}"
-            class="w-full max-w-sm space-y-4 mt-4">
-            @csrf
-            <input type="hidden" name="numero_documento" id="numero_documento">
-            <x-filament::button type="button" id="start-scan" class="w-full">
-                Iniciar Escaneo
-            </x-filament::button>
-            <x-filament::button type="submit" class="w-full">
-                Registrar Asistencia
-            </x-filament::button>
-        </form>
-        <p id="message" class="mt-4 text-sm font-medium text-green-600"></p>
+            <!-- Opción para subir una imagen -->
+            <div class="flex flex-col items-center w-full md:w-auto">
+                <input type="file" accept="image/*" id="qr-image-input" class="mb-4 p-2 border rounded-md w-full md:w-auto"/>
+                <button id="upload-btn" class="bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 px-6 rounded-md transition-all shadow-lg">
+                    Escanear Imagen
+                </button>
+            </div>
+        </div>
+
+        <!-- Área para mostrar el resultado del escaneo -->
+        <div id="result" class="mt-8 text-center w-full">
+            <h2 class="text-lg font-semibold text-gray-700">Resultado del escaneo:</h2>
+            <p id="qr-result-text" class="mt-4 text-gray-600">Esperando el escaneo...</p>
+        </div>
     </div>
 
-    @push('scripts')
-        <script src="{{ mix('js/app.js') }}"></script>
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    <script>
+        function domReady(fn) {
+            if (document.readyState === "complete" || document.readyState === "interactive") {
+                setTimeout(fn, 1);
+            } else {
+                document.addEventListener("DOMContentLoaded", fn);
+            }
+        }
 
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                const html5QrCode = new Html5Qrcode("reader");
-                const startScanButton = document.getElementById("start-scan");
-                const messageElement = document.getElementById("message");
-                let isScanning = false;
+        domReady(function () {
+            var lastResult, cantresultado = 0;
+            const qrResultText = document.getElementById("qr-result-text");
 
-                // Función para solicitar permiso de la cámara
-                async function requestCameraPermission() {
-                    try {
-                        const stream = await navigator.mediaDevices.getUserMedia({
-                            video: {
-                                facingMode: "environment"
-                            }
-                        });
-                        stream.getTracks().forEach(track => track.stop()); // Detenemos el stream inmediatamente
-                        return true;
-                    } catch (error) {
-                        console.error("Error al acceder a la cámara: ", error);
-                        // Manejo detallado de errores
-                        if (error.name === 'NotAllowedError') {
-                            messageElement.textContent = "Debes permitir el acceso a la cámara para escanear el código QR.";
-                        } else if (error.name === 'NotFoundError') {
-                            messageElement.textContent = "No se encontró una cámara disponible.";
-                        } else if (error.name === 'OverconstrainedError') {
-                            messageElement.textContent = "No se puede acceder a la cámara con las restricciones solicitadas.";
-                        } else if (error.name === 'NotReadableError') {
-                            messageElement.textContent = "La cámara está en uso por otra aplicación.";
-                        } else if (error.name === 'SecurityError') {
-                            messageElement.textContent = "El acceso a la cámara ha sido restringido por razones de seguridad.";
-                        } else {
-                            messageElement.textContent = "Error al acceder a la cámara.";
-                        }
-                        return false;
-                    }
+            function onScanSuccess(decodedText, decodedResult) {
+                if (decodedText !== lastResult) {
+                    ++cantresultado;
+                    lastResult = decodedText;
+                    // Mostrar el resultado del QR en la página
+                    qrResultText.textContent = `Has escaneado ${cantresultado} veces: ${decodedText}`;
                 }
+            }
 
-                // Evento click para iniciar el escaneo del QR
-                startScanButton.addEventListener("click", async function() {
-                    if (!isScanning) {
-                        const hasPermission = await requestCameraPermission(); // Verificar permiso de cámara
-                        if (!hasPermission) return; // Salir si no se concede el permiso
-
-                        isScanning = true;
-                        html5QrCode.start({
-                                facingMode: "environment" // Cámara trasera
-                            }, {
-                                fps: 10,
-                                qrbox: {
-                                    width: 250,
-                                    height: 250
-                                }
-                            },
-                            onScanSuccess,
-                            onScanFailure
-                        ).catch(err => {
-                            console.error(`Error al iniciar la cámara: ${err}`);
-                            messageElement.textContent = `Error al acceder a la cámara: ${err.message}`;
-                            isScanning = false;
-                        });
-                    }
-                });
-
-                // Función para gestionar el éxito del escaneo
-                function onScanSuccess(decodedText) {
-                    console.log(`QR Code detected: ${decodedText}`);
-                    document.getElementById("numero_documento").value = decodedText;
-                    messageElement.textContent = "QR Code detectado. Haz clic en 'Registrar Asistencia' para enviar.";
-                    html5QrCode.stop(); // Detener la cámara después de escanear con éxito
-                    isScanning = false;
-                }
-
-                // Función para gestionar fallos del escaneo
-                function onScanFailure(error) {
-                    console.warn(`Error al escanear: ${error}`);
-                    messageElement.textContent = "No se pudo escanear el QR. Intenta nuevamente.";
-                }
-
-                // Enviar formulario
-                document.getElementById("attendance-form").addEventListener("submit", async function(event) {
-                    event.preventDefault();
-                    const form = event.target;
-                    const formData = new FormData(form);
-
-                    try {
-                        const response = await fetch(form.action, {
-                            method: "POST",
-                            body: formData,
-                            headers: {
-                                'X-Requested-With': 'XMLHttpRequest',
-                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                            }
-                        });
-
-                        if (response.ok) {
-                            const result = await response.json();
-                            messageElement.textContent = result.message;
-                        } else {
-                            const error = await response.json();
-                            messageElement.textContent = error.message || "Ocurrió un error al registrar la asistencia.";
-                        }
-                    } catch (error) {
-                        messageElement.textContent = "Error al enviar el formulario. Inténtalo de nuevo.";
-                    }
-                });
+            // Inicializar el escáner con la cámara
+            const html5QrCode = new Html5Qrcode("my-qr-reader");
+            html5QrCode.start(
+                { facingMode: "environment" }, // Usa la cámara trasera
+                {
+                    fps: 10,    // Frecuencia de escaneo en cuadros por segundo
+                    qrbox: 250  // Tamaño del cuadro para escanear el QR
+                },
+                onScanSuccess
+            ).catch(err => {
+                console.error(`Error al iniciar la cámara: ${err}`);
             });
-        </script>
-    @endpush
+
+            // Escaneo a partir de una imagen subida
+            const qrImageInput = document.getElementById('qr-image-input');
+            const uploadBtn = document.getElementById('upload-btn');
+
+            uploadBtn.addEventListener('click', function () {
+                const file = qrImageInput.files[0];
+                if (!file) {
+                    alert("Por favor selecciona una imagen.");
+                    return;
+                }
+
+                Html5QrcodeScanner.scanFile(file, true)
+                    .then(decodedText => {
+                        // Mostrar el resultado del QR escaneado desde la imagen
+                        qrResultText.textContent = `Resultado del escaneo de imagen: ${decodedText}`;
+                    })
+                    .catch(err => {
+                        console.error(`Error al escanear la imagen: ${err}`);
+                        qrResultText.textContent = `Error al escanear la imagen.`;
+                    });
+            });
+        });
+    </script>
 </x-filament-panels::page>

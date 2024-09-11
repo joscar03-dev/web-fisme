@@ -1,84 +1,78 @@
-<div class="flex flex-col items-center justify-center">
-    <h3 class="text-lg font-semibold mb-4">Escanear QR para Registrar Asistencia</h3>
+<div id="qr-code">
+    <h1>Scanner de QR</h1>
+    <div style="display: flex; justify-content: center; gap: 20px;">
+        <!-- Opción para escanear con la cámara -->
+        <div id="my-qr-reader" style="width: 500px; border: 1px solid #000;"></div>
 
-    <!-- Contenedor para el lector de QR -->
-    <div id="reader" class="w-64 h-64 border-2 border-gray-300 rounded-lg overflow-hidden"></div>
-
-    <form wire:submit.prevent="registrarAsistencia" class="w-full max-w-sm space-y-4 mt-4">
-        @csrf
-        <input type="hidden" wire:model="numero_documento" id="numero_documento">
-
-        @error('numero_documento')
-            <span class="text-red-500">{{ $message }}</span>
-        @enderror
-
-        <button type="button" id="start-scan" class="w-full bg-blue-500 text-white py-2 rounded-lg">
-            Iniciar Escaneo
-        </button>
-
-        <button type="submit" class="w-full bg-green-500 text-white py-2 rounded-lg">
-            Registrar Asistencia
-        </button>
-    </form>
-
-    <div id="message" class="text-sm text-red-500 mt-2"></div>
+        <!-- Opción para subir una imagen -->
+        <div style="display: flex; flex-direction: column; align-items: center;">
+            <input type="file" accept="image/*" id="qr-image-input" />
+            <button id="upload-btn">Escanear Imagen</button>
+        </div>
+    </div>
+    <!-- Área para mostrar el resultado del escaneo -->
+    <div id="result" style="margin-top: 20px; text-align: center;">
+        <h2>Resultado del escaneo:</h2>
+        <p id="qr-result-text">Esperando el escaneo...</p>
+    </div>
 </div>
 
+<script src="https://unpkg.com/html5-qrcode"></script>
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const html5QrCode = new Html5Qrcode("reader");
-        const startScanButton = document.getElementById("start-scan");
-        const messageElement = document.getElementById("message");
-        let isScanning = false;
+    function domReady(fn) {
+        if (document.readyState === "complete" || document.readyState === "interactive") {
+            setTimeout(fn, 1);
+        } else {
+            document.addEventListener("DOMContentLoaded", fn);
+        }
+    }
 
-        // Función para verificar permisos de la cámara
-        async function requestCameraPermission() {
-            try {
-                // Solicitar acceso a la cámara
-                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-                // Detener el flujo después de obtener el permiso
-                stream.getTracks().forEach(track => track.stop());
-                console.log("Permiso concedido para acceder a la cámara");
-            } catch (err) {
-                console.error("Permiso denegado o error en el acceso a la cámara: ", err);
-                messageElement.textContent = `Error: ${err.message}`;
+    domReady(function () {
+        var lastResult, cantresultado = 0;
+        const qrResultText = document.getElementById("qr-result-text");
+
+        function onScanSuccess(decodedText, decodedResult) {
+            if (decodedText !== lastResult) {
+                ++cantresultado;
+                lastResult = decodedText;
+                // Mostrar el resultado del QR en la página
+                qrResultText.textContent = `Has escaneado ${cantresultado} veces: ${decodedText}`;
             }
         }
 
-        // Escaneo exitoso
-        function onScanSuccess(decodedText) {
-            console.log(`Código QR detectado: ${decodedText}`);
-            document.getElementById("numero_documento").value = decodedText;
-            messageElement.textContent = "Código QR detectado. Haz clic en 'Registrar Asistencia' para enviar.";
-            html5QrCode.stop(); // Detener el escaneo después de un éxito
-            isScanning = false;
-        }
+        // Inicializar el escáner con la cámara
+        const html5QrCode = new Html5Qrcode("my-qr-reader");
+        html5QrCode.start(
+            { facingMode: "environment" }, // Usa la cámara trasera
+            {
+                fps: 10,    // Frecuencia de escaneo en cuadros por segundo
+                qrbox: 250  // Tamaño del cuadro para escanear el QR
+            },
+            onScanSuccess
+        ).catch(err => {
+            console.error(`Error al iniciar la cámara: ${err}`);
+        });
 
-        // Fallo de escaneo
-        function onScanFailure(error) {
-            console.warn(`Error al escanear: ${error}`);
-        }
+        // Escaneo a partir de una imagen subida
+        const qrImageInput = document.getElementById('qr-image-input');
+        const uploadBtn = document.getElementById('upload-btn');
 
-        // Iniciar el escaneo al hacer clic en el botón
-        startScanButton.addEventListener("click", async function() {
-            await requestCameraPermission(); // Pedir permiso antes de iniciar el escaneo
+        uploadBtn.addEventListener('click', function () {
+            const file = qrImageInput.files[0];
+            if (!file) {
+                alert("Por favor selecciona una imagen.");
+                return;
+            }
 
-            if (!isScanning) {
-                isScanning = true;
-                html5QrCode.start({
-                        facingMode: "user" // Cambia a "user" si quieres usar la cámara frontal
-                    }, {
-                        fps: 10,
-                        qrbox: { width: 250, height: 250 }
-                    },
-                    onScanSuccess,
-                    onScanFailure
-                ).catch(err => {
-                    console.error(`Error al iniciar la cámara: ${err}`);
-                    messageElement.textContent = `Error al acceder a la cámara: ${err.message}`;
-                    isScanning = false;
+            Html5QrcodeScanner.scanFile(file, true)
+                .then(decodedText => {
+                    // Mostrar el resultado del QR escaneado desde la imagen
+                    qrResultText.textContent = `Resultado del escaneo de imagen: ${decodedText}`;
+                })
+                .catch(err => {
+                    console.error(`Error al escanear la imagen: ${err}`);
+                    qrResultText.textContent = `Error al escanear la imagen.`;
                 });
-            }
         });
     });
 </script>
