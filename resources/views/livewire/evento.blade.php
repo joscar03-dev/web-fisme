@@ -56,16 +56,36 @@
             <h2 class="text-2xl font-bold mb-4">Ponentes</h2>
             <ul>
                 @foreach ($temas as $tema)
-                    <li class="mb-4 flex">
-                        <img class="w-16 h-16 rounded-full mr-4" src="{{ asset('storage/' . $tema->ponente->imagen) }}"
-                            alt="{{ $tema->ponente->nombre }}">
-                        <div>
-                            <h3 class="text-xl font-semibold">{{ $tema->ponente->nombre }}
-                                {{ $tema->ponente->apellidos }}</h3>
-                            <p class="text-gray-500 text-sm">{{ $tema->ponente->especialidad }}</p>
-                            <p class="text-gray-500 text-sm">{{ $tema->ponente->institucion }}</p>
+                    @foreach ($tema->ponentes as $ponente)
+                        <div
+                            class="bg-white rounded-xl shadow-lg overflow-hidden transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-2xl">
+                            <div class="relative">
+                                <img src="{{ url('storage', $ponente->imagen) }}"
+                                    alt="Imagen de {{ $ponente->nombre }} {{ $ponente->apellidos }}"
+                                    class="w-full h-48 object-cover">
+                                <img src="{{ url('storage', $ponente->logo_pais) }}"
+                                    alt="Bandera de {{ $ponente->pais }}"
+                                    class="absolute bottom-2 right-2 w-10 h-10 rounded-full border-2 border-white shadow-sm"
+                                    title="{{ $ponente->pais }}">
+                            </div>
+                            <div class="p-6">
+                                <h4 class="text-xl font-semibold text-gray-800 mb-2">{{ $ponente->nombre }}
+                                    {{ $ponente->apellidos }}</h4>
+                                <p class="text-sm font-medium text-indigo-600 mb-2">{{ $ponente->institucion }}</p>
+                                <p class="text-gray-600 text-sm leading-relaxed line-clamp-3 mb-4">
+                                    {{ $ponente->biografia_breve }}</p>
+                                <button
+                                    class="text-indigo-600 hover:text-indigo-800 text-sm font-medium focus:outline-none focus:underline"
+                                    onclick="toggleBio(this, '{{ $ponente->id }}')">
+                                    Leer más
+                                </button>
+                                <p id="bio-{{ $ponente->id }}"
+                                    class="hidden text-gray-600 text-sm leading-relaxed mt-2">
+                                    {{ $ponente->biografia_completa }}
+                                </p>
+                            </div>
                         </div>
-                    </li>
+                    @endforeach
                 @endforeach
             </ul>
         </div>

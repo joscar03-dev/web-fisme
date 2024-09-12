@@ -64,8 +64,7 @@ class PonenteResource extends Resource
                         Section::make('Descripcion del Ponente')->schema(
                             [
                                 Forms\Components\Select::make('tema_id')
-                                    ->label('Tema')
-                                    ->multiple() // Permite seleccionar múltiples eventos
+                                    ->label('Tema')                                
                                     ->relationship('tema', 'nombre_tema',) // Relación
                                     ->required(),
                                 Textarea::make('biografia_breve')

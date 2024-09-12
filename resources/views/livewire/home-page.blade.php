@@ -46,11 +46,14 @@
         </div>
 
         <!-- Hero Section -->
+
         <div class="relative overflow-hidden">
             <div class="max-w-7xl mx-auto">
-                <div x-data="{ currentIndex: 0 }" x-init="setInterval(() => currentIndex = (currentIndex + 1) % {{ $eventos->count() ?: 0 }}, 5000)"
+                <!-- Componente de Carrusel con Interacción y Transiciones -->
+                <div x-data="{ currentIndex: 0 }" x-init="setInterval(() => currentIndex = (currentIndex + 1) % {{ $eventos->count() ?: 0 }}, 8000)"
                     class="relative z-10 pb-8 sm:pb-16 md:pb-20 lg:pb-28 xl:pb-32 min-h-screen flex items-center">
 
+                    <!-- Eventos -->
                     @forelse ($eventos as $index => $evento)
                         <div x-show="currentIndex === {{ $index }}"
                             x-transition:enter="transition ease-out duration-700"
@@ -61,8 +64,8 @@
                             x-transition:leave-end="opacity-0 transform -translate-x-full"
                             class="absolute inset-0 flex items-center">
 
-                            <div
-                                class="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
+                            <!-- Texto a la izquierda -->
+                            <div class="w-1/2 h-full flex items-center justify-center">
                                 <div
                                     class="sm:text-center lg:text-left backdrop-filter backdrop-blur-md bg-white/30 rounded-lg p-6">
                                     @if ($evento['fecha_inicio'])
@@ -79,7 +82,6 @@
                                         {{ Str::limit($evento['descripcion_breve'], 150) }}
                                     </p>
                                     <div class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
-
                                         <div class="mt-3 sm:mt-0 sm:ml-3">
                                             <a href="{{ route('lector.asistencias') }}"
                                                 class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-[#001f54e6] hover:bg-blue-500 md:py-4 md:text-lg md:px-10 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105">
@@ -90,16 +92,14 @@
                                 </div>
                             </div>
 
-                            <!-- Foreground Image (Tori) -->
-                            <div class="absolute top-0 right-0 z-20 transition-opacity duration-700 ease-in-out"
-                                x-show="currentIndex === {{ $index }}"
-                                x-transition:enter="opacity-0 transform scale-90"
-                                x-transition:enter-end="opacity-100 transform scale-100"
-                                x-transition:leave="opacity-100 transform scale-100"
-                                x-transition:leave-end="opacity-0 transform scale-90">
-                                <img src="{{ asset('images/tori.svg') }}" alt="Tori" class="w-1/2 h-auto"
-                                    style="max-width: 400px;" />
+
+                            <!-- Imagen a la derecha -->
+                            <div class="w-full h-full flex items-center justify-center">
+                                <img src="{{ asset('storage/' . $evento['imagen_catalogo']) }}" alt="Imagen del evento"
+                                    class="w-1/2 h-auto object-cover shadow-2xl"
+                                    style="border-radius: 20px; box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.2);" />
                             </div>
+
 
                         </div>
                     @empty
@@ -107,9 +107,28 @@
                             <p class="text-2xl text-gray-600">No hay eventos disponibles en este momento.</p>
                         </div>
                     @endforelse
+
+                    <!-- Botones de control -->
+                    <button
+                        @click="currentIndex = (currentIndex - 1 + {{ $eventos->count() }}) % {{ $eventos->count() }}"
+                        class="absolute left-0 z-3 p-2 text-white bg-[#001f54e6] hover:bg-blue-500 rounded-full">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            class="w-3 h-3">
+                            <path d="M15 18L9 12L15 6" />
+                        </svg>
+                    </button>
+
+                    <button @click="currentIndex = (currentIndex + 1) % {{ $eventos->count() }}"
+                        class="absolute right-0 z-3 p-2 text-white bg-[#001f54e6] hover:bg-blue-500 rounded-full">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            class="w-3 h-3">
+                            <path d="M9 18L15 12L9 6" />
+                        </svg>
+                    </button>
                 </div>
             </div>
         </div>
+
     </div>
     <!-- Countdown Timer Section -->
 
@@ -153,71 +172,166 @@
     <!-- Countdown Timer Section -->
 
 
-
-    <!-- Historia Section -->
-
-    @livewire('partials.historia')
-    <section class="text-gray-600 body-font">
-        <div class="container px-5 py-24 mx-auto">
-            @foreach ($eventos as $evento)
-                <div class="mb-16">
-                    <div class="text-center mb-4">
-                        <h1 class="text-5xl font-bold title-font text-gray-900 mb-2">{{ $evento['nombre_evento'] }}
-                        </h1>
-                        <div class="border-b-2 border-gray-300 w-1/4 mx-auto mb-4"></div>
-                        <!-- Línea debajo del título -->
-                        <p class="leading-relaxed text-lg text-gray-600">{{ $evento['descripcion_breve'] }}</p>
-                    </div>
-
-                    <!-- Imagen del evento con desenfoque -->
-                    <div class="relative mx-auto max-w-4xl">
-                        <img src="{{ url('storage', $evento['imagen_catalogo']) }}" alt="Imagen del evento"
-                            class="w-full h-96 md:h-80 lg:h-96 max-h-[400px] object-cover mb-6 rounded-lg shadow-md blur-sm">
-                        <div class="absolute inset-0 flex items-center justify-center">
-                            <img src="{{ url('storage', $evento['imagen_catalogo']) }}" alt="Imagen del evento"
-                                class="w-1/2 h-auto object-cover rounded-lg shadow-md">
+    <section class="text-gray-600 body-font bg-gradient-to-r  to-indigo-50">
+        @foreach ($eventos as $evento)
+            <div class="container mx-auto py-16 px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col lg:flex-row items-center">
+                    <!-- Imagen del evento (lado izquierdo en pantallas grandes) -->
+                    <div class="w-full lg:w-1/2 mb-10 lg:mb-0 lg:pr-10">
+                        <div class="relative overflow-hidden rounded-lg shadow-xl">
+                            <img src="{{ url('storage', $evento->imagen_catalogo) }}" alt="Imagen del evento"
+                                class="w-full h-auto object-cover transform hover:scale-105 transition-transform duration-500 ease-in-out">
+                            <div
+                                class="absolute inset-0 bg-black opacity-0 hover:opacity-25 transition-opacity duration-300">
+                            </div>
                         </div>
                     </div>
 
-                    <div class="flex flex-wrap -m-4">
-                        @foreach ($evento['temas'] as $tema)
-                            <div class="p-4 md:w-1/2 w-full">
-                                <div class="h-full bg-gray-100 p-8 rounded-lg shadow">
-                                    <h2 class="text-2xl font-bold mb-2 text-gray-800">{{ $tema['nombre_tema'] }}</h2>
-                                    <p class="leading-relaxed mb-6 text-gray-600">{{ $tema['descripcion_tema'] }}</p>
-                                    <h3 class="text-xl font-semibold mb-2 text-gray-800">Ponentes:</h3>
-                                    <div class="flex flex-wrap -m-2">
-                                        @foreach ($tema['ponentes'] as $ponente)
-                                            <div class="p-2 w-1/2">
-                                                <div class="flex items-center bg-white p-4 rounded-lg shadow">
-                                                    <img alt="ponente"
-                                                        src="{{ url('storage', $ponente['logo_pais']) }}"
-                                                        class="w-12 h-12 rounded-full flex-shrink-0 object-cover object-center">
-                                                    <div class="flex-grow flex flex-col pl-4">
-                                                        <span
-                                                            class="title-font font-medium text-gray-900">{{ $ponente['nombre'] }}
-                                                            {{ $ponente['apellidos'] }}</span>
-                                                        <span
-                                                            class="text-gray-500 text-sm">{{ $ponente['especialidad'] }}</span>
-                                                        <p class="text-gray-500 text-xs">
-                                                            {{ $ponente['biografia_breve'] }}</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
+                    <!-- Detalles del evento -->
+                    <div class="w-full lg:w-1/2 lg:pl-10">
+                        <h1 class="text-4xl font-extrabold mb-6 text-gray-800 leading-tight">
+                            {{ $evento->nombre_evento }}</h1>
+                        <p class="text-xl mb-6 text-gray-600 leading-relaxed">{{ $evento->descripcion_breve }}</p>
+
+                        <!-- Organizadores -->
+                        <div class="mb-6">
+                            <h2 class="text-2xl font-semibold text-gray-700 mb-3">Organizadores:</h2>
+                            <ul class="space-y-2">
+                                @foreach ($evento->organizadores as $organizador)
+                                    <li class="flex items-center text-gray-600">
+                                        <svg class="w-5 h-5 mr-2 text-indigo-500" fill="currentColor"
+                                            viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd"
+                                                d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                                                clip-rule="evenodd" />
+                                        </svg>
+                                        {{ $organizador->nombre }}
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+
+                        <!-- Fechas -->
+                        <div class="mb-8">
+                            <h2 class="text-2xl font-semibold text-gray-700 mb-3">Fechas:</h2>
+                            <p class="flex items-center text-lg text-gray-600">
+                                <svg class="w-6 h-6 mr-2 text-indigo-500" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                                {{ \Carbon\Carbon::parse($evento->fecha_inicio)->format('d/m/Y') }} -
+                                {{ \Carbon\Carbon::parse($evento->fecha_fin)->format('d/m/Y') }}
+                            </p>
+                        </div>
+
+                        <!-- Botón de inscripción -->
+                        <a href="{{ route('evento.detalle', $evento->id) }}"
+                            class="inline-block bg-indigo-600 text-white text-lg font-semibold py-3 px-8 rounded-full hover:bg-indigo-700 transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">
+                            Inscríbete ahora
+                        </a>
                     </div>
                 </div>
-            @endforeach
-        </div>
-    </section>
-    @livewire('partials.testimonios')
+
+                <!-- Ponentes y temas -->
+                <section class="text-gray-600 body-font bg-gradient-to-b from-gray-50 to-white">
+                    <div class="container px-5 py-24 mx-auto">
+                        <div class="flex flex-col text-center w-full mb-20">
+                            <h2 class="text-xs text-indigo-500 tracking-widest font-medium title-font mb-1">EXPLORA NUESTROS</h2>
+                            <h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900">Temas del Evento</h1>
+                            <p class="lg:w-2/3 mx-auto leading-relaxed text-base mt-4">
+                                Descubre los fascinantes temas que abordaremos en nuestro evento. Desde tecnologías emergentes hasta tendencias innovadoras, 
+                                nuestros expertos te guiarán a través de los avances más recientes en el mundo de la tecnología.
+                            </p>
+                        </div>
+                        
+                        <div class="flex flex-wrap -m-4">
+                            @foreach ($evento->temas as $tema)
+                                <div class="lg:w-1/3 sm:w-1/2 p-4">
+                                    <div class="flex relative h-80">
+                                        <img alt="{{ $tema->nombre_tema }}" class="absolute inset-0 w-full h-full object-cover object-center rounded-lg" src="{{ url('storage', $tema->imagen) }}">
+                                        <div class="px-8 py-10 relative z-10 w-full border-4 border-gray-200 bg-white opacity-0 hover:opacity-100 transition-opacity duration-300 rounded-lg overflow-hidden">
+                                            <h2 class="tracking-widest text-sm title-font font-medium text-indigo-500 mb-1">{{ $tema->subtitulo_tema }}</h2>
+                                            <h1 class="title-font text-lg font-medium text-gray-900 mb-3">{{ $tema->nombre_tema }}</h1>
+                                            <p class="leading-relaxed line-clamp-3">{{ $tema->descripcion_tema }}</p>
+                                            <div class="mt-3 flex items-center text-indigo-500">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-1">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                </svg>
+                                                <span>{{ \Carbon\Carbon::parse($tema->hora_inicio)->format('H:i') }} - {{ \Carbon\Carbon::parse($tema->hora_fin)->format('H:i') }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                
+                        <!-- Ponentes -->
+                        <div class="mt-20">
+                            <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Nuestros Ponentes</h2>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                                @foreach ($evento->temas as $tema)
+                                    @foreach ($tema->ponentes as $ponente)
+                                        <div class="bg-white rounded-xl shadow-lg overflow-hidden transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-2xl">
+                                            <div class="relative">
+                                                <img src="{{ url('storage', $ponente->imagen) }}" alt="Imagen de {{ $ponente->nombre }} {{ $ponente->apellidos }}"
+                                                    class="w-full h-48 object-cover">
+                                                <img src="{{ url('storage', $ponente->logo_pais) }}" alt="Bandera de {{ $ponente->pais }}"
+                                                    class="absolute bottom-2 right-2 w-10 h-10 rounded-full border-2 border-white shadow-sm"
+                                                    title="{{ $ponente->pais }}">
+                                            </div>
+                                            <div class="p-6">
+                                                <h4 class="text-xl font-semibold text-gray-800 mb-2">{{ $ponente->nombre }} {{ $ponente->apellidos }}</h4>
+                                                <p class="text-sm font-medium text-indigo-600 mb-2">{{ $ponente->institucion }}</p>
+                                                <p class="text-gray-600 text-sm leading-relaxed line-clamp-3 mb-4">{{ $ponente->biografia_breve }}</p>
+                                                <button class="text-indigo-600 hover:text-indigo-800 text-sm font-medium focus:outline-none focus:underline"
+                                                        onclick="toggleBio(this, '{{ $ponente->id }}')">
+                                                    Leer más
+                                                </button>
+                                                <p id="bio-{{ $ponente->id }}" class="hidden text-gray-600 text-sm leading-relaxed mt-2">
+                                                    {{ $ponente->biografia_completa }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <script>
+                function toggleBio(button, ponenteId) {
+                    const bioElement = document.getElementById(`bio-${ponenteId}`);
+                    if (bioElement.classList.contains('hidden')) {
+                        bioElement.classList.remove('hidden');
+                        button.textContent = 'Leer menos';
+                    } else {
+                        bioElement.classList.add('hidden');
+                        button.textContent = 'Leer más';
+                    }
+                }
+                </script>
+        @endforeach
+</div>
+</section>
+
+
+
+
+
+<!-- Historia Section -->
+
+@livewire('partials.historia')
+
 
 
 </div>
+<style>
+
+</style>
+<script src="https://cdn.jsdelivr.net"></script>
+
 <script>
     // Obtenemos la fecha del evento pasado desde Laravel (formato ISO 8601)
     let eventDate = new Date("{{ $fechaInicioEvento }}").getTime();
@@ -254,4 +368,20 @@
         document.querySelector('.minutes').textContent = minutes;
         document.querySelector('.seconds').textContent = seconds;
     }, 1000);
+    const swiper = new Swiper('.swiper', {
+        // Optional parameters
+        direction: 'horizontal',
+        loop: true,
+        autoplay: {
+            delay: 5000,
+        },
+        pagination: {
+            el: '.swiper-pagination',
+        },
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        draggable: true,
+    });
 </script>

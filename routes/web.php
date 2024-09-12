@@ -1,6 +1,7 @@
 <?php
 
 use App\Filament\Resources\AsistenciaResource\Pages\EscanearAsistenciaPage;
+use App\Filament\Resources\ResgistroResource\Pages\TicketQrPage;
 use App\Livewire\Agenda;
 use App\Livewire\Contact;
 use App\Livewire\Evento;
@@ -10,6 +11,9 @@ use App\Livewire\Inscripciones;
 use App\Livewire\LectorAsistencias;
 use App\Livewire\Organizadores;
 use App\Livewire\Registrarse;
+use App\Mail\PruebaMailable;
+use App\Models\Resgistro;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -36,3 +40,18 @@ Route::get('/event-registration/{eventoId}', Registrarse::class)->name('event.re
 Route::post('/asistencias/store', [EscanearAsistenciaPage::class, 'registerAsistencia'])
     ->name('filament.asistencias.store');
 Route::get('/lector-asistencias', LectorAsistencias::class)->name('lector.asistencias');
+Route::get('/event/{id}', [Registrarse::class, 'show'])->name('event.show');
+Route::post('/enviar-correo/{id}', function($id) {
+    $registro = Resgistro::findOrFail($id);
+    $page = new TicketQrPage();
+    $page->mount($registro);
+    $page->enviarCorreo();
+
+    return redirect()->back()->with('message', 'Correo enviado exitosamente.');
+})->name('enviar-correo');
+Route::get('/prueba', function () {
+    Mail::to('7583976221@untrm.edu.pe')->send(new PruebaMailable);
+    return "Mensaje Enviado";
+
+})->name('prueba');
+

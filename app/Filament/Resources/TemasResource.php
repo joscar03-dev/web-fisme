@@ -7,6 +7,7 @@ use App\Filament\Resources\TemasResource\RelationManagers;
 use App\Models\Temas;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
@@ -23,6 +24,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Date;
 use Filament\Forms\Set;
 use Illuminate\Support\Str;
+
 class TemasResource extends Resource
 {
     protected static ?string $model = Temas::class;
@@ -38,8 +40,8 @@ class TemasResource extends Resource
                         //segmento 
                         Section::make('Informacion de  Tema')->schema(
                             [
-                           
-                                    TextInput::make('nombre_tema')
+
+                                TextInput::make('nombre_tema')
                                     ->required()
                                     ->live(onBlur: true)
                                     ->afterStateUpdated(fn(string $operation, $state, Set $set)
@@ -73,6 +75,11 @@ class TemasResource extends Resource
                         //segmento 
                         Section::make('Otra Informacion')->schema(
                             [
+                                FileUpload::make('imagen')
+                                    ->image()
+                                    ->disk('public')
+                                    ->directory('temas')
+                                    ->visibility('private'),
                                 DatePicker::make('fecha')
                                     ->required(),
                                 TimePicker::make('hora_inicio')
@@ -100,7 +107,7 @@ class TemasResource extends Resource
                 TextColumn::make('fecha')->sortable(),
                 TextColumn::make('hora_inicio'),
                 TextColumn::make('hora_fin'),
-                TextColumn::make('ponente.nombre')->label('Ponente'),
+
             ])
             ->filters([
                 //

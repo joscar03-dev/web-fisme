@@ -8,7 +8,7 @@ use Livewire\Component;
 
 class HomePage extends Component
 {
-    
+
     public $eventos;
     public $currentIndex = 0;
     public $tipo = '';
@@ -20,14 +20,13 @@ class HomePage extends Component
     public $eventosOrdenados;
     public $eventoProximo;
 
-    
+
 
 
     public function mount()
     {
         $this->loadEvents(); // Carga inicial de eventos
         $this->showEventos();
-
     }
 
     public function loadEvents()
@@ -43,24 +42,30 @@ class HomePage extends Component
             ->upcoming()
             ->take(3) // Limitar a 3 eventos
             ->get();
-    
+
         $this->eventCount = $this->eventos->count(); // Contar eventos
     }
-    
+
     public function showEventos()
     {
         $this->eventosOrdenados = Evento::orderBy('fecha_inicio', 'asc')->get();
-    
-        // Verifica si hay eventos disponibles
+
         if ($this->eventosOrdenados->isNotEmpty()) {
             $this->eventoProximo = $this->eventosOrdenados->first();
-            $this->fechaInicioEvento = Carbon::parse($this->eventoProximo->fecha_inicio)->toIso8601String();
+
+            // Asegurarse de que 'fecha_inicio' sea un objeto Carbon
+            if ($this->eventoProximo->fecha_inicio instanceof \Carbon\Carbon) {
+                $this->fechaInicioEvento = $this->eventoProximo->fecha_inicio->toIso8601String();
+            } else {
+                // Si no es un objeto Carbon, intenta convertirlo manualmente
+                $this->fechaInicioEvento = Carbon::parse($this->eventoProximo->fecha_inicio)->toIso8601String();
+            }
         } else {
             $this->eventoProximo = null;
             $this->fechaInicioEvento = null;
         }
-        
     }
+
     public function nextSlide()
     {
         if ($this->eventCount > 0) {
@@ -89,7 +94,8 @@ class HomePage extends Component
 
     public function render()
     {
-        return view('livewire.home-page'
-      );
+        return view(
+            'livewire.home-page'
+        );
     }
 }

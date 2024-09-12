@@ -19,7 +19,7 @@ class Evento extends Component
         $this->evento = EventoModel::findOrFail($id); // Usar el modelo Evento
 
         // Cargar los temas relacionados con el evento, incluyendo la relación con los ponentes
-        $this->temas = Temas::where('id', $this->evento->id)->with('ponente')->get();
+        $this->temas = Temas::where('id', $this->evento->id)->get();
 
         // Cargar eventos relacionados que tengan el mismo tipo que el evento actual
         $this->eventosRelacionados = EventoModel::where('tipo_evento', $this->evento->tipo_evento)

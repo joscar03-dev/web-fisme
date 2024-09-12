@@ -17,13 +17,14 @@ class Temas extends Model
         'fecha',
         'hora_inicio',
         'hora_fin',
+        'imagen'
    
     ];
 
     // Relación con el modelo Ponente
     public function evento()
     {
-        return $this->belongsTo(Evento::class, 'evento_id');
+        return $this->belongsTo(Evento::class, 'evento_id',);
     }
 
     // Relación uno a muchos con Ponente

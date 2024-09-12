@@ -38,11 +38,14 @@ class Evento extends Model
         return 'tipo_evento'; // O cualquier otro campo que estés usando para buscar
     }
 
-    public function scopeUpcoming(Builder $query)
+    public function scopeUpcoming($query)
     {
-        return $query->where('fecha_inicio', '>', now())->orderBy('fecha_inicio');
+        return $query->where('fecha_inicio', '>=', Carbon::now());
     }
-
+    public function attendees()
+    {
+        return $this->morphToMany(User::class, 'attendable'); // Asegúrate de que esto esté bien configurado
+    }
     /**
      * Scope a query to only include featured events.
      */
@@ -56,7 +59,8 @@ class Evento extends Model
         return $this->hasMany(Temas::class, 'evento_id'); // Asegúrate que 'evento_id' es la columna correcta
     }
 
-
+    
+    
     public function registros()
     {
         return $this->hasMany(Resgistro::class);

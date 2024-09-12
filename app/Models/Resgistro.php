@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class Resgistro extends Model
 {
     use HasFactory;
-    protected $table = 'registro';
+    protected $table = 'registros';
     protected $fillable = [
         'tipo_documento',
         'slug',
