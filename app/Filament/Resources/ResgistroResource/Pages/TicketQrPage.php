@@ -25,7 +25,7 @@ class TicketQrPage extends Page
     }
 
     // Método para enviar el ticket por correo y actualizar el estado de verificación
-    public function enviarCorreo()
+    public function enviarCorreo( )
     {
         try {
             // Enviar correo con la confirmación

@@ -1,10 +1,12 @@
 <div class="">
 
     <!-- SVG Background -->
-    <div class="relative overflow-hidden">
+    <div class="relative overflow-hidden mb-12 sm:mb-16 lg:mb-20"> <!-- Ajustar el margin-bottom -->
+
 
         <!-- SVG Background -->
         <div class="absolute inset-0 pointer-events-none z-0">
+
             <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" fill="none">
                 <g transform="translate(600, 400) rotate(45)">
                     <path d="M0 0 L100 0 L100 100 L0 100 Z" fill="rgba(0, 31, 84, 0.05)" />
@@ -43,15 +45,15 @@
                 <path d="M100 850 Q300 900 500 850 T900 900" stroke="rgba(0, 31, 84, 0.1)" stroke-width="2"
                     fill="none" />
             </svg>
+
         </div>
 
         <!-- Hero Section -->
-
         <div class="relative overflow-hidden">
             <div class="max-w-7xl mx-auto">
                 <!-- Componente de Carrusel con Interacción y Transiciones -->
                 <div x-data="{ currentIndex: 0 }" x-init="setInterval(() => currentIndex = (currentIndex + 1) % {{ $eventos->count() ?: 0 }}, 8000)"
-                    class="relative z-10 pb-8 sm:pb-16 md:pb-20 lg:pb-28 xl:pb-32 min-h-screen flex items-center">
+                    class="relative z-10 pb-8 sm:pb-16 md:pb-20 lg:pb-28 xl:pb-32 min-h-[60vh] lg:min-h-screen flex items-center">
 
                     <!-- Eventos -->
                     @forelse ($eventos as $index => $evento)
@@ -62,45 +64,39 @@
                             x-transition:leave="transition ease-in duration-500"
                             x-transition:leave-start="opacity-100 transform translate-x-0"
                             x-transition:leave-end="opacity-0 transform -translate-x-full"
-                            class="absolute inset-0 flex items-center">
+                            class="absolute inset-0 flex flex-col lg:flex-row items-center space-y-6 lg:space-y-0 lg:space-x-10">
 
                             <!-- Texto a la izquierda -->
-                            <div class="w-1/2 h-full flex items-center justify-center">
+                            <div class="w-full lg:w-1/2 flex items-center justify-center px-4">
                                 <div
-                                    class="sm:text-center lg:text-left backdrop-filter backdrop-blur-md bg-white/30 rounded-lg p-6">
+                                    class="text-center lg:text-left backdrop-filter backdrop-blur-md bg-white/30 rounded-lg p-6">
                                     @if ($evento['fecha_inicio'])
                                         <h2 class="text-base text-gray-800 font-semibold tracking-wide uppercase">
                                             {{ $evento['fecha_inicio'] }}
                                         </h2>
                                     @endif
                                     <h1
-                                        class="text-4xl tracking-tight font-extrabold text-[#001f54e6] sm:text-5xl md:text-6xl">
-                                        <span class="block xl:inline">{{ $evento['nombre_evento'] }}</span>
+                                        class="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-[#001f54e6]">
+                                        <span class="block">{{ $evento['nombre_evento'] }}</span>
                                     </h1>
-                                    <p
-                                        class="mt-3 text-base text-gray-600 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
+                                    <p class="mt-3 text-sm sm:text-lg md:text-xl text-gray-600">
                                         {{ Str::limit($evento['descripcion_breve'], 150) }}
                                     </p>
-                                    <div class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
-                                        <div class="mt-3 sm:mt-0 sm:ml-3">
-                                            <a href="{{ route('lector.asistencias') }}"
-                                                class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-[#001f54e6] hover:bg-blue-500 md:py-4 md:text-lg md:px-10 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105">
-                                                Inscríbete ahora
-                                            </a>
-                                        </div>
+                                    <div class="mt-5">
+                                        <a wire:key="{{ $evento->id }}"
+                                            href="{{ route('evento.detalle', $evento->id) }}"
+                                            class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-sm md:text-base font-medium rounded-md text-white bg-[#001f54e6] hover:bg-blue-500 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105">
+                                            Inscríbete ahora
+                                        </a>
                                     </div>
                                 </div>
                             </div>
 
-
                             <!-- Imagen a la derecha -->
-                            <div class="w-full h-full flex items-center justify-center">
+                            <div class="w-full lg:w-1/2 flex items-center justify-center px-4 overflow-y-auto">
                                 <img src="{{ asset('storage/' . $evento['imagen_catalogo']) }}" alt="Imagen del evento"
-                                    class="w-1/2 h-auto object-cover shadow-2xl"
-                                    style="border-radius: 20px; box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.2);" />
+                                    class="w-full lg:w-3/4 h-auto object-contain shadow-2xl rounded-lg mb-4" />
                             </div>
-
-
                         </div>
                     @empty
                         <div class="absolute inset-0 flex items-center justify-center">
@@ -111,17 +107,17 @@
                     <!-- Botones de control -->
                     <button
                         @click="currentIndex = (currentIndex - 1 + {{ $eventos->count() }}) % {{ $eventos->count() }}"
-                        class="absolute left-0 z-3 p-2 text-white bg-[#001f54e6] hover:bg-blue-500 rounded-full">
+                        class="absolute left-2 lg:left-0 z-3 p-2 text-white bg-[#001f54e6] hover:bg-blue-500 rounded-full">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                            class="w-3 h-3">
+                            class="w-5 h-5">
                             <path d="M15 18L9 12L15 6" />
                         </svg>
                     </button>
 
                     <button @click="currentIndex = (currentIndex + 1) % {{ $eventos->count() }}"
-                        class="absolute right-0 z-3 p-2 text-white bg-[#001f54e6] hover:bg-blue-500 rounded-full">
+                        class="absolute right-2 lg:right-0 z-3 p-2 text-white bg-[#001f54e6] hover:bg-blue-500 rounded-full">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                            class="w-3 h-3">
+                            class="w-5 h-5">
                             <path d="M9 18L15 12L9 6" />
                         </svg>
                     </button>
@@ -130,45 +126,60 @@
         </div>
 
     </div>
+
     <!-- Countdown Timer Section -->
 
-    <div class="flex items-center justify-center w-full gap-1.5 count-down-main px-3 py-6 bg-[#133E6B]">
+    <div
+        class="flex items-center justify-center w-full gap-1.5 count-down-main px-3 py-6 bg-[#133E6B] flex-wrap lg:flex-nowrap">
         <div class="timer">
             <div
-                class="rounded-xl border border-white py-1.5 min-w-[80px] flex items-center justify-center flex-col gap-0 aspect-square px-1.5">
-                <h3 class="countdown-element days font-manrope font-semibold text-8xl text-white text-center">00
-                </h3>
-                <p class="text-sm font-inter capitalize font-normal text-white text-center w-full">Days</p>
+                class="rounded-xl border border-white py-1.5 min-w-[60px] sm:min-w-[80px] lg:min-w-[100px] flex items-center justify-center flex-col gap-0 aspect-square px-1.5">
+                <h3
+                    class="countdown-element days font-manrope font-semibold text-5xl sm:text-6xl lg:text-8xl text-white text-center">
+                    00</h3>
+                <p
+                    class="text-xs sm:text-sm lg:text-base font-inter capitalize font-normal text-white text-center w-full">
+                    Days</p>
             </div>
         </div>
-        <h3 class="font-manrope font-semibold text-4xl text-white">:</h3>
+        <h3 class="font-manrope font-semibold text-2xl sm:text-3xl lg:text-4xl text-white">:</h3>
         <div class="timer">
             <div
-                class="rounded-xl border border-white py-1.5 min-w-[80px] flex items-center justify-center flex-col gap-0 aspect-square px-1.5">
-                <h3 class="countdown-element hours font-manrope font-semibold text-8xl text-white text-center">00
-                </h3>
-                <p class="text-sm font-inter capitalize font-normal text-white text-center w-full">Hour</p>
+                class="rounded-xl border border-white py-1.5 min-w-[60px] sm:min-w-[80px] lg:min-w-[100px] flex items-center justify-center flex-col gap-0 aspect-square px-1.5">
+                <h3
+                    class="countdown-element hours font-manrope font-semibold text-5xl sm:text-6xl lg:text-8xl text-white text-center">
+                    00</h3>
+                <p
+                    class="text-xs sm:text-sm lg:text-base font-inter capitalize font-normal text-white text-center w-full">
+                    Hours</p>
             </div>
         </div>
-        <h3 class="font-manrope font-semibold text-4xl text-white">:</h3>
+        <h3 class="font-manrope font-semibold text-2xl sm:text-3xl lg:text-4xl text-white">:</h3>
         <div class="timer">
             <div
-                class="rounded-xl border border-white py-1.5 min-w-[80px] flex items-center justify-center flex-col gap-0 aspect-square px-1.5">
-                <h3 class="countdown-element minutes font-manrope font-semibold text-8xl text-white text-center">00
-                </h3>
-                <p class="text-sm font-inter capitalize font-normal text-white text-center w-full">Minutes</p>
+                class="rounded-xl border border-white py-1.5 min-w-[60px] sm:min-w-[80px] lg:min-w-[100px] flex items-center justify-center flex-col gap-0 aspect-square px-1.5">
+                <h3
+                    class="countdown-element minutes font-manrope font-semibold text-5xl sm:text-6xl lg:text-8xl text-white text-center">
+                    00</h3>
+                <p
+                    class="text-xs sm:text-sm lg:text-base font-inter capitalize font-normal text-white text-center w-full">
+                    Minutes</p>
             </div>
         </div>
-        <h3 class="font-manrope font-semibold text-4xl text-white">:</h3>
+        <h3 class="font-manrope font-semibold text-2xl sm:text-3xl lg:text-4xl text-white">:</h3>
         <div class="timer">
             <div
-                class="rounded-xl border border-white py-1.5 min-w-[80px] flex items-center justify-center flex-col gap-0 aspect-square px-1.5">
-                <h3 class="countdown-element seconds font-manrope font-semibold text-8xl text-white text-center">00
-                </h3>
-                <p class="text-sm font-inter capitalize font-normal text-white text-center w-full">Seconds</p>
+                class="rounded-xl border border-white py-1.5 min-w-[60px] sm:min-w-[80px] lg:min-w-[100px] flex items-center justify-center flex-col gap-0 aspect-square px-1.5">
+                <h3
+                    class="countdown-element seconds font-manrope font-semibold text-5xl sm:text-6xl lg:text-8xl text-white text-center">
+                    00</h3>
+                <p
+                    class="text-xs sm:text-sm lg:text-base font-inter capitalize font-normal text-white text-center w-full">
+                    Seconds</p>
             </div>
         </div>
     </div>
+
     <!-- Countdown Timer Section -->
 
 
@@ -226,7 +237,7 @@
                         </div>
 
                         <!-- Botón de inscripción -->
-                        <a href="{{ route('evento.detalle', $evento->id) }}"
+                        <a href="{{ route('evento.detalle', $evento->slug) }}"
                             class="inline-block bg-indigo-600 text-white text-lg font-semibold py-3 px-8 rounded-full hover:bg-indigo-700 transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">
                             Inscríbete ahora
                         </a>
@@ -237,58 +248,79 @@
                 <section class="text-gray-600 body-font bg-gradient-to-b from-gray-50 to-white">
                     <div class="container px-5 py-24 mx-auto">
                         <div class="flex flex-col text-center w-full mb-20">
-                            <h2 class="text-xs text-indigo-500 tracking-widest font-medium title-font mb-1">EXPLORA NUESTROS</h2>
+                            <h2 class="text-xs text-indigo-500 tracking-widest font-medium title-font mb-1">EXPLORA
+                                NUESTROS</h2>
                             <h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900">Temas del Evento</h1>
                             <p class="lg:w-2/3 mx-auto leading-relaxed text-base mt-4">
-                                Descubre los fascinantes temas que abordaremos en nuestro evento. Desde tecnologías emergentes hasta tendencias innovadoras, 
-                                nuestros expertos te guiarán a través de los avances más recientes en el mundo de la tecnología.
+                                Descubre los fascinantes temas que abordaremos en nuestro evento. Desde tecnologías
+                                emergentes hasta tendencias innovadoras,
+                                nuestros expertos te guiarán a través de los avances más recientes en el mundo de la
+                                tecnología.
                             </p>
                         </div>
-                        
+
                         <div class="flex flex-wrap -m-4">
                             @foreach ($evento->temas as $tema)
                                 <div class="lg:w-1/3 sm:w-1/2 p-4">
                                     <div class="flex relative h-80">
-                                        <img alt="{{ $tema->nombre_tema }}" class="absolute inset-0 w-full h-full object-cover object-center rounded-lg" src="{{ url('storage', $tema->imagen) }}">
-                                        <div class="px-8 py-10 relative z-10 w-full border-4 border-gray-200 bg-white opacity-0 hover:opacity-100 transition-opacity duration-300 rounded-lg overflow-hidden">
-                                            <h2 class="tracking-widest text-sm title-font font-medium text-indigo-500 mb-1">{{ $tema->subtitulo_tema }}</h2>
-                                            <h1 class="title-font text-lg font-medium text-gray-900 mb-3">{{ $tema->nombre_tema }}</h1>
+                                        <img alt="{{ $tema->nombre_tema }}"
+                                            class="absolute inset-0 w-full h-full object-cover object-center rounded-lg"
+                                            src="{{ url('storage', $tema->imagen) }}">
+                                        <div
+                                            class="px-8 py-10 relative z-10 w-full border-4 border-gray-200 bg-white opacity-0 hover:opacity-100 transition-opacity duration-300 rounded-lg overflow-hidden">
+                                            <h2
+                                                class="tracking-widest text-sm title-font font-medium text-indigo-500 mb-1">
+                                                {{ $tema->subtitulo_tema }}</h2>
+                                            <h1 class="title-font text-lg font-medium text-gray-900 mb-3">
+                                                {{ $tema->nombre_tema }}</h1>
                                             <p class="leading-relaxed line-clamp-3">{{ $tema->descripcion_tema }}</p>
                                             <div class="mt-3 flex items-center text-indigo-500">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-1">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                    class="w-4 h-4 mr-1">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                                                 </svg>
-                                                <span>{{ \Carbon\Carbon::parse($tema->hora_inicio)->format('H:i') }} - {{ \Carbon\Carbon::parse($tema->hora_fin)->format('H:i') }}</span>
+                                                <span>{{ \Carbon\Carbon::parse($tema->hora_inicio)->format('H:i') }} -
+                                                    {{ \Carbon\Carbon::parse($tema->hora_fin)->format('H:i') }}</span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             @endforeach
                         </div>
-                
+
                         <!-- Ponentes -->
                         <div class="mt-20">
                             <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Nuestros Ponentes</h2>
                             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
                                 @foreach ($evento->temas as $tema)
                                     @foreach ($tema->ponentes as $ponente)
-                                        <div class="bg-white rounded-xl shadow-lg overflow-hidden transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-2xl">
+                                        <div
+                                            class="bg-white rounded-xl shadow-lg overflow-hidden transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-2xl">
                                             <div class="relative">
-                                                <img src="{{ url('storage', $ponente->imagen) }}" alt="Imagen de {{ $ponente->nombre }} {{ $ponente->apellidos }}"
+                                                <img src="{{ url('storage', $ponente->imagen) }}"
+                                                    alt="Imagen de {{ $ponente->nombre }} {{ $ponente->apellidos }}"
                                                     class="w-full h-48 object-cover">
-                                                <img src="{{ url('storage', $ponente->logo_pais) }}" alt="Bandera de {{ $ponente->pais }}"
+                                                <img src="{{ url('storage', $ponente->logo_pais) }}"
+                                                    alt="Bandera de {{ $ponente->pais }}"
                                                     class="absolute bottom-2 right-2 w-10 h-10 rounded-full border-2 border-white shadow-sm"
                                                     title="{{ $ponente->pais }}">
                                             </div>
                                             <div class="p-6">
-                                                <h4 class="text-xl font-semibold text-gray-800 mb-2">{{ $ponente->nombre }} {{ $ponente->apellidos }}</h4>
-                                                <p class="text-sm font-medium text-indigo-600 mb-2">{{ $ponente->institucion }}</p>
-                                                <p class="text-gray-600 text-sm leading-relaxed line-clamp-3 mb-4">{{ $ponente->biografia_breve }}</p>
-                                                <button class="text-indigo-600 hover:text-indigo-800 text-sm font-medium focus:outline-none focus:underline"
-                                                        onclick="toggleBio(this, '{{ $ponente->id }}')">
+                                                <h4 class="text-xl font-semibold text-gray-800 mb-2">
+                                                    {{ $ponente->nombre }} {{ $ponente->apellidos }}</h4>
+                                                <p class="text-sm font-medium text-indigo-600 mb-2">
+                                                    {{ $ponente->institucion }}</p>
+                                                <p class="text-gray-600 text-sm leading-relaxed line-clamp-3 mb-4">
+                                                    {{ $ponente->biografia_breve }}</p>
+                                                <button
+                                                    class="text-indigo-600 hover:text-indigo-800 text-sm font-medium focus:outline-none focus:underline"
+                                                    onclick="toggleBio(this, '{{ $ponente->id }}')">
                                                     Leer más
                                                 </button>
-                                                <p id="bio-{{ $ponente->id }}" class="hidden text-gray-600 text-sm leading-relaxed mt-2">
+                                                <p id="bio-{{ $ponente->id }}"
+                                                    class="hidden text-gray-600 text-sm leading-relaxed mt-2">
                                                     {{ $ponente->biografia_completa }}
                                                 </p>
                                             </div>
@@ -299,21 +331,8 @@
                         </div>
                     </div>
                 </section>
-                
-                <script>
-                function toggleBio(button, ponenteId) {
-                    const bioElement = document.getElementById(`bio-${ponenteId}`);
-                    if (bioElement.classList.contains('hidden')) {
-                        bioElement.classList.remove('hidden');
-                        button.textContent = 'Leer menos';
-                    } else {
-                        bioElement.classList.add('hidden');
-                        button.textContent = 'Leer más';
-                    }
-                }
-                </script>
         @endforeach
-</div>
+
 </section>
 
 
@@ -327,9 +346,7 @@
 
 
 </div>
-<style>
 
-</style>
 <script src="https://cdn.jsdelivr.net"></script>
 
 <script>
@@ -384,4 +401,15 @@
         },
         draggable: true,
     });
+
+    function toggleBio(button, ponenteId) {
+        const bioElement = document.getElementById(`bio-${ponenteId}`);
+        if (bioElement.classList.contains('hidden')) {
+            bioElement.classList.remove('hidden');
+            button.textContent = 'Leer menos';
+        } else {
+            bioElement.classList.add('hidden');
+            button.textContent = 'Leer más';
+        }
+    }
 </script>

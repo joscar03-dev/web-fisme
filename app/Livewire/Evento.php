@@ -4,39 +4,84 @@ namespace App\Livewire;
 
 use App\Models\Evento as EventoModel; // Importa el modelo Evento correctamente
 use App\Models\Temas;
+use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 use Livewire\Component;
 
 class Evento extends Component
 {
     public $evento;
-    public $temas;
-    public $eventosRelacionados;
+    public $fechas = [];
+    public $temasPorFecha = [];
+    public $fechaSeleccionada;
+    public $temasDelDia = [];
 
-    // El método mount recibe el ID del evento y carga los datos necesarios
     public function mount($id)
     {
-        // Buscar el evento en la base de datos usando el ID proporcionado
-        $this->evento = EventoModel::findOrFail($id); // Usar el modelo Evento
+        $this->evento = EventoModel::findOrFail($id);
+        $this->generarFechas();
+        $this->cargarTemas();
+        $this->fechaSeleccionada = $this->fechas[0]->format('Y-m-d');
+        $this->actualizarTemasDelDia();
+    }
 
-        // Cargar los temas relacionados con el evento, incluyendo la relación con los ponentes
-        $this->temas = Temas::where('id', $this->evento->id)->get();
+    private function generarFechas()
+    {
+        $periodo = CarbonPeriod::create($this->evento->fecha_inicio, $this->evento->fecha_fin);
+        $this->fechas = $periodo->toArray();
+    }
 
-        // Cargar eventos relacionados que tengan el mismo tipo que el evento actual
-        $this->eventosRelacionados = EventoModel::where('tipo_evento', $this->evento->tipo_evento)
-                                            ->where('id', '!=', $this->evento->id) // Excluir el evento actual
-                                            ->take(3) // Limitar a 3 eventos relacionados
-                                            ->get();
+    private function cargarTemas()
+    {
+        $temas = $this->evento->temas()->orderBy('fecha')->orderBy('hora_inicio')->get();
+        foreach ($temas as $tema) {
+            $fecha = Carbon::parse($tema->fecha)->format('Y-m-d');
+            $this->temasPorFecha[$fecha][] = $tema;
+        }
+    }
+
+    public function seleccionarFecha($fecha)
+    {
+        $this->fechaSeleccionada = $fecha;
+        $this->actualizarTemasDelDia();
+    }
+
+    private function actualizarTemasDelDia()
+    {
+        $this->temasDelDia = $this->temasPorFecha[$this->fechaSeleccionada] ?? [];
+    }
+
+    public function prevDate()
+    {
+        $currentIndex = array_search($this->fechaSeleccionada, array_column($this->fechas, 'date'));
+        if ($currentIndex > 0) {
+            $this->fechaSeleccionada = $this->fechas[$currentIndex - 1]->format('Y-m-d');
+            $this->actualizarTemasDelDia();
+        }
+        $this->emit('dateChanged');
+    }
+
+    public function nextDate()
+    {
+        $currentIndex = array_search($this->fechaSeleccionada, array_column($this->fechas, 'date'));
+        if ($currentIndex < count($this->fechas) - 1) {
+            $this->fechaSeleccionada = $this->fechas[$currentIndex + 1]->format('Y-m-d');
+            $this->actualizarTemasDelDia();
+        }
+        $this->emit('dateChanged');
+    }
+
+    public function refreshDates()
+    {
+        $this->actualizarTemasDelDia();
+        $this->emit('dateChanged');
     }
 
     public function render()
     {
-        return view(
-            'livewire.evento',
-            [
-                'evento' => $this->evento,
-                'temas' => $this->temas,
-                'eventosRelacionados' => $this->eventosRelacionados,
-            ]
-        );
+        return view('livewire.evento', [
+            'fechas' => $this->fechas,
+            'temasDelDia' => $this->temasDelDia,
+        ]);
     }
 }

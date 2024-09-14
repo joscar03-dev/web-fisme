@@ -46,7 +46,6 @@ Route::post('/enviar-correo/{id}', function($id) {
     $page = new TicketQrPage();
     $page->mount($registro);
     $page->enviarCorreo();
-
     return redirect()->back()->with('message', 'Correo enviado exitosamente.');
 })->name('enviar-correo');
 Route::get('/prueba', function () {
