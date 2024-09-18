@@ -10,20 +10,22 @@ use Livewire\Component;
 
 class Evento extends Component
 {
+    public $showModal = false;
+    public $openModal ;
     public $evento;
     public $fechas = [];
     public $temasPorFecha = [];
     public $fechaSeleccionada;
     public $temasDelDia = [];
 
-    public function mount($id)
-    {
-        $this->evento = EventoModel::findOrFail($id);
-        $this->generarFechas();
-        $this->cargarTemas();
-        $this->fechaSeleccionada = $this->fechas[0]->format('Y-m-d');
-        $this->actualizarTemasDelDia();
-    }
+    public function mount($slug)
+{
+    $this->evento = EventoModel::where('slug', $slug)->firstOrFail();
+    $this->generarFechas();
+    $this->cargarTemas();
+    $this->fechaSeleccionada = $this->fechas[0]->format('Y-m-d');
+    $this->actualizarTemasDelDia();
+}
 
     private function generarFechas()
     {

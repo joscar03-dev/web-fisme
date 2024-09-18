@@ -48,7 +48,7 @@ class EventoResource extends Resource
                             ->afterStateUpdated(fn(string $operation, $state, Set $set)
                             => $operation === 'create' ? $set('slug', Str::slug($state)) : null)
                             ->maxLength(255),
-                            TextInput::make('slug')
+                        TextInput::make('slug')
                             ->required()
                             ->disabled()
                             ->maxLength('255')
@@ -74,10 +74,10 @@ class EventoResource extends Resource
                                         Section::make('Informacion del Organizador')->schema(
                                             [
                                                 TextInput::make('nombre')
-                                                ->required()
-                                               
-                                                ->maxLength(255),
-                                           
+                                                    ->required()
+
+                                                    ->maxLength(255),
+
                                                 TextInput::make('correo_electronico')
                                                     ->email()
                                                     ->required(),
@@ -156,21 +156,45 @@ class EventoResource extends Resource
                 )->columns(2),
                 Section::make('Descripcion del Evento')->schema(
                     [
+                        Forms\Components\Select::make('tematicas')
+                            ->label('Tematica')
+                            ->multiple() // Permite seleccionar múltiples organizadores
+                            ->relationship('tematicas', 'nombre') // Relación
+                            ->createOptionForm([ // Crear organizadores en el momento
+                                Group::make()->schema(
+                                    [
+                                        //segmento 
+                                        Section::make('Informacion del Temática')->schema(
+                                            [
+                                                TextColumn::make('nombre')
+                                                    ->sortable()
+                                                    ->searchable(),
+                                                TextColumn::make('descripcion')
+                                                    ->sortable()
+                                                    ->limit(50)
+                                                    ->extraAttributes(['style' => 'width: 300px ']), // Ajusta el ancho en píxeles
+                                                Tables\Columns\IconColumn::make('estado')
+                                                    ->boolean(),
+                                            ]
+                                        )->columns(2),
+                                    ]
+                                )->columnSpan(2),
+                            ])
+                            ->required(),
                         Textarea::make('descripcion_breve')
                             ->required(),
                         FileUpload::make('imagen_banner')
                             ->image()
                             ->disk('public')
                             ->visibility('private')
-                            ->directory('eventos')
-                           , // Tamaño máximo en kilobytes, en este caso 2MB.
+                            ->directory('eventos'), // Tamaño máximo en kilobytes, en este caso 2MB.
 
                         FileUpload::make('imagen_catalogo')
                             ->image()
                             ->disk('public')
                             ->visibility('private')
                             ->directory('eventos'),
-                             // Tamaño máximo en kilobytes, en este caso 2MB.
+                        // Tamaño máximo en kilobytes, en este caso 2MB.
                         /* FileUpload::make('video_banner')
                     ->disk('public')
                     ->directory('eventos')
@@ -186,8 +210,44 @@ class EventoResource extends Resource
                         //segmento 
                         Section::make('Otra Informacion')->schema(
                             [
-                                TextInput::make('precio_inscripcion')
-                                    ->numeric()
+                                Forms\Components\Select::make('precios')
+                                    ->label('Precio')
+                                    ->multiple() // Permite seleccionar múltiples organizadores
+                                    ->relationship('precios', 'tipo_asistente') // Relación
+                                    ->createOptionForm([ // Crear organizadores en el momento
+                                        Group::make()->schema(
+                                            [
+                                                //segmento 
+                                                Section::make('Informacion del Precio')->schema(
+                                                    [
+                                                        Select::make('tipo_asistente')
+                                                            ->required()
+                                                            ->options([
+                                                                'ESTUDIANTE FISME' => 'ESTUDIANTE FISME',
+                                                                'DOCENTE FISME' => 'DOCENTE FISME',
+                                                                'EGRESADO FISME' => 'EGRESADO FISME',
+                                                                'DOCENTE UNTRM' => 'DOCENTE UNTRM',
+                                                                'PÚBLICO GENERAL - ESTUDIANTE' => 'PÚBLICO GENERAL - ESTUDIANTE',
+                                                                'PÚBLICO GENERAL - PROFESIONAL' => 'PÚBLICO GENERAL - PROFESIONAL',
+
+                                                            ]),
+                                                        TextInput::make('precio')
+                                                            ->numeric()
+                                                            ->required()
+                                                            ->label('Precio'),
+                                                        Forms\Components\Toggle::make('estado')
+                                                            ->label('Estado')
+                                                            ->default(true)
+                                                            ->required(),
+
+                                                    ]
+                                                )->columns(2),
+                                            ]
+                                        )->columnSpan(2),
+
+
+
+                                    ])
                                     ->required(),
 
                                 DatePicker::make('fecha_inicio')
@@ -201,6 +261,10 @@ class EventoResource extends Resource
                                 TextInput::make('lugar')
                                     ->required()
                                     ->maxLength(255),
+                                Forms\Components\Toggle::make('estado')
+                                    ->label('Estado')
+                                    ->default(true)
+                                    ->required(),
 
                             ]
                         )->columnSpanFull(),
@@ -220,8 +284,8 @@ class EventoResource extends Resource
             ->columns([
                 TextColumn::make('nombre_evento')->sortable()->searchable(),
                 TextColumn::make('fecha_inicio')->sortable(),
-            
-                
+
+
             ])
             ->filters([
                 //

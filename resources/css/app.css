@@ -2,34 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
-@font-face {
-    font-family: 'SICOE UI';
-    src: url('fonts/SICOE-UI.woff2') format('woff2'),
-         url('fonts/SICOE-UI.woff') format('woff'),
-         url('fonts/SICOE-UI.ttf') format('truetype');
-    font-weight: 400; /* Peso regular */
-    font-style: normal; /* Estilo normal */
-}
-
-@font-face {
-    font-family: 'SICOE UI';
-    src: url('fonts/SICOE-UI-Bold.woff2') format('woff2'),
-         url('fonts/SICOE-UI-Bold.woff') format('woff'),
-         url('fonts/SICOE-UI-Bold.ttf') format('truetype');
-    font-weight: 700; /* Peso negrita */
-    font-style: normal; /* Estilo normal */
-}
-body {
-  font-family: 'SICOE UI', sans-serif; /* Asegúrate de incluir una fuente de respaldo */
-}
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'SICOE UI', sans-serif; /* Aplica SICOE UI a todos los encabezados */
-}
-
-p, span, a {
-  font-family: 'SICOE UI', sans-serif; /* Aplica SICOE UI a párrafos, spans y enlaces */
-}
 @keyframes fadeInUp {
     from {
       opacity: 0;

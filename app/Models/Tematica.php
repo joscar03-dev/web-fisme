@@ -5,17 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Precio extends Model
+class Tematica extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'tipo_asistente',
-        'precio',
-        'gratis',
+        'nombre',
+        'descripcion',
         'estado',
+
     ];
     public function eventos()
     {
-        return $this->belongsToMany(Evento::class, 'evento_precios', 'precio_id', 'evento_id');
+        return $this->belongsToMany(Evento::class, 'tematica_eventos', 'tematica_id', 'evento_id');
     }
+
 }

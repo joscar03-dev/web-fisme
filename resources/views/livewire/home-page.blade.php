@@ -48,6 +48,7 @@
 
         </div>
 
+
         <!-- Hero Section -->
         <div class="relative overflow-hidden">
             <div class="max-w-7xl mx-auto">
@@ -83,8 +84,8 @@
                                         {{ Str::limit($evento['descripcion_breve'], 150) }}
                                     </p>
                                     <div class="mt-5">
-                                        <a wire:key="{{ $evento->id }}"
-                                            href="{{ route('evento.detalle', $evento->id) }}"
+                                        <a wire:key="{{ $evento->slug }}"
+                                            href="{{ route('evento.detalle', $evento->slug) }}"
                                             class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-sm md:text-base font-medium rounded-md text-white bg-[#001f54e6] hover:bg-blue-500 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105">
                                             Inscríbete ahora
                                         </a>
@@ -183,7 +184,7 @@
     <!-- Countdown Timer Section -->
 
 
-    <section class="text-gray-600 body-font bg-gradient-to-r  to-indigo-50">
+    <section class="text-gray-600 body-font bg-gradient-to-r from-gray-100 to-indigo-50">
         @foreach ($eventos as $evento)
             <div class="container mx-auto py-16 px-4 sm:px-6 lg:px-8">
                 <div class="flex flex-col lg:flex-row items-center">
@@ -200,7 +201,7 @@
 
                     <!-- Detalles del evento -->
                     <div class="w-full lg:w-1/2 lg:pl-10">
-                        <h1 class="text-4xl font-extrabold mb-6 text-gray-800 leading-tight">
+                        <h1 class="text-4xl font-extrabold mb-6 text-gray-900 leading-tight">
                             {{ $evento->nombre_evento }}</h1>
                         <p class="text-xl mb-6 text-gray-600 leading-relaxed">{{ $evento->descripcion_breve }}</p>
 
@@ -210,7 +211,7 @@
                             <ul class="space-y-2">
                                 @foreach ($evento->organizadores as $organizador)
                                     <li class="flex items-center text-gray-600">
-                                        <svg class="w-5 h-5 mr-2 text-indigo-500" fill="currentColor"
+                                        <svg class="w-5 h-5 mr-2 text-[#00dffd]" fill="currentColor"
                                             viewBox="0 0 20 20">
                                             <path fill-rule="evenodd"
                                                 d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
@@ -226,7 +227,7 @@
                         <div class="mb-8">
                             <h2 class="text-2xl font-semibold text-gray-700 mb-3">Fechas:</h2>
                             <p class="flex items-center text-lg text-gray-600">
-                                <svg class="w-6 h-6 mr-2 text-indigo-500" fill="none" stroke="currentColor"
+                                <svg class="w-6 h-6 mr-2 text-[#00dffd]" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -237,52 +238,59 @@
                         </div>
 
                         <!-- Botón de inscripción -->
-                        <a href="{{ route('evento.detalle', $evento->slug) }}"
-                            class="inline-block bg-indigo-600 text-white text-lg font-semibold py-3 px-8 rounded-full hover:bg-indigo-700 transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">
+                        <a href="{{ route('evento.detalle', $evento->id) }}"
+                            class="inline-block bg-[#1d4570] text-white text-lg font-semibold py-3 px-8 rounded-full hover:bg-[#00dffd] transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#00dffd] focus:ring-opacity-50">
                             Inscríbete ahora
                         </a>
                     </div>
                 </div>
 
                 <!-- Ponentes y temas -->
-                <section class="text-gray-600 body-font bg-gradient-to-b from-gray-50 to-white">
+                <section class="mt-20">
                     <div class="container px-5 py-24 mx-auto">
-                        <div class="flex flex-col text-center w-full mb-20">
-                            <h2 class="text-xs text-indigo-500 tracking-widest font-medium title-font mb-1">EXPLORA
+                        <div class="text-center mb-20">
+                            <h2 class="text-xs text-[#00dffd] tracking-widest font-medium title-font mb-1">EXPLORA
                                 NUESTROS</h2>
-                            <h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900">Temas del Evento</h1>
-                            <p class="lg:w-2/3 mx-auto leading-relaxed text-base mt-4">
+                            <h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900 mb-4">Temas del Evento
+                            </h1>
+                            <p class="text-base leading-relaxed xl:w-2/4 lg:w-3/4 mx-auto text-gray-500">
                                 Descubre los fascinantes temas que abordaremos en nuestro evento. Desde tecnologías
                                 emergentes hasta tendencias innovadoras,
                                 nuestros expertos te guiarán a través de los avances más recientes en el mundo de la
                                 tecnología.
                             </p>
+                            <div class="flex mt-6 justify-center">
+                                <div class="w-16 h-1 rounded-full bg-[#00dffd] inline-flex"></div>
+                            </div>
                         </div>
 
-                        <div class="flex flex-wrap -m-4">
+                        <div class="flex flex-wrap justify-center -m-4">
                             @foreach ($evento->temas as $tema)
-                                <div class="lg:w-1/3 sm:w-1/2 p-4">
-                                    <div class="flex relative h-80">
-                                        <img alt="{{ $tema->nombre_tema }}"
-                                            class="absolute inset-0 w-full h-full object-cover object-center rounded-lg"
-                                            src="{{ url('storage', $tema->imagen) }}">
-                                        <div
-                                            class="px-8 py-10 relative z-10 w-full border-4 border-gray-200 bg-white opacity-0 hover:opacity-100 transition-opacity duration-300 rounded-lg overflow-hidden">
+                                <div class="p-4 md:w-1/2 lg:w-1/3">
+                                    <div
+                                        class="h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
+                                        <img class="lg:h-48 md:h-36 w-full object-cover object-center"
+                                            src="{{ url('storage', $tema->imagen) }}"
+                                            alt="{{ $tema->nombre_tema }}">
+                                        <div class="p-6">
                                             <h2
-                                                class="tracking-widest text-sm title-font font-medium text-indigo-500 mb-1">
+                                                class="tracking-widest text-xs title-font font-medium text-[#00dffd] mb-1">
                                                 {{ $tema->subtitulo_tema }}</h2>
                                             <h1 class="title-font text-lg font-medium text-gray-900 mb-3">
                                                 {{ $tema->nombre_tema }}</h1>
-                                            <p class="leading-relaxed line-clamp-3">{{ $tema->descripcion_tema }}</p>
-                                            <div class="mt-3 flex items-center text-indigo-500">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                    class="w-4 h-4 mr-1">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                </svg>
-                                                <span>{{ \Carbon\Carbon::parse($tema->hora_inicio)->format('H:i') }} -
-                                                    {{ \Carbon\Carbon::parse($tema->hora_fin)->format('H:i') }}</span>
+                                            <p class="leading-relaxed mb-3 line-clamp-3">{{ $tema->descripcion_tema }}
+                                            </p>
+                                            <div class="flex items-center flex-wrap">
+                                                <span class="text-[#1d4570] inline-flex items-center md:mb-2 lg:mb-0">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                        class="w-4 h-4 mr-1">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                    </svg>
+                                                    {{ \Carbon\Carbon::parse($tema->hora_inicio)->format('H:i') }} -
+                                                    {{ \Carbon\Carbon::parse($tema->hora_fin)->format('H:i') }}
+                                                </span>
                                             </div>
                                         </div>
                                     </div>
@@ -293,36 +301,38 @@
                         <!-- Ponentes -->
                         <div class="mt-20">
                             <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Nuestros Ponentes</h2>
-                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                            <div class="flex flex-wrap justify-center -mx-4">
                                 @foreach ($evento->temas as $tema)
                                     @foreach ($tema->ponentes as $ponente)
-                                        <div
-                                            class="bg-white rounded-xl shadow-lg overflow-hidden transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-2xl">
-                                            <div class="relative">
-                                                <img src="{{ url('storage', $ponente->imagen) }}"
-                                                    alt="Imagen de {{ $ponente->nombre }} {{ $ponente->apellidos }}"
-                                                    class="w-full h-48 object-cover">
-                                                <img src="{{ url('storage', $ponente->logo_pais) }}"
-                                                    alt="Bandera de {{ $ponente->pais }}"
-                                                    class="absolute bottom-2 right-2 w-10 h-10 rounded-full border-2 border-white shadow-sm"
-                                                    title="{{ $ponente->pais }}">
-                                            </div>
-                                            <div class="p-6">
-                                                <h4 class="text-xl font-semibold text-gray-800 mb-2">
-                                                    {{ $ponente->nombre }} {{ $ponente->apellidos }}</h4>
-                                                <p class="text-sm font-medium text-indigo-600 mb-2">
-                                                    {{ $ponente->institucion }}</p>
-                                                <p class="text-gray-600 text-sm leading-relaxed line-clamp-3 mb-4">
-                                                    {{ $ponente->biografia_breve }}</p>
-                                                <button
-                                                    class="text-indigo-600 hover:text-indigo-800 text-sm font-medium focus:outline-none focus:underline"
-                                                    onclick="toggleBio(this, '{{ $ponente->id }}')">
-                                                    Leer más
-                                                </button>
-                                                <p id="bio-{{ $ponente->id }}"
-                                                    class="hidden text-gray-600 text-sm leading-relaxed mt-2">
-                                                    {{ $ponente->biografia_completa }}
-                                                </p>
+                                        <div class="w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 px-4 mb-8">
+                                            <div
+                                                class="bg-white rounded-xl shadow-lg overflow-hidden transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-2xl">
+                                                <div class="relative">
+                                                    <img src="{{ url('storage', $ponente->imagen) }}"
+                                                        alt="Imagen de {{ $ponente->nombre }} {{ $ponente->apellidos }}"
+                                                        class="w-full h-48 object-cover">
+                                                    <img src="{{ url('storage', $ponente->logo_pais) }}"
+                                                        alt="Bandera de {{ $ponente->pais }}"
+                                                        class="absolute bottom-2 right-2 w-10 h-10 rounded-full border-2 border-white shadow-sm"
+                                                        title="{{ $ponente->pais }}">
+                                                </div>
+                                                <div class="p-6">
+                                                    <h4 class="text-xl font-semibold text-gray-800 mb-2">
+                                                        {{ $ponente->nombre }} {{ $ponente->apellidos }}</h4>
+                                                    <p class="text-sm font-medium text-[#00dffd] mb-2">
+                                                        {{ $ponente->institucion }}</p>
+                                                    <p class="text-gray-600 text-sm leading-relaxed line-clamp-3 mb-4">
+                                                        {{ $ponente->biografia_breve }}</p>
+                                                    <button
+                                                        class="text-[#1d4570] hover:text-[#00dffd] text-sm font-medium focus:outline-none focus:underline transition duration-300"
+                                                        onclick="toggleBio(this, '{{ $ponente->id }}')">
+                                                        Leer más
+                                                    </button>
+                                                    <p id="bio-{{ $ponente->id }}"
+                                                        class="hidden text-gray-600 text-sm leading-relaxed mt-2">
+                                                        {{ $ponente->biografia_completa }}
+                                                    </p>
+                                                </div>
                                             </div>
                                         </div>
                                     @endforeach
@@ -331,22 +341,242 @@
                         </div>
                     </div>
                 </section>
+            </div>
         @endforeach
-
-</section>
-
+    </section>
 
 
 
 
-<!-- Historia Section -->
 
-@livewire('partials.historia')
+    <!-- Historia Section -->
 
+    <!-- Contact -->
+    <div class="bg-gradient-to-r from-[#001f54] to-[#4b6587]">
+        <div class="max-w-5xl px-4 xl:px-0 py-10 lg:py-20 mx-auto">
+            <!-- Title -->
+            <div class="max-w-3xl mb-10 lg:mb-14">
+                <h2 class="text-white font-semibold text-2xl md:text-4xl md:leading-tight">Contáctanos</h2>
+                <p class="mt-1 text-gray-300">Cualquiera que sea tu objetivo - te ayudaremos a alcanzarlo.</p>
+            </div>
+            <!-- End Title -->
 
+            <!-- Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 lg:gap-x-16">
+                <div class="md:order-2 border-b border-gray-700 pb-10 mb-10 md:border-b-0 md:pb-0 md:mb-0">
+                    <form>
+                        <div class="space-y-4">
+                            <!-- Input -->
+                            <div class="relative">
+                                <input type="text" id="hs-tac-input-name"
+                                    class="peer p-4 block w-full bg-gray-800 border-transparent rounded-lg text-sm text-white placeholder:text-transparent focus:outline-none focus:ring-2 focus:ring-[#00dffd] focus:border-transparent disabled:opacity-50 disabled:pointer-events-none
+                focus:pt-6
+                focus:pb-2
+                [&:not(:placeholder-shown)]:pt-6
+                [&:not(:placeholder-shown)]:pb-2
+                autofill:pt-6
+                autofill:pb-2"
+                                    placeholder="Nombre">
+                                <label for="hs-tac-input-name"
+                                    class="absolute top-0 start-0 p-4 h-full text-gray-400 text-sm truncate pointer-events-none transition ease-in-out duration-300 border border-transparent peer-disabled:opacity-50 peer-disabled:pointer-events-none
+                  peer-focus:text-xs
+                  peer-focus:-translate-y-1.5
+                  peer-focus:text-[#00dffd]
+                  peer-[:not(:placeholder-shown)]:text-xs
+                  peer-[:not(:placeholder-shown)]:-translate-y-1.5
+                  peer-[:not(:placeholder-shown)]:text-[#00dffd]">Nombre</label>
+                            </div>
+                            <!-- End Input -->
 
+                            <!-- Input -->
+                            <div class="relative">
+                                <input type="email" id="hs-tac-input-email"
+                                    class="peer p-4 block w-full bg-gray-800 border-transparent rounded-lg text-sm text-white placeholder:text-transparent focus:outline-none focus:ring-2 focus:ring-[#00dffd] focus:border-transparent disabled:opacity-50 disabled:pointer-events-none
+                focus:pt-6
+                focus:pb-2
+                [&:not(:placeholder-shown)]:pt-6
+                [&:not(:placeholder-shown)]:pb-2
+                autofill:pt-6
+                autofill:pb-2"
+                                    placeholder="Email">
+                                <label for="hs-tac-input-email"
+                                    class="absolute top-0 start-0 p-4 h-full text-gray-400 text-sm truncate pointer-events-none transition ease-in-out duration-300 border border-transparent peer-disabled:opacity-50 peer-disabled:pointer-events-none
+                  peer-focus:text-xs
+                  peer-focus:-translate-y-1.5
+                  peer-focus:text-[#00dffd]
+                  peer-[:not(:placeholder-shown)]:text-xs
+                  peer-[:not(:placeholder-shown)]:-translate-y-1.5
+                  peer-[:not(:placeholder-shown)]:text-[#00dffd]">Email</label>
+                            </div>
+                            <!-- End Input -->
+
+                            <!-- Input -->
+                            <div class="relative">
+                                <input type="text" id="hs-tac-input-company"
+                                    class="peer p-4 block w-full bg-gray-800 border-transparent rounded-lg text-sm text-white placeholder:text-transparent focus:outline-none focus:ring-2 focus:ring-[#00dffd] focus:border-transparent disabled:opacity-50 disabled:pointer-events-none
+                focus:pt-6
+                focus:pb-2
+                [&:not(:placeholder-shown)]:pt-6
+                [&:not(:placeholder-shown)]:pb-2
+                autofill:pt-6
+                autofill:pb-2"
+                                    placeholder="Empresa">
+                                <label for="hs-tac-input-company"
+                                    class="absolute top-0 start-0 p-4 h-full text-gray-400 text-sm truncate pointer-events-none transition ease-in-out duration-300 border border-transparent peer-disabled:opacity-50 peer-disabled:pointer-events-none
+                  peer-focus:text-xs
+                  peer-focus:-translate-y-1.5
+                  peer-focus:text-[#00dffd]
+                  peer-[:not(:placeholder-shown)]:text-xs
+                  peer-[:not(:placeholder-shown)]:-translate-y-1.5
+                  peer-[:not(:placeholder-shown)]:text-[#00dffd]">Empresa</label>
+                            </div>
+                            <!-- End Input -->
+
+                            <!-- Input -->
+                            <div class="relative">
+                                <input type="text" id="hs-tac-input-phone"
+                                    class="peer p-4 block w-full bg-gray-800 border-transparent rounded-lg text-sm text-white placeholder:text-transparent focus:outline-none focus:ring-2 focus:ring-[#00dffd] focus:border-transparent disabled:opacity-50 disabled:pointer-events-none
+                focus:pt-6
+                focus:pb-2
+                [&:not(:placeholder-shown)]:pt-6
+                [&:not(:placeholder-shown)]:pb-2
+                autofill:pt-6
+                autofill:pb-2"
+                                    placeholder="Teléfono">
+                                <label for="hs-tac-input-phone"
+                                    class="absolute top-0 start-0 p-4 h-full text-gray-400 text-sm truncate pointer-events-none transition ease-in-out duration-300 border border-transparent peer-disabled:opacity-50 peer-disabled:pointer-events-none
+                  peer-focus:text-xs
+                  peer-focus:-translate-y-1.5
+                  peer-focus:text-[#00dffd]
+                  peer-[:not(:placeholder-shown)]:text-xs
+                  peer-[:not(:placeholder-shown)]:-translate-y-1.5
+                  peer-[:not(:placeholder-shown)]:text-[#00dffd]">Teléfono</label>
+                            </div>
+                            <!-- End Input -->
+
+                            <!-- Textarea -->
+                            <div class="relative">
+                                <textarea id="hs-tac-message"
+                                    class="peer p-4 block w-full bg-gray-800 border-transparent rounded-lg text-sm text-white placeholder:text-transparent focus:outline-none focus:ring-2 focus:ring-[#00dffd] focus:border-transparent disabled:opacity-50 disabled:pointer-events-none
+                focus:pt-6
+                focus:pb-2
+                [&:not(:placeholder-shown)]:pt-6
+                [&:not(:placeholder-shown)]:pb-2
+                autofill:pt-6
+                autofill:pb-2"
+                                    placeholder="Cuéntanos sobre tu proyecto"></textarea>
+                                <label for="hs-tac-message"
+                                    class="absolute top-0 start-0 p-4 h-full text-gray-400 text-sm truncate pointer-events-none transition ease-in-out duration-300 border border-transparent peer-disabled:opacity-50 peer-disabled:pointer-events-none
+                  peer-focus:text-xs
+                  peer-focus:-translate-y-1.5
+                  peer-focus:text-[#00dffd]
+                  peer-[:not(:placeholder-shown)]:text-xs
+                  peer-[:not(:placeholder-shown)]:-translate-y-1.5
+                  peer-[:not(:placeholder-shown)]:text-[#00dffd]">Cuéntanos
+                                    sobre tu proyecto</label>
+                            </div>
+                            <!-- End Textarea -->
+                        </div>
+
+                        <div class="mt-2">
+                            <p class="text-xs text-gray-400">
+                                Todos los campos son obligatorios
+                            </p>
+
+                            <p class="mt-5">
+                                <a class="group inline-flex items-center gap-x-2 py-2 px-3 bg-[#00dffd] font-medium text-sm text-[#1d4570] rounded-full transition duration-300 ease-in-out hover:bg-[#1d4570] hover:text-[#00dffd] focus:outline-none focus:ring-2 focus:ring-[#00dffd] focus:ring-offset-2 focus:ring-offset-gray-900"
+                                    href="#">
+                                    Enviar
+                                    <svg class="shrink-0 size-4 transition duration-300 ease-in-out group-hover:translate-x-1"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M5 12h14" />
+                                        <path d="m12 5 7 7-7 7" />
+                                    </svg>
+                                </a>
+                            </p>
+                        </div>
+                    </form>
+                </div>
+                <!-- End Col -->
+
+                <div class="space-y-14">
+                    <!-- Item -->
+                    <div class="flex gap-x-5">
+                        <svg class="shrink-0 size-6 text-[#00dffd]" xmlns="http://www.w3.org/2000/svg" width="24"
+                            height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+                            <circle cx="12" cy="10" r="3" />
+                        </svg>
+                        <div class="grow">
+                            <h4 class="text-white font-semibold">Nuestra dirección:</h4>
+
+                            <address class="mt-1 text-gray-300 text-sm not-italic">
+                                300 Bath Street, Tay House<br>
+                                Glasgow G2 4JR, United Kingdom
+                            </address>
+                        </div>
+                    </div>
+                    <!-- End Item -->
+
+                    <!-- Item -->
+                    <div class="flex gap-x-5">
+                        <svg class="shrink-0 size-6 text-[#00dffd]" xmlns="http://www.w3.org/2000/svg" width="24"
+                            height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M21.2 8.4c.5.38.8.97.8 1.6v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V10a2 2 0 0 1 .8-1.6l8-6a2 2 0 0 1 2.4 0l8 6Z" />
+                            <path d="m22 10-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 10" />
+                        </svg>
+                        <div class="grow">
+                            <h4 class="text-white font-semibold">Envíanos un email:</h4>
+
+                            <a class="mt-1 text-gray-300 text-sm hover:text-[#00dffd] transition duration-300 ease-in-out focus:outline-none focus:text-[#00dffd]"
+                                href="mailto:hello@example.so" target="_blank">
+                                hello@example.so
+                            </a>
+                        </div>
+                    </div>
+                    <!-- End Item -->
+
+                    <!-- Item -->
+                    <div class="flex gap-x-5">
+                        <svg class="shrink-0 size-6 text-[#00dffd]" xmlns="http://www.w3.org/2000/svg" width="24"
+                            height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m3 11 18-5v12L3 14v-3z" />
+                            <path d="M11.6 16.8a3 3 0 1 1-5.8-1.6" />
+                        </svg>
+                        <div class="grow">
+                            <h4 class="text-white font-semibold">Estamos contratando</h4>
+                            <p class="mt-1 text-gray-300">Nos complace anunciar que estamos expandiendo nuestro equipo
+                                y buscamos personas talentosas como tú para unirse a nosotros.</p>
+                            <p class="mt-2">
+                                <a class="group inline-flex items-center gap-x-2 font-medium text-sm text-[#00dffd] decoration-2 hover:underline focus:outline-none focus:underline transition duration-300 ease-in-out"
+                                    href="#">
+                                    Ofertas de trabajo
+                                    <svg class="shrink-0 size-4 transition duration-300 ease-in-out group-hover:translate-x-1"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M5 12h14" />
+                                        <path d="m12 5 7 7-7 7" />
+                                    </svg>
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                    <!-- End Item -->
+                </div>
+                <!-- End Col -->
+            </div>
+            <!-- End Grid -->
+        </div>
+    </div>
+    <!-- End Contact -->
 </div>
-
 <script src="https://cdn.jsdelivr.net"></script>
 
 <script>
@@ -412,4 +642,33 @@
             button.textContent = 'Leer más';
         }
     }
+    (function() {
+        function textareaAutoHeight(el, offsetTop = 0) {
+            el.style.height = 'auto';
+            el.style.height = `${el.scrollHeight + offsetTop}px`;
+        }
+
+        (function() {
+            const textareas = [
+                '#hs-tac-message'
+            ];
+
+            textareas.forEach((el) => {
+                const textarea = document.querySelector(el);
+                const overlay = textarea.closest('.hs-overlay');
+
+                if (overlay) {
+                    const {
+                        element
+                    } = HSOverlay.getInstance(overlay, true);
+
+                    element.on('open', () => textareaAutoHeight(textarea, 3));
+                } else textareaAutoHeight(textarea, 3);
+
+                textarea.addEventListener('input', () => {
+                    textareaAutoHeight(textarea, 3);
+                });
+            });
+        })();
+    })()
 </script>

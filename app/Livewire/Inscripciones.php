@@ -21,9 +21,10 @@ class Inscripciones extends Component
     public $evento_id;
 
     public $eventos;
+    public $eventoSeleccionado;
 
     protected $rules = [
-        'tipo_documento' => 'required|in:DNI,CE,Pasaporte',
+        'tipo_documento' => 'required',
         'numero_documento' => 'required|min:8|max:15',
         'nombres' => 'required|min:2',
         'apellidos' => 'required|min:2',
@@ -32,9 +33,15 @@ class Inscripciones extends Component
         'img_boucher' => 'required|image|max:1024', // max 1MB
         'evento_id' => 'required|exists:eventos,id',
     ];
+
     public function mount()
     {
         $this->eventos = Evento::where('estado', true)->get();
+    }
+
+    public function updatedEventoId($value)
+    {
+        $this->eventoSeleccionado = Evento::find($value);
     }
 
     public function register()
@@ -55,6 +62,7 @@ class Inscripciones extends Component
         ]);
 
         $this->reset(['tipo_documento', 'numero_documento', 'nombres', 'apellidos', 'numero_celular', 'email', 'img_boucher', 'evento_id']);
+        $this->eventoSeleccionado = null;
         session()->flash('message', '¡Registro exitoso! Tu inscripción está siendo procesada.');
     }
     public function render()

@@ -32,10 +32,10 @@ class Registrarse extends Component
         'img_boucher' => 'required|image|max:1024', // max 1MB
     ];
 
-    public function mount($eventoId)
+    public function mount($slug)
     {
-        $this->evento_id = $eventoId;
-        $this->evento = Evento::findOrFail($eventoId);
+        $this->evento_id = $slug;
+        $this->evento = Evento::where('slug', $slug)->firstOrFail();;
     }
 
     public function updatedImgBoucher()

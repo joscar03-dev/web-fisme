@@ -22,7 +22,6 @@ class Evento extends Model
         'tipo_evento',
         'area_evento',
         'descripcion_breve',
-        'precio_inscripcion',
         'imagen_banner',
         'imagen_catalogo',
         'video_banner',
@@ -35,7 +34,7 @@ class Evento extends Model
     ];
     public function getRouteKeyName()
     {
-        return 'tipo_evento'; // O cualquier otro campo que estés usando para buscar
+        return 'slug';
     }
 
     public function scopeUpcoming($query)
@@ -59,8 +58,8 @@ class Evento extends Model
         return $this->hasMany(Temas::class, 'evento_id'); // Asegúrate que 'evento_id' es la columna correcta
     }
 
-    
-    
+
+
     public function registros()
     {
         return $this->hasMany(Resgistro::class);
@@ -77,15 +76,30 @@ class Evento extends Model
     {
         return $this->belongsToMany(Patrocinadores::class, 'evento_has_patrocinadores', 'evento_id', 'patrocinador_id');
     }
+    public function precios()
+    {
+        return $this->belongsToMany(Precio::class, 'evento_precios', 'evento_id', 'precio_id');
+    }
+    public function tematicas()
+    {
+        return $this->belongsToMany(Tematica::class, 'tematica_eventos', 'evento_id', 'tematica_id');
+    }
+    public function lugar()
+    {
+        return $this->belongsToMany(LugarEvento::class, 'evento_lugars', 'evento_id', 'lugar_evento_id');
+    }
+    public function partners()
+    {
+        return $this->belongsToMany(Partner::class, 'evento_partners', 'evento_id', 'partner_id');
+    }
 
     public function getHoraInicioAttribute($value)
     {
         return Carbon::createFromFormat('H:i:s', $value);
     }
-    
+
     public function getHoraSalidaAttribute($value)
     {
         return Carbon::createFromFormat('H:i:s', $value);
     }
-    
 }

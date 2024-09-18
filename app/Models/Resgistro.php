@@ -12,7 +12,6 @@ class Resgistro extends Model
     protected $table = 'registros';
     protected $fillable = [
         'tipo_documento',
-        'slug',
         'numero_documento',
         'nombres',
         'apellidos',

@@ -28,20 +28,31 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', HomePage::class)->name('home');
-Route::get('/evento/{id}', Evento::class)->name('evento.detalle');
-Route::get('/eventos', Eventos::class)->name('eventos');
-
+Route::get('/evento/{slug}', Evento::class)->name('evento.detalle');
 Route::get('/agenda', Agenda::class)->name('agenda');
 Route::get('/organizadores', Organizadores::class)->name('organizadores');
+
 Route::get('/contact', Contact::class)->name('contacto');
 // Route::get('/', HomePage::class);
 Route::get('/inscripcion', Inscripciones::class)->name('inscripcion');
-Route::get('/event-registration/{eventoId}', Registrarse::class)->name('event.registration');
+Route::get('/event-registration/{slug}', Registrarse::class)->name('event.registration');
+
+
 Route::post('/asistencias/store', [EscanearAsistenciaPage::class, 'registerAsistencia'])
     ->name('filament.asistencias.store');
 Route::get('/lector-asistencias', LectorAsistencias::class)->name('lector.asistencias');
 Route::get('/event/{id}', [Registrarse::class, 'show'])->name('event.show');
-Route::post('/enviar-correo/{id}', function($id) {
+
+Route::get('/cookies/policy', function () {
+    return view('cookies.policy');
+})->name('cookies.policy');
+
+Route::get('/cookies/manage', function () {
+    return view('cookies.manage');
+})->name('cookies.manage');
+
+
+Route::post('/enviar-correo/{id}', function ($id) {
     $registro = Resgistro::findOrFail($id);
     $page = new TicketQrPage();
     $page->mount($registro);
@@ -51,6 +62,4 @@ Route::post('/enviar-correo/{id}', function($id) {
 Route::get('/prueba', function () {
     Mail::to('7583976221@untrm.edu.pe')->send(new PruebaMailable);
     return "Mensaje Enviado";
-
 })->name('prueba');
-

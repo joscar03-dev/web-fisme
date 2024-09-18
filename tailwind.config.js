@@ -1,14 +1,23 @@
 /** @type {import('tailwindcss').Config} */
 export default {
     content: [
-        "./resources/**/*.blade.php",
-        "./resources/**/*.js",
-        "./resources/**/*.vue",
-        "./resources/**/*.php",
-        
+    
+      "./resources/**/*.blade.php",
+      "./resources/**/*.js",
+      "./resources/**/*.vue",
+      'node_modules/preline/dist/*.js',
     ],
+   darkMode:'class',
     theme: {
-        extend: {},
+        extend: {
+            fontFamily: {
+              'sans': ['Poppins', 'sans-serif'],
+              'poppins': ['Poppins', 'sans-serif'],
+            },
+          },
     },
-    plugins: [],
-};
+    plugins: [
+      // require('@tailwindcss/forms'),
+      require('preline/plugin'),
+    ],
+  }
