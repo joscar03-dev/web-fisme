@@ -238,7 +238,7 @@
                         </div>
 
                         <!-- Botón de inscripción -->
-                        <a href="{{ route('evento.detalle', $evento->id) }}"
+                        <a href="#"
                             class="inline-block bg-[#1d4570] text-white text-lg font-semibold py-3 px-8 rounded-full hover:bg-[#00dffd] transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#00dffd] focus:ring-opacity-50">
                             Inscríbete ahora
                         </a>
@@ -246,7 +246,7 @@
                 </div>
 
                 <!-- Ponentes y temas -->
-                <section class="mt-20">
+                {{-- <section class="mt-20">
                     <div class="container px-5 py-24 mx-auto">
                         <div class="text-center mb-20">
                             <h2 class="text-xs text-[#00dffd] tracking-widest font-medium title-font mb-1">EXPLORA
@@ -340,7 +340,7 @@
                             </div>
                         </div>
                     </div>
-                </section>
+                </section> --}}
             </div>
         @endforeach
     </section>

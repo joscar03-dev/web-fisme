@@ -5,41 +5,76 @@ namespace App\Filament\Resources\ResgistroResource\Pages;
 use App\Filament\Resources\ResgistroResource;
 use App\Mail\ConfirmacionInscripcionMailable;
 use App\Models\Resgistro;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\Page;
 use Illuminate\Support\Facades\Mail;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class TicketQrPage extends Page
-{  public Resgistro $record;
+{  public ?Resgistro $record = null;
     protected static string $resource = ResgistroResource::class;
     protected static string $view = 'filament.resources.resgistro-resource.pages.ticket-qr-page';
 
-    public function mount(Resgistro $record)
+    public function mount($record): void
     {
         $this->record = $record;
     }
 
     public function getQRCode()
-    {
-        return QrCode::size(200)->generate($this->record->numero_documento);
+    {if (!$this->record) {
+        return '';
+    }
+    return QrCode::size(200)->generate($this->record->numero_documento);
+
     }
 
-    // Método para enviar el ticket por correo y actualizar el estado de verificación
-    public function enviarCorreo( )
+ 
+    public function enviarCorreo()
     {
+        if (!$this->record) {
+            Notification::make()
+                ->title('Error')
+                ->body('No se pudo encontrar el registro.')
+                ->danger()
+                ->send();
+            return;
+        }
+    
         try {
-            // Enviar correo con la confirmación
-            Mail::to($this->record->email)->send(new ConfirmacionInscripcionMailable($this->record));
-
-            // Actualizar el estado de verificación en la base de datos
+            $qrCode = $this->getQRCode();
+    
+            Mail::to($this->record->email)
+                ->send(new ConfirmacionInscripcionMailable($this->record));
+    
+            // Attach QR code after sending the email
+            if ($qrCode) {
+                $tempFile = tempnam(sys_get_temp_dir(), 'qr_code');
+                file_put_contents($tempFile, $qrCode);
+                
+                Mail::to($this->record->email)
+                    ->send((new ConfirmacionInscripcionMailable($this->record))
+                        ->attach($tempFile, [
+                            'as' => 'qr-code.png',
+                            'mime' => 'image/png',
+                        ]));
+                
+                unlink($tempFile);
+            }
+    
             $this->record->verificado = true;
             $this->record->save();
-            // Mostrar un mensaje de éxito
-            session()->flash('message', 'Correo enviado exitosamente y el estado de verificación ha sido actualizado.');
-
+    
+            Notification::make()
+                ->title('Éxito')
+                ->body('Correo enviado exitosamente y el estado de verificación ha sido actualizado.')
+                ->success()
+                ->send();
         } catch (\Exception $e) {
-            // En caso de error, mostrar un mensaje de error
-            session()->flash('error', 'Hubo un error al enviar el correo: ' . $e->getMessage());
+            Notification::make()
+                ->title('Error')
+                ->body('Hubo un error al enviar el correo: ' . $e->getMessage())
+                ->danger()
+                ->send();
         }
     }
 }

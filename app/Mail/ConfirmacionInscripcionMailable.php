@@ -6,7 +6,6 @@ use App\Models\Resgistro;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
-use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
@@ -14,28 +13,32 @@ use Illuminate\Queue\SerializesModels;
 class ConfirmacionInscripcionMailable extends Mailable
 {
     use Queueable, SerializesModels;
+    public $registro;
 
-    public Resgistro $resgistro;
-
-    /**
-     * Create a new message instance.
-     */
-    public function __construct(Resgistro $resgistro)
+    public function __construct(Resgistro $registro)
     {
-        $this->resgistro = $resgistro;
+        $this->registro = $registro;
     }
 
-    /**
-     * Build the message.
-     */
-    
-    public function build()
+    public function envelope(): Envelope
     {
-        return $this->view('emails.ticket-qr') // Vista del correo
-            ->from(new Address($this->resgistro->email, $this->resgistro->evento->nombre_evento)) // Corregido: $this->resgistro
-            ->subject('Confirmación de Inscripción al Evento') // Asunto del correo
-            ->with([
-                'record' => $this->resgistro, // Pasamos el registro a la vista
-            ]);
+        return new Envelope(
+            subject: 'Confirmación de Inscripción',
+        );
+    }
+
+    public function content(): Content
+    {
+        return new Content(
+            view: 'emails.confirmacion-inscripcion',
+            with: [
+                'registro' => $this->registro,
+            ],
+        );
+    }
+
+    public function attachments(): array
+    {
+        return [];
     }
 }

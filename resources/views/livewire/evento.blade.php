@@ -47,14 +47,26 @@
                 </div>
     
                 <!-- Modalidad del Evento -->
+             
                 <div class="bg-opacity-20 bg-white backdrop-filter backdrop-blur-lg rounded-lg p-4 shadow-lg inline-block">
-                    <p class="text-lg font-semibold">
-                        Modalidad del Evento:
-                        <span class="text-yellow-300">Presencial</span> y
-                        <span class="text-green-300">Virtual</span>
-                    </p>
+                    <div class="flex items-center justify-between">
+                        <p class="text-lg font-semibold mr-4">
+                            Modalidad del Evento:
+                            <span class="text-yellow-300 ml-2">Presencial</span> y
+                            <span class="text-green-300 ml-2">Virtual</span>
+                        </p>
+                        <a href="" 
+                           target="_blank" 
+                           class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-blue-500 hover:bg-blue-600 rounded-md shadow-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 h-4 w-4">
+                                <polygon points="23 7 16 12 23 17 23 7"></polygon>
+                                <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
+                            </svg>
+                            Ver en vivo
+                        </a>
+                    </div>
                 </div>
-    
+                
                 <!-- Botones de acción -->
                 <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4 mt-8">
                     <a href="{{ route('event.registration', ['slug' => $evento->slug]) }}" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-full shadow-lg transition duration-300 transform hover:scale-105 flex items-center justify-center text-lg">
@@ -175,9 +187,9 @@
                         :class="{ 'translate-y-0 opacity-100': topicsInView, 'translate-y-full opacity-0': !topicsInView }"
                         :style="transition - delay: $ { index * 100 } ms">
                         <div class="h-2 bg-gradient-to-r from-blue-500 to-[#00dffd]"></div>
-                        <div class="p-4">
-                            <h3 class="text-lg font-semibold text-[#1d4570] mb-2" x-text="topic.title"></h3>
-                            <p class="text-sm text-gray-600" x-text="topic.description"></p>
+                        <div class="p-4 self-auto">
+                            <h3 class="text-lg  font-semibold text-[#1d4570] mb-2" x-text="topic.title"></h3>
+                            {{-- <p class="text-sm text-gray-600" x-text="topic.description"></p> --}}
                         </div>
                     </div>
                 </template>
@@ -301,10 +313,124 @@
         <div class="container px-5 py-24 mx-auto">
             <!-- Título de la sección -->
             <div class="flex flex-col text-center w-full mb-20">
-                <h1 class="sm:text-4xl text-3xl font-bold title-font mb-4 text-[#1d4570]">Precios del Evento Académico
+                <h1 class="sm:text-4xl text-3xl font-bold title-font mb-4 text-[#1d4570]">Inversión para el Evento Académico
                 </h1>
                 <p class="lg:w-2/3 mx-auto leading-relaxed text-base text-gray-600">Selecciona tu tipo de asistente
                     para conocer el precio. ¡Aprovecha nuestras tarifas especiales!</p>
+                    <div class="flex justify-center">
+                        <!-- Botón para abrir el modal -->
+                        <button type="button"
+                            class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium  border-transparent text-white bg-[#1d4570]  w-30% focus:outline-none hover:bg-[#00dffd] rounded transition-colors duration-300 ease-in-outdisabled:opacity-50 disabled:pointer-events-none"
+                            aria-haspopup="dialog" aria-expanded="false" aria-controls="hs-small-modal"
+                            data-hs-overlay="#hs-small-modal">
+                            Cómo realizar el proceso de pago
+                        </button>
+                        <div id="hs-small-modal"
+                            class="hs-overlay hs-overlay-backdrop-open:bg-blue-950/90 hidden size-full fixed top-0 start-0 z-[80] overflow-x-hidden overflow-y-auto pointer-events-none dark:hs-overlay-backdrop-open:bg-blue-950/90"
+                            role="dialog" tabindex="-1" aria-labelledby="hs-custom-backdrop-label">
+                            <div
+                                class="hs-overlay-open:mt-7 hs-overlay-open:opacity-100 hs-overlay-open:duration-500 mt-0 opacity-0 ease-out transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto">
+                                <div
+                                    class="flex flex-col bg-white border shadow-sm rounded-xl pointer-events-auto dark:bg-neutral-800 dark:border-neutral-700 dark:shadow-neutral-700/70">
+                                    <div class="flex justify-between items-center py-3 px-4 border-b dark:border-neutral-700">
+                                        <h3 class="font-bold text-gray-800 dark:text-white text-xl">
+                                            Pasos para la Inscripción
+                                        </h3>
+                                        <button type="button"
+                                            class="size-8 inline-flex justify-center items-center gap-x-2 rounded-full border border-transparent bg-gray-100 text-gray-800 hover:bg-gray-200 focus:outline-none focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-700 dark:hover:bg-neutral-600 dark:text-neutral-400 dark:focus:bg-neutral-600"
+                                            aria-label="Close" data-hs-overlay="#hs-small-modal">
+                                            <span class="sr-only">Close</span>
+                                            <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24"
+                                                height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M18 6 6 18"></path>
+                                                <path d="m6 6 12 12"></path>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    <div class="p-4 overflow-y-auto max-h-[70vh]">
+                                        <ol class="relative border-l border-blue-500 space-y-8 ml-3">
+                                            <li class="mb-10 ml-6">
+                                                <span
+                                                    class="absolute flex items-center justify-center w-8 h-8 bg-blue-500 rounded-full -left-4 ring-4 ring-white">
+                                                    <span class="text-white text-lg font-bold">1</span>
+                                                </span>
+                                                <h3 class="mb-2 text-lg font-semibold text-gray-900">Realizar el depósito</h3>
+                                                <p class="text-base text-gray-700">
+                                                    Deposita el monto de inscripción a las siguientes cuentas de la UNTRM:
+                                                </p>
+                                                <ul class="mt-2 list-disc list-inside text-base text-gray-700">
+                                                    <li>Banco de la Nación-CTA CTE 00261022419
+                                                    </li>
+                                                    <li>Banco de la Nación-CCI 01826100026102241984
+        
+                                                    </li>
+                                                    <li>BANCO DE CRÉDITO -CTA CTE: 290-4216956-0-05
+        
+                                                    </li>
+                                                    <li>BANCO DE CRÉDITO - CCI : 002 290 00421695600 551
+        
+                                                    </li>
+                                                </ul>
+                                                <img src="/placeholder.svg?height=150&width=300"
+                                                    alt="Imagen de depósito bancario" class="mt-3 rounded-lg shadow-md">
+                                            </li>
+                                            <li class="mb-10 ml-6">
+                                                <span
+                                                    class="absolute flex items-center justify-center w-8 h-8 bg-blue-500 rounded-full -left-4 ring-4 ring-white">
+                                                    <span class="text-white text-lg font-bold">2</span>
+                                                </span>
+                                                <h3 class="mb-2 text-lg font-semibold text-gray-900">Ingresar a la página del
+                                                    evento</h3>
+                                                    
+                                                <p class="text-base text-gray-700">
+                                                    Visita la página oficial del evento y haz clic en el botón "Inscribirse".
+                                                </p>
+                                                <img src="/placeholder.svg?height=150&width=300"
+                                                    alt="Imagen de la página del evento" class="mt-3 rounded-lg shadow-md">
+                                            </li>
+                                            <li class="mb-10 ml-6">
+                                                <span
+                                                    class="absolute flex items-center justify-center w-8 h-8 bg-blue-500 rounded-full -left-4 ring-4 ring-white">
+                                                    <span class="text-white text-lg font-bold">3</span>
+                                                </span>
+                                                <h3 class="mb-2 text-lg font-semibold text-gray-900">Registrar tus datos</h3>
+                                                <p class="text-base text-gray-700">
+                                                    Completa el formulario de inscripción con tus datos personales y de
+                                                    contacto.
+                                                </p>
+                                                <img src="/placeholder.svg?height=150&width=300"
+                                                    alt="Imagen de formulario de registro" class="mt-3 rounded-lg shadow-md">
+                                            </li>
+                                            <li class="ml-6">
+                                                <span
+                                                    class="absolute flex items-center justify-center w-8 h-8 bg-blue-500 rounded-full -left-4 ring-4 ring-white">
+                                                    <span class="text-white text-lg font-bold">4</span>
+                                                </span>
+                                                <h3 class="mb-2 text-lg font-semibold text-gray-900">Cargar el comprobante de
+                                                    pago</h3>
+                                                <p class="text-base text-gray-700">
+                                                    En la sección de carga de imagen, sube una foto clara del comprobante de
+                                                    depósito.
+                                                </p>
+                                                <img src="/placeholder.svg?height=150&width=300"
+                                                    alt="Imagen de carga de comprobante" class="mt-3 rounded-lg shadow-md">
+                                            </li>
+                                        </ol>
+                                    </div>
+                                    <div
+                                        class="flex justify-end items-center gap-x-2 py-3 px-4 border-t dark:border-neutral-700">
+                                        <button type="button"
+                                            class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                                            data-hs-overlay="#hs-small-modal">
+                                            Cerrar
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+        
+                    </div>
             </div>
 
             <!-- Sección de tarjetas de precios -->
@@ -598,120 +724,7 @@
                     </div>
                 </div>
             </div>
-            <div class="flex justify-center">
-                <!-- Botón para abrir el modal -->
-                <button type="button"
-                    class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium  border-transparent text-white bg-[#1d4570]  w-30% focus:outline-none hover:bg-[#00dffd] rounded transition-colors duration-300 ease-in-outdisabled:opacity-50 disabled:pointer-events-none"
-                    aria-haspopup="dialog" aria-expanded="false" aria-controls="hs-small-modal"
-                    data-hs-overlay="#hs-small-modal">
-                    Cómo realizar el pago
-                </button>
-                <div id="hs-small-modal"
-                    class="hs-overlay hs-overlay-backdrop-open:bg-blue-950/90 hidden size-full fixed top-0 start-0 z-[80] overflow-x-hidden overflow-y-auto pointer-events-none dark:hs-overlay-backdrop-open:bg-blue-950/90"
-                    role="dialog" tabindex="-1" aria-labelledby="hs-custom-backdrop-label">
-                    <div
-                        class="hs-overlay-open:mt-7 hs-overlay-open:opacity-100 hs-overlay-open:duration-500 mt-0 opacity-0 ease-out transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto">
-                        <div
-                            class="flex flex-col bg-white border shadow-sm rounded-xl pointer-events-auto dark:bg-neutral-800 dark:border-neutral-700 dark:shadow-neutral-700/70">
-                            <div class="flex justify-between items-center py-3 px-4 border-b dark:border-neutral-700">
-                                <h3 class="font-bold text-gray-800 dark:text-white text-xl">
-                                    Pasos para la Inscripción
-                                </h3>
-                                <button type="button"
-                                    class="size-8 inline-flex justify-center items-center gap-x-2 rounded-full border border-transparent bg-gray-100 text-gray-800 hover:bg-gray-200 focus:outline-none focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-700 dark:hover:bg-neutral-600 dark:text-neutral-400 dark:focus:bg-neutral-600"
-                                    aria-label="Close" data-hs-overlay="#hs-small-modal">
-                                    <span class="sr-only">Close</span>
-                                    <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24"
-                                        height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M18 6 6 18"></path>
-                                        <path d="m6 6 12 12"></path>
-                                    </svg>
-                                </button>
-                            </div>
-                            <div class="p-4 overflow-y-auto max-h-[70vh]">
-                                <ol class="relative border-l border-blue-500 space-y-8 ml-3">
-                                    <li class="mb-10 ml-6">
-                                        <span
-                                            class="absolute flex items-center justify-center w-8 h-8 bg-blue-500 rounded-full -left-4 ring-4 ring-white">
-                                            <span class="text-white text-lg font-bold">1</span>
-                                        </span>
-                                        <h3 class="mb-2 text-lg font-semibold text-gray-900">Realizar el depósito</h3>
-                                        <p class="text-base text-gray-700">
-                                            Deposita el monto de inscripción a las siguientes cuentas de la UNTRM:
-                                        </p>
-                                        <ul class="mt-2 list-disc list-inside text-base text-gray-700">
-                                            <li>Banco de la Nación-CTA CTE 00261022419
-                                            </li>
-                                            <li>Banco de la Nación-CCI 01826100026102241984
-
-                                            </li>
-                                            <li>BANCO DE CRÉDITO -CTA CTE: 290-4216956-0-05
-
-                                            </li>
-                                            <li>BANCO DE CRÉDITO - CCI : 002 290 00421695600 551
-
-                                            </li>
-                                        </ul>
-                                        <img src="/placeholder.svg?height=150&width=300"
-                                            alt="Imagen de depósito bancario" class="mt-3 rounded-lg shadow-md">
-                                    </li>
-                                    <li class="mb-10 ml-6">
-                                        <span
-                                            class="absolute flex items-center justify-center w-8 h-8 bg-blue-500 rounded-full -left-4 ring-4 ring-white">
-                                            <span class="text-white text-lg font-bold">2</span>
-                                        </span>
-                                        <h3 class="mb-2 text-lg font-semibold text-gray-900">Ingresar a la página del
-                                            evento</h3>
-                                            
-                                        <p class="text-base text-gray-700">
-                                            Visita la página oficial del evento y haz clic en el botón "Inscribirse".
-                                        </p>
-                                        <img src="/placeholder.svg?height=150&width=300"
-                                            alt="Imagen de la página del evento" class="mt-3 rounded-lg shadow-md">
-                                    </li>
-                                    <li class="mb-10 ml-6">
-                                        <span
-                                            class="absolute flex items-center justify-center w-8 h-8 bg-blue-500 rounded-full -left-4 ring-4 ring-white">
-                                            <span class="text-white text-lg font-bold">3</span>
-                                        </span>
-                                        <h3 class="mb-2 text-lg font-semibold text-gray-900">Registrar tus datos</h3>
-                                        <p class="text-base text-gray-700">
-                                            Completa el formulario de inscripción con tus datos personales y de
-                                            contacto.
-                                        </p>
-                                        <img src="/placeholder.svg?height=150&width=300"
-                                            alt="Imagen de formulario de registro" class="mt-3 rounded-lg shadow-md">
-                                    </li>
-                                    <li class="ml-6">
-                                        <span
-                                            class="absolute flex items-center justify-center w-8 h-8 bg-blue-500 rounded-full -left-4 ring-4 ring-white">
-                                            <span class="text-white text-lg font-bold">4</span>
-                                        </span>
-                                        <h3 class="mb-2 text-lg font-semibold text-gray-900">Cargar el comprobante de
-                                            pago</h3>
-                                        <p class="text-base text-gray-700">
-                                            En la sección de carga de imagen, sube una foto clara del comprobante de
-                                            depósito.
-                                        </p>
-                                        <img src="/placeholder.svg?height=150&width=300"
-                                            alt="Imagen de carga de comprobante" class="mt-3 rounded-lg shadow-md">
-                                    </li>
-                                </ol>
-                            </div>
-                            <div
-                                class="flex justify-end items-center gap-x-2 py-3 px-4 border-t dark:border-neutral-700">
-                                <button type="button"
-                                    class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
-                                    data-hs-overlay="#hs-small-modal">
-                                    Cerrar
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
+            
 
 
         </div>
@@ -755,7 +768,7 @@
                         Auditorio de la Facultad de Ingeniería de Sistemas y Mecánica Eléctrica - UNTRM
                     </h3>
                     <p class="text-lg text-gray-700">
-                        Jr. Libertad Número, Bagua, Amazonas, Perú
+                        Jr. Libertad N° 1300, Bagua, Amazonas, Perú
                     </p>
                     <a
                         href="/contact/"
@@ -771,14 +784,14 @@
                 <div class="lg:w-1/2">
                     <div class="relative overflow-hidden rounded-xl shadow-2xl">
                         <img
-                            src="/images/auditorio-untrm.jpg"
+                            src="/images/auditorio-fisme.jpg"
                             alt="Lugar del Evento"
                             class="w-full h-64 object-cover transform transition duration-300 hover:scale-105"
                         />
                         <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300">
                             <div class="absolute bottom-4 left-4 text-white">
                                 <p class="text-lg font-semibold">Auditorio UNTRM</p>
-                                <p class="text-sm">Capacidad: 500 personas</p>
+                                <p class="text-sm">Capacidad: 180 personas</p>
                             </div>
                         </div>
                     </div>
@@ -786,7 +799,7 @@
             </div>
     
             <h3 class="text-3xl text-center font-semibold mt-16 mb-8 text-[#133e6b]">
-                Bagua: Ciudad Calidad y Solidaria
+                Bagua: Ciudad Cálida y Solidaria
             </h3>
     
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">

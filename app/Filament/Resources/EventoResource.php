@@ -181,6 +181,32 @@ class EventoResource extends Resource
                                 )->columnSpan(2),
                             ])
                             ->required(),
+                            
+                        // Forms\Components\Select::make('precios')
+                        // ->label('Tipos de precios')
+                        // ->multiple() // Permite seleccionar múltiples organizadores
+                        // ->relationship('precios', 'nombre') // Relación
+                        // ->createOptionForm([ // Crear organizadores en el momento
+                        //     Group::make()->schema(
+                        //         [
+                        //             //segmento 
+                        //             Section::make('Informacion del Temática')->schema(
+                        //                 [
+                        //                     TextColumn::make('nombre')
+                        //                         ->sortable()
+                        //                         ->searchable(),
+                        //                     TextColumn::make('descripcion')
+                        //                         ->sortable()
+                        //                         ->limit(50)
+                        //                         ->extraAttributes(['style' => 'width: 300px ']), // Ajusta el ancho en píxeles
+                        //                     Tables\Columns\IconColumn::make('estado')
+                        //                         ->boolean(),
+                        //                 ]
+                        //             )->columns(2),
+                        //         ]
+                        //     )->columnSpan(2),
+                        // ])
+                        // ->required(),
                         Textarea::make('descripcion_breve')
                             ->required(),
                         FileUpload::make('imagen_banner')
