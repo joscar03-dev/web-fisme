@@ -603,51 +603,25 @@
             </h3>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                
+                @foreach ($lugar->lugaresturisticos as $lugaresturistico)
+                    
+             
                 <div
                     class="bg-white rounded-lg shadow-md overflow-hidden transform transition-all duration-300 hover:shadow-xl hover:scale-105">
-                    <img class="w-full h-48 object-cover" src="{{ $touristAttractions[0]['image'] }}"
-                        alt="{{ $touristAttractions[0]['name'] }}" />
+                    <img class="w-full h-48 object-cover" src="{{ url('storage',$lugaresturistico->img ) }}"
+                        alt="{{ $lugaresturistico->nombre_lugar }}" />
                     <div class="p-6">
-                        <h4 class="text-xl font-semibold mb-2 text-[#133e6b]">{{ $touristAttractions[0]['name'] }}
+                        <h4 class="text-xl font-semibold mb-2 text-[#133e6b]">{{ $lugaresturistico->nombre_lugar }}
                         </h4>
-                        <p class="text-gray-600 mb-4">{{ $touristAttractions[0]['description'] }}</p>
-                        <a href="{{ $touristAttractions[0]['link'] }}"
+                       
+                        <a href="{{ $lugaresturistico->url_mapa  }}"
                             class="text-blue-500 hover:text-blue-700 font-medium transition-colors duration-300">
                             Ver más
                         </a>
                     </div>
                 </div>
+                @endforeach
 
-                <div
-                    class="bg-white rounded-lg shadow-md overflow-hidden transform transition-all duration-300 hover:shadow-xl hover:scale-105">
-                    <img class="w-full h-48 object-cover" src="{{ $touristAttractions[1]['image'] }}"
-                        alt="{{ $touristAttractions[1]['name'] }}" />
-                    <div class="p-6">
-                        <h4 class="text-xl font-semibold mb-2 text-[#133e6b]">{{ $touristAttractions[1]['name'] }}
-                        </h4>
-                        <p class="text-gray-600 mb-4">{{ $touristAttractions[1]['description'] }}</p>
-                        <a href="{{ $touristAttractions[1]['link'] }}"
-                            class="text-blue-500 hover:text-blue-700 font-medium transition-colors duration-300">
-                            Ver más
-                        </a>
-                    </div>
-                </div>
-
-                <div
-                    class="bg-white rounded-lg shadow-md overflow-hidden transform transition-all duration-300 hover:shadow-xl hover:scale-105">
-                    <img class="w-full h-48 object-cover" src="{{ $touristAttractions[2]['image'] }}"
-                        alt="{{ $touristAttractions[2]['name'] }}" />
-                    <div class="p-6">
-                        <h4 class="text-xl font-semibold mb-2 text-[#133e6b]">{{ $touristAttractions[2]['name'] }}
-                        </h4>
-                        <p class="text-gray-600 mb-4">{{ $touristAttractions[2]['description'] }}</p>
-                        <a href="{{ $touristAttractions[2]['link'] }}"
-                            class="text-blue-500 hover:text-blue-700 font-medium transition-colors duration-300">
-                            Ver más
-                        </a>
-                    </div>
-                </div>
             </div>
             @endforeach
         </div>

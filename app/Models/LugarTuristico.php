@@ -18,6 +18,7 @@ class LugarTuristico extends Model
         'estados'
 
     ];
+
     public function lugareventos()
     {
         return $this->belongsTo(LugarEvento::class, 'lugar_evento_id',);
