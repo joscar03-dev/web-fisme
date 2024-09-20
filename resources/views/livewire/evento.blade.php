@@ -466,8 +466,8 @@
                                 <li>BANCO DE CRÉDITO -CTA CTE: 290-4216956-0-05</li>
                                 <li>BANCO DE CRÉDITO - CCI : 002 290 00421695600 551</li>
                             </ul>
-                            <img src="/placeholder.svg?height=150&width=300" alt="Imagen de depósito bancario"
-                                class="mt-3 rounded-lg shadow-md">
+                            {{-- <img src="/placeholder.svg?height=150&width=300" alt="Imagen de depósito bancario"
+                                class="mt-3 rounded-lg shadow-md"> --}}
                         </li>
                         <li class="mb-10 ml-6">
                             <span

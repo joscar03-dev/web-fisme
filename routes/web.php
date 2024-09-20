@@ -60,3 +60,7 @@ Route::get('/event/{id}', [Registrarse::class, 'show'])->name('event.show');
 
 
 Route::post('/enviar-correo/{registro}', [TicketQrPage::class, 'enviarCorreo'])->name('enviarCorreo');
+
+
+/// mantenimiento 
+Route::view('/pagina-mantenimiento', 'components.mantenimiento')->name('mantenimiento');
