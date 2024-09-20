@@ -1,7 +1,6 @@
 <div class="min-h-screen bg-gradient-to-br from-[#001f54] to-[#4b6587] flex items-center justify-center p-4">
-    <div class="bg-white rounded-lg shadow-xl overflow-hidden w-full max-w-4xl">
+    <div class="bg-white rounded-lg shadow-xl overflow-hidden w-full max-w-md mx-auto">
         <div class="p-8">
-           
             @if ($evento)
                 <div class="mb-6 p-4 bg-gray-100 rounded-lg">
                     <h3 class="text-2xl font-semibold text-[#001f54] mb-2">{{ $evento->nombre_evento }}</h3>
@@ -16,8 +15,6 @@
                         -
                         {{ $evento->hora_salida instanceof \DateTime ? $evento->hora_salida->format('H:i') : 'Hora no disponible' }}
                     </p>
-                    <p class="text-gray-600"><span class="font-medium">Tipo de evento:</span> {{ $evento->tipo_evento }}</p>
-                    <p class="text-gray-600"><span class="font-medium">Área:</span> {{ $evento->area_evento }}</p>
                 </div>
             @endif
 
@@ -57,11 +54,9 @@
                     </div>
                 @endif
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  
+                <div class="grid grid-cols-1 gap-6">
                     <div>
-                        <label for="tipo_documento" class="block text-sm font-medium text-gray-700">Tipo de
-                            Documento</label>
+                        <label for="tipo_documento" class="block text-sm font-medium text-gray-700">Tipo de Documento</label>
                         <select wire:model="tipo_documento" id="tipo_documento"
                             class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-[#001f54] focus:border-[#001f54] sm:text-sm rounded-md">
                             <option value="">Selecciona tipo de documento</option>
@@ -139,7 +134,7 @@
                         @enderror
                     </div>
 
-                    <div class="col-span-2">
+                    <div>
                         <label for="img_boucher" class="block text-sm font-medium text-gray-700 mb-2">
                             Cargar Boucher
                         </label>
@@ -274,7 +269,5 @@
                 </div>
             </form>
         </div>
-    </div>
+    </div>
 </div>
-
-                      

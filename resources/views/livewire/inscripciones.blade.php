@@ -23,7 +23,7 @@
                     </div>
                 @endif
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="grid grid-cols-1 gap-6"> <!-- Cambiado a una columna -->
                     <div>
                         <label for="evento" class="block text-sm font-medium text-gray-700">Eventos</label>
                         <select wire:model="evento" id="evento"

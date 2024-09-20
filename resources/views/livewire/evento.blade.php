@@ -24,93 +24,74 @@
         <img src="/images/IA.png" alt="" class="absolute top-0 left-0 h-full object-contain opacity-50"
             style="left: 40%;">
 
-        <div class="flex flex-col items-center justify-center relative z-10 text-center">
-            <!-- Hero Content -->
-            <div class="w-full max-w-4xl space-y-8 animate-fade-in-up">
-                <!-- Nombre del Evento -->
-                <div class=" p-4">
-                    <h1
-                        class="text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight mb-4 text-transparent bg-clip-text bg-gradient-to-r from-gray-400 via-[#00dffd] to-gray-500 font-sans shadow-lg glow-effect">
-                        {{ $evento->nombre_evento }}
-                    </h1>
-                    <h4 class="text-2xl text-white mt-2">Facultad de Ingeniería de Sistemas y Mecánica Eléctrica</h4>
-                </div>
-
-                <!-- Cronómetro integrado al hero -->
-                <div class="flex flex-wrap justify-center items-center space-x-4 text-white text-2xl font-bold mb-8">
-                    @foreach (['Days', 'Hours', 'Minutes', 'Seconds'] as $unit)
-                        <div
-                            class="timer text-center bg-opacity-20 bg-white backdrop-filter backdrop-blur-lg rounded-lg p-4 shadow-lg">
-                            <span class="countdown-element font-mono text-4xl md:text-5xl block"
-                                data-unit="{{ strtolower($unit) }}">00</span>
-                            <p class="text-xs uppercase tracking-wide mt-2">{{ $unit }}</p>
+            <div class="flex flex-col items-center justify-center relative z-10 text-center px-4 sm:px-6 lg:px-8">
+                <!-- Hero Content -->
+                <div class="w-full max-w-4xl space-y-6 sm:space-y-8 animate-fade-in-up">
+                    <!-- Nombre del Evento -->
+                    <div class="p-2 sm:p-4">
+                        <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-2 sm:mb-4 text-transparent bg-clip-text bg-gradient-to-r from-gray-400 via-[#00dffd] to-gray-500 font-sans shadow-lg glow-effect">
+                            {{ $evento->nombre_evento }}
+                        </h1>
+                        <h4 class="text-lg sm:text-xl md:text-2xl text-white mt-2">Facultad de Ingeniería de Sistemas y Mecánica Eléctrica</h4>
+                    </div>
+            
+                    <!-- Cronómetro integrado al hero -->
+                    <div class="flex flex-wrap justify-center items-center gap-2 sm:gap-4 text-white text-xl sm:text-2xl font-bold mb-4 sm:mb-8">
+                        @foreach (['Days', 'Hours', 'Minutes', 'Seconds'] as $unit)
+                            <div class="timer text-center bg-opacity-20 bg-white backdrop-filter backdrop-blur-lg rounded-lg p-2 sm:p-4 shadow-lg">
+                                <span class="countdown-element font-mono text-2xl sm:text-3xl md:text-4xl lg:text-5xl block" data-unit="{{ strtolower($unit) }}">00</span>
+                                <p class="text-xs uppercase tracking-wide mt-1">{{ $unit }}</p>
+                            </div>
+                        @endforeach
+                    </div>
+            
+                    <!-- Modalidad del Evento -->
+                    <div class="bg-opacity-20 bg-white backdrop-filter backdrop-blur-lg rounded-lg p-3 sm:p-4 shadow-lg inline-block">
+                        <div class="flex flex-col items-center justify-between space-y-2 sm:space-y-0 sm:flex-row">
+                            <p class="text-base sm:text-lg font-semibold mr-0 sm:mr-4">
+                                Modalidad del Evento:
+                                <span class="text-yellow-300 ml-1 sm:ml-2">Presencial</span> y
+                                <span class="text-green-300 ml-1 sm:ml-2">Virtual</span>
+                            </p>
                         </div>
-                        @if (!$loop->last)
-                            <span class="text-4xl font-thin hidden md:block">:</span>
-                        @endif
-                    @endforeach
-                </div>
-
-                <!-- Modalidad del Evento -->
-
-                <div
-                    class="bg-opacity-20 bg-white backdrop-filter backdrop-blur-lg rounded-lg p-4 shadow-lg inline-block">
-                    <div class="flex items-center justify-between">
-                        <p class="text-lg font-semibold mr-4">
-                            Modalidad del Evento:
-                            <span class="text-yellow-300 ml-2">Presencial</span> y
-                            <span class="text-green-300 ml-2">Virtual</span>
-                        </p>
-                        <a href="{{ $evento->enlace_inscripcion }}" target="_blank"
-                            class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-blue-500 hover:bg-blue-600 rounded-md shadow-sm">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" class="mr-2 h-4 w-4">
-                                <polygon points="23 7 16 12 23 17 23 7"></polygon>
-                                <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
+                    </div>
+            
+                    <!-- Botones de acción -->
+                    <div class="flex flex-col space-y-4 mt-6 sm:mt-8">
+                        <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                            <a href="#registro" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 sm:py-3 px-4 sm:px-6 rounded-full shadow-lg transition duration-300 transform hover:scale-105 flex items-center justify-center text-base sm:text-lg">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sm:h-6 sm:w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                Inscribirme
+                            </a>
+                            <a href="#" target="_blank" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 sm:py-3 px-4 sm:px-6 rounded-full shadow-lg transition duration-300 transform hover:scale-105 flex items-center justify-center text-base sm:text-lg">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 h-4 w-4">
+                                    <polygon points="23 7 16 12 23 17 23 7"></polygon>
+                                    <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
+                                </svg>
+                                Ver en vivo
+                            </a>
+                        </div>
+                        @php
+                            $fechaInicio = Carbon\Carbon::parse($evento->fecha_inicio)->format('Ymd\THis\Z');
+                            $fechaFin = Carbon\Carbon::parse($evento->fecha_fin)->format('Ymd\THis\Z');
+            
+                            $nombreEvento = urlencode($evento->nombre_evento);
+                            $descripcion = urlencode($evento->descripcion_breve);
+                            $ubicacion = isset($evento->lugares->first()->nombre)
+                                ? urlencode($evento->lugares->first()->nombre)
+                                : '';
+                        @endphp
+                        <button onclick="window.open('https://www.google.com/calendar/render?action=TEMPLATE&text={{ $nombreEvento }}&dates={{ $fechaInicio }}/{{ $fechaFin }}&details={{ $descripcion }}&location={{ $ubicacion }}&sf=true&output=xml', '_blank')" class="bg-gray-700 hover:bg-gray-800 text-white font-bold py-2 sm:py-3 px-4 sm:px-6 rounded-full shadow-lg transition duration-300 transform hover:scale-105 flex items-center justify-center text-base sm:text-lg mx-auto">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sm:h-6 sm:w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                             </svg>
-                            Ver en vivo
-                        </a>
+                            Agregar a Google Calendar
+                        </button>
                     </div>
                 </div>
-
-                <!-- Botones de acción -->
-                <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4 mt-8">
-                    <a href="#registro"
-                        class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-full shadow-lg transition duration-300 transform hover:scale-105 flex items-center justify-center text-lg">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        Inscribirme
-                    </a>
-                    @php
-                       
-                        $fechaInicio = Carbon\Carbon::parse($evento->fecha_inicio)->format('Ymd\THis\Z');
-                        $fechaFin = Carbon\Carbon::parse($evento->fecha_fin)->format('Ymd\THis\Z');
-
-                        $nombreEvento = urlencode($evento->nombre_evento);
-                        $descripcion = urlencode($evento->descripcion_breve);
-                        $ubicacion = isset($evento->lugares->first()->nombre)
-                            ? urlencode($evento->lugares->first()->nombre)
-                            : '';
-                    @endphp
-
-                    <button
-                        onclick="window.open('https://www.google.com/calendar/render?action=TEMPLATE&text={{ $nombreEvento }}&dates={{ $fechaInicio }}/{{ $fechaFin }}&details={{ $descripcion }}&location={{ $ubicacion }}&sf=true&output=xml', '_blank')"
-                        class="bg-gray-700 hover:bg-gray-800 text-white font-bold py-3 px-6 rounded-full shadow-lg transition duration-300 transform hover:scale-105 flex items-center justify-center text-lg">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                        </svg>
-                        Agregar a Google Calendar
-                    </button>
-
-                </div>
             </div>
-        </div>
     </div>
 
     <section class="py-16 px-4 mx-auto max-w-screen-xl overflow-hidden">
@@ -574,17 +555,22 @@
             <h2 class="text-4xl sm:text-5xl font-bold text-center mb-12 text-[#1d4570] ">
                 Lugar del Evento
             </h2>
-
+            @foreach ($evento->lugares as $lugar)
             <div
                 class="flex flex-col lg:flex-row items-center justify-between space-y-8 lg:space-y-0 lg:space-x-12 mb-16">
+              
                 <div class="lg:w-1/2 space-y-6 text-center lg:text-left">
+                  
                     <h3 class="text-2xl sm:text-3xl font-semibold text-[#133e6b]">
-                        Auditorio de la Facultad de Ingeniería de Sistemas y Mecánica Eléctrica - UNTRM
+                       
+                        {{ $lugar->nombrelugar }}
+                     
+                       
                     </h3>
                     <p class="text-lg text-gray-700">
-                        Jr. Libertad N° 1300, Bagua, Amazonas, Perú
+                        {{ $lugar->direccion }}
                     </p>
-                    <a href="/contact/"
+                    <a href=" {{ $lugar->url_mapa }}"
                         class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-[#133e6b] hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg">
                         Ver en Mapa
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20"
@@ -594,16 +580,17 @@
                                 clip-rule="evenodd" />
                         </svg>
                     </a>
+              
                 </div>
 
                 <div class="lg:w-1/2">
                     <div class="relative overflow-hidden rounded-xl shadow-2xl">
-                        <img src="/images/auditorio-fisme.jpg" alt="Lugar del Evento"
+                        <img src="{{ url('storage', $lugar->img ) }}" alt="Lugar del Evento"
                             class="w-full h-64 object-cover transform transition duration-300 hover:scale-105" />
                         <div
                             class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300">
                             <div class="absolute bottom-4 left-4 text-white">
-                                <p class="text-lg font-semibold">Auditorio UNTRM</p>
+                                <p class="text-lg font-semibold">Auditorio FISME</p>
                                 <p class="text-sm">Capacidad: 180 personas</p>
                             </div>
                         </div>
@@ -616,6 +603,7 @@
             </h3>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                
                 <div
                     class="bg-white rounded-lg shadow-md overflow-hidden transform transition-all duration-300 hover:shadow-xl hover:scale-105">
                     <img class="w-full h-48 object-cover" src="{{ $touristAttractions[0]['image'] }}"
@@ -661,6 +649,7 @@
                     </div>
                 </div>
             </div>
+            @endforeach
         </div>
     </section>
 

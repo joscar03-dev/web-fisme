@@ -11,7 +11,7 @@
                 </div>
                 <div class="lg:w-1/2 px-6 mt-4 lg:mt-0">
                     <h2 class="title-font font-semibold text-gray-900 tracking-widest text-xs">EMAIL</h2>
-                    <a class="text-blue-500 leading-relaxed">fisme@untrm.edu.pe</a>
+                    <a class="text-blue-500 leading-relaxed">informes@untrm.edu.pe</a>
                     <h2 class="title-font font-semibold text-gray-900 tracking-widest text-xs mt-4">TELÉFONO</h2>
                     <p class="leading-relaxed text-gray-600">+51 41 478000</p>
                 </div>
