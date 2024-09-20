@@ -53,10 +53,7 @@ class PartnerResource extends Resource
                     ->sortable()
                     ->searchable()
                     ->limit(50),
-                TextColumn::make('direccion')
-                    ->sortable()
-                    ->searchable(),
-
+            
                 ImageColumn::make('img')->label('Foto'),
                 Tables\Columns\IconColumn::make('estado')
                     ->boolean(),

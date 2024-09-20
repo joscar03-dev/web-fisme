@@ -1,111 +1,280 @@
-<div class="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
-    <div class="relative py-3 sm:max-w-xl sm:mx-auto">
-        <div class="absolute inset-0 bg-gradient-to-r from-cyan-400 to-[#133E6B] shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
-        <div class="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
-            <div class="max-w-md mx-auto">
-                <div>
-                    <h1 class="text-2xl font-semibold text-[#133E6B]">Registro para {{ $evento->nombre_evento }}</h1>
+<div class="min-h-screen bg-gradient-to-br from-[#001f54] to-[#4b6587] flex items-center justify-center p-4">
+    <div class="bg-white rounded-lg shadow-xl overflow-hidden w-full max-w-4xl">
+        <div class="p-8">
+           
+            @if ($evento)
+                <div class="mb-6 p-4 bg-gray-100 rounded-lg">
+                    <h3 class="text-2xl font-semibold text-[#001f54] mb-2">{{ $evento->nombre_evento }}</h3>
+                    <h4 class="text-sm font-semibold text-blue-500 mb-2">{{ $tipo_asistente }}</h4>
+                    <p class="text-gray-600"><span class="font-medium">Fecha:</span>
+                        {{ $evento->fecha_inicio instanceof \DateTime ? $evento->fecha_inicio->format('d/m/Y') : 'Fecha no disponible' }}
+                        -
+                        {{ $evento->fecha_fin instanceof \DateTime ? $evento->fecha_fin->format('d/m/Y') : 'Fecha no disponible' }}
+                    </p>
+                    <p class="text-gray-600"><span class="font-medium">Horario:</span>
+                        {{ $evento->hora_inicio instanceof \DateTime ? $evento->hora_inicio->format('H:i') : 'Hora no disponible' }}
+                        -
+                        {{ $evento->hora_salida instanceof \DateTime ? $evento->hora_salida->format('H:i') : 'Hora no disponible' }}
+                    </p>
+                    <p class="text-gray-600"><span class="font-medium">Tipo de evento:</span> {{ $evento->tipo_evento }}</p>
+                    <p class="text-gray-600"><span class="font-medium">Área:</span> {{ $evento->area_evento }}</p>
                 </div>
-                <div class="divide-y divide-gray-200">
-                    <form wire:submit.prevent="register" class="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
-                        @if (session()->has('message'))
-                            <div class="rounded-md bg-green-50 p-4 mb-4">
-                                <div class="flex">
-                                    <div class="flex-shrink-0">
-                                        <svg class="h-5 w-5 text-green-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-                                        </svg>
-                                    </div>
-                                    <div class="ml-3">
-                                        <p class="text-sm font-medium text-green-800">
-                                            {{ session('message') }}
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        @endif
+            @endif
 
-                        <div class="relative">
-                            <select wire:model="tipo_documento" id="tipo_documento" class="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-[#133E6B]">
-                                <option value="">Selecciona tipo de documento</option>
-                                <option value="DNI">DNI</option>
-                                <option value="CE">CE</option>
-                                <option value="Pasaporte">Pasaporte</option>
-                            </select>
-                            <label for="tipo_documento" class="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-[#133E6B] peer-focus:text-sm">Tipo de Documento</label>
-                            @error('tipo_documento') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
-                        </div>
-                        <div class="relative">
-                            <input wire:model="numero_documento" id="numero_documento" type="text" class="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-[#133E6B]" placeholder="Número de Documento" />
-                            <label for="numero_documento" class="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-[#133E6B] peer-focus:text-sm">Número de Documento</label>
-                            @error('numero_documento') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
-                        </div>
-                        <div class="relative">
-                            <input wire:model="nombres" id="nombres" type="text" class="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-[#133E6B]" placeholder="Nombres" />
-                            <label for="nombres" class="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-[#133E6B] peer-focus:text-sm">Nombres</label>
-                            @error('nombres') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
-                        </div>
-                        <div class="relative">
-                            <input wire:model="apellidos" id="apellidos" type="text" class="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-[#133E6B]" placeholder="Apellidos" />
-                            <label for="apellidos" class="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-[#133E6B] peer-focus:text-sm">Apellidos</label>
-                            @error('apellidos') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
-                        </div>
-                        <div class="relative">
-                            <input wire:model="numero_celular" id="numero_celular" type="tel" class="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-[#133E6B]" placeholder="Número de Celular" />
-                            <label for="numero_celular" class="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-[#133E6B] peer-focus:text-sm">Número de Celular</label>
-                            @error('numero_celular') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
-                        </div>
-                        <div class="relative">
-                            <input wire:model="email" id="email" type="email" class="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-[#133E6B]" placeholder="Email" />
-                            <label for="email" class="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-[#133E6B] peer-focus:text-sm">Email</label>
-                            @error('email') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
-                        </div>
-                        <div class="relative">
-                            <select wire:model="tipo_asistente" id="tipo_asistente" class="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-[#133E6B]">
-                                <option value="">Selecciona tipo de Asistente</option>
-                                <option value="Estudiante">Estudiante</option>
-                                <option value="Profesional">Profesional</option>
-                                <option value="Publico General">Público General</option>
-                            </select>
-                            <label for="tipo_asistente" class="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-[#133E6B] peer-focus:text-sm">Tipo de Asistente</label>
-                            @error('tipo_asistente') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
-                        </div>
-                        <div class="relative">
-                            <input wire:model="institucion_procedencia" id="institucion_procedencia" type="text" class="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-[#133E6B]" placeholder="Universidad, Instituto, etc" />
-                            <label for="institucion_procedencia" class="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-[#133E6B] peer-focus:text-sm">Nombre Institucion</label>
-                            @error('institucion_procedencia') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
-                        </div>
-                        <div class="relative">
-                            <div x-data="{ isUploading: false, progress: 0 }" 
-                                 x-on:livewire-upload-start="isUploading = true"
-                                 x-on:livewire-upload-finish="isUploading = false"
-                                 x-on:livewire-upload-error="isUploading = false"
-                                 x-on:livewire-upload-progress="progress = $event.detail.progress">
-                                <label for="img_boucher" class="flex flex-col items-center px-4 py-6 bg-white text-[#133E6B] rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-[#133E6B] hover:text-white">
-                                    <svg class="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                        <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
-                                    </svg>
-                                    <span class="mt-2 text-base leading-normal">Selecciona una imagen</span>
-                                    <input wire:model="img_boucher" id="img_boucher" type="file" class="hidden" accept="image/*" />
-                                </label>
-                                <!-- Progress Bar -->
-                                <div x-show="isUploading" class="mt-3">
-                                    <progress max="100" x-bind:value="progress" class="w-full"></progress>
-                                </div>
-                                @if ($img_boucher)
-                                    <div class="mt-3">
-                                        <img src="{{ $img_boucher->temporaryUrl() }}" class="mt-2 rounded-lg shadow-xl" style="max-width: 200px;">
-                                    </div>
-                                @endif
+            <form  wire:submit.prevent="register"class="space-y-6" method="POST">
+                @csrf
+                @if (session()->has('message'))
+                    <div class="rounded-md bg-green-50 p-4 mb-4">
+                        <div class="flex">
+                            <div class="flex-shrink-0">
+                                <svg class="h-5 w-5 text-green-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                </svg>
                             </div>
-                            @error('img_boucher') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                            <div class="ml-3">
+                                <p class="text-sm font-medium text-green-800">
+                                    {{ session('message') }}
+                                </p>
+                            </div>
                         </div>
-                        <div class="relative">
-                            <button type="submit" class="bg-[#133E6B] text-white rounded-md px-4 py-2 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50 w-full">Registrarse</button>
+                    </div>
+                @endif
+
+                @if (session()->has('error'))
+                    <div class="rounded-md bg-red-50 p-4 mb-4">
+                        <div class="flex">
+                            <div class="flex-shrink-0">
+                                <svg class="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-sm font-medium text-red-800">
+                                    {{ session('error') }}
+                                </p>
+                            </div>
                         </div>
-                    </form>
+                    </div>
+                @endif
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  
+                    <div>
+                        <label for="tipo_documento" class="block text-sm font-medium text-gray-700">Tipo de
+                            Documento</label>
+                        <select wire:model="tipo_documento" id="tipo_documento"
+                            class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-[#001f54] focus:border-[#001f54] sm:text-sm rounded-md">
+                            <option value="">Selecciona tipo de documento</option>
+                            <option value="DNI">DNI</option>
+                            <option value="CE">CE</option>
+                            <option value="Pasaporte">Pasaporte</option>
+                        </select>
+                        @error('tipo_documento')
+                            <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div>
+                        <label for="numero_documento" class="block text-sm font-medium text-gray-700">Número de
+                            Documento</label>
+                        <input wire:model="numero_documento" id="numero_documento" type="text"
+                            class="mt-1 focus:ring-[#001f54] focus:border-[#001f54] block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                            placeholder="Ingrese su número de documento">
+                        @error('numero_documento')
+                            <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div>
+                        <label for="nombres" class="block text-sm font-medium text-gray-700">Nombres</label>
+                        <input wire:model="nombres" id="nombres" type="text"
+                            class="mt-1 focus:ring-[#001f54] focus:border-[#001f54] block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                            placeholder="Ingrese sus nombres">
+                        @error('nombres')
+                            <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div>
+                        <label for="apellidos" class="block text-sm font-medium text-gray-700">Apellidos</label>
+                        <input wire:model="apellidos" id="apellidos" type="text"
+                            class="mt-1 focus:ring-[#001f54] focus:border-[#001f54] block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                            placeholder="Ingrese sus apellidos">
+                        @error('apellidos')
+                            <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div>
+                        <label for="numero_celular" class="block text-sm font-medium text-gray-700">Número de
+                            Celular</label>
+                        <input wire:model="numero_celular" id="numero_celular" type="tel"
+                            class="mt-1 focus:ring-[#001f54] focus:border-[#001f54] block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                            placeholder="Ingrese su número de celular">
+                        @error('numero_celular')
+                            <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                        <input wire:model="email" id="email" type="email"
+                            class="mt-1 focus:ring-[#001f54] focus:border-[#001f54] block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                            placeholder="Ingrese su email">
+                        @error('email')
+                            <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                   
+
+                    <div>
+                        <label for="institucion_procedencia" class="block text-sm font-medium text-gray-700">Institución
+                            de Procedencia</label>
+                        <input wire:model="institucion_procedencia" id="institucion_procedencia" type="text"
+                            class="mt-1 focus:ring-[#001f54] focus:border-[#001f54] block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                            placeholder="Ingrese su institución">
+                        @error('institucion_procedencia')
+                            <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="col-span-2">
+                        <label for="img_boucher" class="block text-sm font-medium text-gray-700 mb-2">
+                            Cargar Boucher
+                        </label>
+                        <div id="hs-file-upload-with-limited-file-size" x-data="{
+                            isUploading: false,
+                            progress: 0,
+                            filePreview: null,
+                            fileName: '',
+                            fileSize: '',
+                            fileExt: '',
+                            errorMessage: ''
+                        }"
+                            x-on:livewire-upload-start="isUploading = true"
+                            x-on:livewire-upload-finish="isUploading = false; progress = 0"
+                            x-on:livewire-upload-error="isUploading = false; errorMessage = 'Error al cargar el archivo'"
+                            x-on:livewire-upload-progress="progress = $event.detail.progress">
+                            <div x-show="filePreview" x-transition:enter="transition ease-out duration-300"
+                                x-transition:enter-start="opacity-0 transform scale-90"
+                                x-transition:enter-end="opacity-100 transform scale-100"
+                                x-transition:leave="transition ease-in duration-300"
+                                x-transition:leave-start="opacity-100 transform scale-100"
+                                x-transition:leave-end="opacity-0 transform scale-90"
+                                class="p-3 bg-white border border-solid border-gray-300 rounded-xl dark:bg-neutral-800 dark:border-neutral-600">
+                                <div class="mb-1 flex justify-between items-center">
+                                    <div class="flex items-center gap-x-3">
+                                        <span
+                                            class="size-10 flex justify-center items-center border border-gray-200 text-gray-500 rounded-lg dark:border-neutral-700 dark:text-neutral-500">
+                                            <img x-bind:src="filePreview"
+                                                class="rounded-lg w-full h-full object-cover">
+                                        </span>
+                                        <div>
+                                            <p class="text-sm font-medium text-gray-800 dark:text-white">
+                                                <span x-text="fileName"
+                                                    class="truncate inline-block max-w-[300px] align-bottom"></span>.<span
+                                                    x-text="fileExt"></span>
+                                            </p>
+                                            <p x-show="!errorMessage" x-text="fileSize"
+                                                class="text-xs text-gray-500 dark:text-neutral-500"></p>
+                                            <p x-show="errorMessage" x-text="errorMessage"
+                                                class="text-xs text-red-500"></p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-x-2">
+                                        <button type="button"
+                                            @click="$wire.set('img_boucher', null); filePreview = null; fileName = ''; fileSize = ''; fileExt = ''; errorMessage = ''"
+                                            class="text-gray-500 hover:text-gray-800 focus:outline-none focus:text-gray-800 dark:text-neutral-500 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
+                                            <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg"
+                                                width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                                <path d="M3 6h18"></path>
+                                                <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+                                                <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+                                                <line x1="10" x2="10" y1="11" y2="17">
+                                                </line>
+                                                <line x1="14" x2="14" y1="11" y2="17">
+                                                </line>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div x-show="isUploading" class="flex items-center gap-x-3 whitespace-nowrap">
+                                    <div class="flex w-full h-2 bg-gray-200 rounded-full overflow-hidden dark:bg-neutral-700"
+                                        role="progressbar" :aria-valuenow="progress" aria-valuemin="0"
+                                        aria-valuemax="100">
+                                        <div class="flex flex-col justify-center rounded-full overflow-hidden bg-blue-600 text-xs text-white text-center whitespace-nowrap transition-all duration-500"
+                                            :style="'width: ' + progress + '%'"></div>
+                                    </div>
+                                    <div class="w-10 text-end">
+                                        <span x-text="progress" class="text-sm text-gray-800 dark:text-white"></span>%
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div x-show="!filePreview"
+                                class="cursor-pointer p-12 flex justify-center bg-white border border-dashed border-gray-300 rounded-xl dark:bg-neutral-800 dark:border-neutral-600">
+                                <div class="text-center">
+                                    <span
+                                        class="inline-flex justify-center items-center size-16 bg-gray-100 text-gray-800 rounded-full dark:bg-neutral-700 dark:text-neutral-200">
+                                        <svg class="shrink-0 size-6" xmlns="http://www.w3.org/2000/svg"
+                                            width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                            <polyline points="17 8 12 3 7 8"></polyline>
+                                            <line x1="12" x2="12" y1="3" y2="15">
+                                            </line>
+                                        </svg>
+                                    </span>
+
+                                    <div class="mt-4 flex flex-wrap justify-center text-sm leading-6 text-gray-600">
+                                        <span class="pe-1 font-medium text-gray-800 dark:text-neutral-200">
+                                            Arrastra tu archivo aquí o
+                                        </span>
+                                        <label for="img_boucher"
+                                            class="bg-white font-semibold text-blue-600 hover:text-blue-700 rounded-lg decoration-2 hover:underline focus-within:outline-none focus-within:ring-2 focus-within:ring-blue-600 focus-within:ring-offset-2 dark:bg-neutral-800 dark:text-blue-500 dark:hover:text-blue-600 cursor-pointer">
+                                            busca
+                                            <input id="img_boucher" wire:model="img_boucher" type="file"
+                                                class="sr-only" accept="image/*"
+                                                @change="
+                                                       const file = $event.target.files[0];
+                                                       if (file) {
+                                                           filePreview = URL.createObjectURL(file);
+                                                           fileName = file.name.split('.').slice(0, -1).join('.');
+                                                           fileExt = file.name.split('.').pop();
+                                                           fileSize = (file.size / 1024 < 1024) 
+                                                               ? (file.size / 1024).toFixed(2) + ' KB' 
+                                                               : (file.size / (1024 * 1024)).toFixed(2) + ' MB';
+                                                       }
+                                                   ">
+                                        </label>
+                                    </div>
+
+                                    <p class="mt-1 text-xs text-gray-400 dark:text-neutral-400">
+                                        Selecciona un archivo de hasta 2MB.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        @error('img_boucher')
+                            <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
+                        @enderror
+                    </div>
                 </div>
-            </div>
+
+                <div class="flex justify-end mt-6">
+                    <button type="submit"
+                        class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-[#001f54] hover:bg-[#4b6587] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#001f54] transition duration-300 ease-in-out">
+                        Registrarse
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
+
+                      

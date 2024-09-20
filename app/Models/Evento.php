@@ -18,7 +18,7 @@ class Evento extends Model
         'fecha_fin',
         'hora_inicio',
         'hora_salida',
-        'lugar',
+
         'tipo_evento',
         'area_evento',
         'descripcion_breve',
@@ -84,7 +84,7 @@ class Evento extends Model
     {
         return $this->belongsToMany(Tematica::class, 'tematica_eventos', 'evento_id', 'tematica_id');
     }
-    public function lugar()
+    public function lugares()
     {
         return $this->belongsToMany(LugarEvento::class, 'evento_lugars', 'evento_id', 'lugar_evento_id');
     }

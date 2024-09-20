@@ -6,6 +6,8 @@ use App\Filament\Resources\PrecioResource\Pages;
 use App\Filament\Resources\PrecioResource\RelationManagers;
 use App\Models\Precio;
 use Filament\Forms;
+use Filament\Forms\Components\Group;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -42,6 +44,31 @@ class PrecioResource extends Resource
                     ->numeric()
                     ->required()
                     ->label('Precio'),
+                Forms\Components\Select::make('beneficios')
+                    ->label('Beneficios')
+                    ->multiple() // Permite seleccionar múltiples organizadores
+                    ->relationship('beneficios', 'nombre') // Relación
+                    ->createOptionForm([ // Crear organizadores en el momento
+                        Group::make()->schema(
+                            [
+                                //segmento 
+                                Section::make('Informacion del Beneficios')->schema(
+                                    [
+                                        TextInput::make('nombre')
+                                            ->required()
+                                            ->maxLength('255')
+                                            ->label('Nombre'), 
+                                        Forms\Components\Toggle::make('estado')
+                                            ->label('Estado')
+                                            ->default(true)
+                                            ->required(),
+
+                                    ]
+                                )->columns(2),
+                            ]
+                        )->columnSpan(2),
+                    ])
+                    ->required(),
                 Forms\Components\Toggle::make('estado')
                     ->label('Estado')
                     ->default(true)
@@ -56,14 +83,14 @@ class PrecioResource extends Resource
             ->columns([
                 //
                 TextColumn::make('tipo_asistente')
-                ->sortable()
-                ->searchable(),
+                    ->sortable()
+                    ->searchable(),
                 TextColumn::make('precio')
-                ->sortable()
-                ->searchable(),
-            // Ajusta el ancho en píxeles
-            Tables\Columns\IconColumn::make('estado')
-                ->boolean(),
+                    ->sortable()
+                    ->searchable(),
+                // Ajusta el ancho en píxeles
+                Tables\Columns\IconColumn::make('estado')
+                    ->boolean(),
             ])
             ->filters([
                 //

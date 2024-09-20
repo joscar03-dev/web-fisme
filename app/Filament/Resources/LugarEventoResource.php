@@ -40,12 +40,9 @@ class LugarEventoResource extends Resource
                                     ->maxLength(255),
                                 TextInput::make('lema-ciudad')
                                     ->required()
-
                                     ->maxLength('255'),
-
-
                                 TextInput::make('direccion')
-                                    ->email()
+                                    ->maxLength(255)
                                     ->required(),
                                 TextInput::make('url_mapa')
                                     ->url()
@@ -74,8 +71,6 @@ class LugarEventoResource extends Resource
 
             ])->columns(3);
     }
-
-
     public static function table(Table $table): Table
     {
         return $table
@@ -85,12 +80,13 @@ class LugarEventoResource extends Resource
                     ->searchable()
                     ->limit(50),
                 TextColumn::make('direccion')
-                ->sortable()
-                ->searchable(),
-            
+                    ->sortable()
+                    ->searchable()
+                    ->limit(20),
+
                 ImageColumn::make('img')->label('Foto'),
                 Tables\Columns\IconColumn::make('estado')
-                ->boolean(),
+                    ->boolean(),
             ])
             ->filters([
                 //

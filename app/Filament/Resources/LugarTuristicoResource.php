@@ -51,7 +51,7 @@ class LugarTuristicoResource extends Resource
 
 
                                 TextInput::make('direccion')
-                                    ->email()
+                                    ->maxLength('255')
                                     ->required(),
                                 TextInput::make('url_mapa')
                                     ->url()

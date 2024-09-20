@@ -32,9 +32,15 @@ Route::get('/evento/{slug}', Evento::class)->name('evento.detalle');
 Route::get('/agenda', Agenda::class)->name('agenda');
 Route::get('/organizadores', Organizadores::class)->name('organizadores');
 Route::get('/contact', Contact::class)->name('contacto');
+
+
 // Inscribirce
 Route::get('/inscripcion', Inscripciones::class)->name('inscripcion');
 Route::get('/event-registration/{slug}', Registrarse::class)->name('event.registration');
+
+
+// Politicas
+
 Route::get('/cookies/policy', function () {
     return view('cookies.policy');
 })->name('cookies.policy');

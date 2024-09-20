@@ -56,7 +56,7 @@ class PatrocinadoresResource extends Resource
                                     ->required(),
                             ]
                         )->columns(2),
-                        Section::make('Descripcion del Ponente')->schema(
+                        Section::make('Descripcion del Patrocinador')->schema(
                             [
 
                                 Textarea::make('biografia_breve')
@@ -80,7 +80,9 @@ class PatrocinadoresResource extends Resource
             TextColumn::make('nombre')->sortable()->searchable(),
             ImageColumn::make('imagen')->label('Foto'),
             TextColumn::make('correo_electronico')->sortable()->searchable(),
-            TextColumn::make('biografia_breve')->sortable()->searchable(),
+            TextColumn::make('biografia_breve')
+            ->sortable()->searchable()
+            ->limit(30),
         ])
         ->filters([
             //

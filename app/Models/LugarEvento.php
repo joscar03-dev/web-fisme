@@ -23,6 +23,7 @@ class LugarEvento extends Model
     }
     public function eventos()
     {
-        return $this->belongsToMany(Evento::class, 'evento_lugars', 'evento_id', 'lugar_evento_id');
+        return $this->belongsToMany(Evento::class, 'evento_lugars', 'lugar_evento_id', 'evento_id');
     }
+   
 }

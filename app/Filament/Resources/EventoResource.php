@@ -166,47 +166,55 @@ class EventoResource extends Resource
                                         //segmento 
                                         Section::make('Informacion del Temática')->schema(
                                             [
-                                                TextColumn::make('nombre')
-                                                    ->sortable()
-                                                    ->searchable(),
-                                                TextColumn::make('descripcion')
-                                                    ->sortable()
-                                                    ->limit(50)
-                                                    ->extraAttributes(['style' => 'width: 300px ']), // Ajusta el ancho en píxeles
-                                                Tables\Columns\IconColumn::make('estado')
-                                                    ->boolean(),
+                                                TextInput::make('nombre')
+                                                    ->required()
+                                                    ->maxLength('255')
+                                                    ->label('Nombre'),
+                                                Textarea::make('descripcion')
+                                                    ->required()
+                                                    ->maxLength('255')
+                                                    ->label('Descripcion'),
+                                                Forms\Components\Toggle::make('estado')
+                                                    ->label('Estado')
+                                                    ->default(true)
+                                                    ->required(),
+
                                             ]
                                         )->columns(2),
                                     ]
                                 )->columnSpan(2),
                             ])
                             ->required(),
-                            
-                        // Forms\Components\Select::make('precios')
-                        // ->label('Tipos de precios')
-                        // ->multiple() // Permite seleccionar múltiples organizadores
-                        // ->relationship('precios', 'nombre') // Relación
-                        // ->createOptionForm([ // Crear organizadores en el momento
-                        //     Group::make()->schema(
-                        //         [
-                        //             //segmento 
-                        //             Section::make('Informacion del Temática')->schema(
-                        //                 [
-                        //                     TextColumn::make('nombre')
-                        //                         ->sortable()
-                        //                         ->searchable(),
-                        //                     TextColumn::make('descripcion')
-                        //                         ->sortable()
-                        //                         ->limit(50)
-                        //                         ->extraAttributes(['style' => 'width: 300px ']), // Ajusta el ancho en píxeles
-                        //                     Tables\Columns\IconColumn::make('estado')
-                        //                         ->boolean(),
-                        //                 ]
-                        //             )->columns(2),
-                        //         ]
-                        //     )->columnSpan(2),
-                        // ])
-                        // ->required(),
+                        Forms\Components\Select::make('partners')
+                            ->label('Partners')
+                            ->multiple() // Permite seleccionar múltiples organizadores
+                            ->relationship('partners', 'nombre') // Relación
+                            ->createOptionForm([ // Crear organizadores en el momento
+                                Group::make()->schema(
+                                    [
+                                        //segmento 
+                                        Section::make('Informacion del Partners')->schema(
+                                            [
+                                                TextInput::make('nombre')
+                                                    ->required()
+                                                    ->maxLength('255')
+                                                    ->label('Ingrese el nombre')->columnSpanFull(),
+                                                FileUpload::make('img')
+                                                    ->image()
+                                                    ->disk('public')
+                                                    ->directory('imagen_partners')
+                                                    ->visibility('private')->columnSpanFull(),
+                                                Forms\Components\Toggle::make('estado')
+                                                    ->label('Estado')
+                                                    ->default(true)
+                                                    ->required(),
+                                            ]
+                                        )->columns(2),
+                                    ]
+                                )->columnSpan(2),
+                            ])
+                            ->required(),
+
                         Textarea::make('descripcion_breve')
                             ->required(),
                         FileUpload::make('imagen_banner')
@@ -226,6 +234,7 @@ class EventoResource extends Resource
                     ->directory('eventos')
                     ->video(), */
                         TextInput::make('enlace_inscripcion')
+                            ->label('Enlace para el en vivo')
                             ->url()
                             ->required(),
                     ]
@@ -284,9 +293,43 @@ class EventoResource extends Resource
                                     ->required(),
                                 TimePicker::make('hora_salida')
                                     ->required(),
-                                TextInput::make('lugar')
-                                    ->required()
-                                    ->maxLength(255),
+
+                                Forms\Components\Select::make('lugares')
+                                    ->label('Lugar')
+                                    ->multiple()
+                                    ->relationship('lugares', 'nombrelugar')
+                                    ->createOptionForm([
+                                        Group::make()->schema(
+                                            [
+                                                Section::make('Informacion del Lugar')->schema(
+                                                    [
+                                                        TextInput::make('nombrelugar')
+                                                            ->required()
+                                                            ->maxLength(255),
+                                                        TextInput::make('lema-ciudad')
+                                                            ->required()
+                                                            ->maxLength('255'),
+                                                        TextInput::make('direccion')
+                                                            ->email()
+                                                            ->required(),
+                                                        TextInput::make('url_mapa')
+                                                            ->url()
+                                                            ->required(),
+                                                        FileUpload::make('img')
+                                                            ->image()
+                                                            ->disk('public')
+                                                            ->directory('imagen_lugarevento')
+                                                            ->visibility('private'),
+                                                        Forms\Components\Toggle::make('estado')
+                                                            ->label('Estado')
+                                                            ->default(true)
+                                                            ->required(),
+                                                    ]
+                                                )->columns(2),
+                                            ]
+                                        )->columnSpan(2),
+                                    ])
+                                    ->required(),
                                 Forms\Components\Toggle::make('estado')
                                     ->label('Estado')
                                     ->default(true)
