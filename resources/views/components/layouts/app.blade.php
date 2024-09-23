@@ -30,7 +30,7 @@
         {{ $slot }}
     </main>
     @livewire('partials.footer')
-    @livewire('cookie-consent')
+    {{-- @livewire('cookie-consent') --}}
     @livewireScripts
 
     @vite('resources/js/app.js')
