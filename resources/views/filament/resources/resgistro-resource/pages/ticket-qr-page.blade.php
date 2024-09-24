@@ -100,6 +100,7 @@
                     <h3 class="text-lg font-semibold text-[#133E6B] mb-2">Información del Asistente</h3>
                     <p class="text-gray-700"><strong>Nombre:</strong> {{ $this->record->nombres }} {{ $this->record->apellidos }}</p>
                     <p class="text-gray-700"><strong>Documento:</strong> {{ $this->record->numero_documento }}</p>
+                    <p class="text-gray-700"><strong>Asistente:</strong> {{ $this->record->tipo_asistente }}</p>
                     <p class="text-gray-700"><strong>Email:</strong> {{ $this->record->email }}</p>
                 </div>
 
