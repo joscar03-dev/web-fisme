@@ -3,6 +3,7 @@
 namespace App\Mail;
 
 use App\Models\Resgistro;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -17,11 +18,19 @@ class ConfirmacionInscripcionMailable extends Mailable
     use Queueable, SerializesModels;
     public $registro;
     public $pdf;
+    public $qrCodeBase64;
 
     public function __construct(Resgistro $registro)
     {
         $this->registro = $registro;
-        $this->pdf = Pdf::loadView('emails.ticket-pdf', ['registro' => $this->registro])->output();
+        // $this->pdf = Pdf::loadView('emails.ticket-pdf', ['registro' => $this->registro])->output();
+        $this->qrCodeBase64 = $this->getQRCode1(true);
+
+        // Generar el PDF basado en la vista del ticket
+        $this->pdf = Pdf::loadView('emails.ticket-pdf', [
+            'registro' => $this->registro,
+            'qrCodeBase64' => $this->qrCodeBase64, // Pasamos el código QR como Base64 a la vista
+        ])->output();
     }
 
     public function envelope(): Envelope
@@ -58,5 +67,17 @@ class ConfirmacionInscripcionMailable extends Mailable
             Attachment::fromData(fn() => $this->pdf, 'ticket-inscripcion.pdf')
                 ->withMime('application/pdf'),
         ];
+    }
+    public function getQRCode1($forPdf = false)
+    {
+        if (!$this->registro) {
+            return '';
+        }
+
+        if ($forPdf) {
+            return base64_encode(QrCode::format('png')->size(200)->generate($this->registro->numero_documento));
+        }
+
+        return QrCode::size(200)->generate($this->registro->numero_documento);
     }
 }
