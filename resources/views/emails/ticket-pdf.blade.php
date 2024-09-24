@@ -3,188 +3,213 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ticket de Inscripción</title>
-</head>
-
-<body>
-    <h1>XI Congreso Internacional</h1>
-    <h2>{{ $registro->evento->nombre_evento }}</h2>
-    <p>Fecha: {{ $registro->evento->fecha_inicio }}</p>
-
-    <!-- Código QR -->
-    <div style="text-align: center;">
-        @if (!empty($qrCodeBase64))
-            <img src="data:image/png;base64,{{ $qrCodeBase64 }}" alt="Código QR">
-        @else
-            <p>No se pudo generar el código QR.</p>
-        @endif
-    </div>
-
-    <p>Nombre: {{ $registro->nombres }} {{ $registro->apellidos }}</p>
-    <p>Documento: {{ $registro->numero_documento }}</p>
-    <p>Email: {{ $registro->email }}</p>
-</body>
-
-</html> --}}
-
-
-<!DOCTYPE html>
-<html lang="es">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ticket de Evento Profesional</title>
+    <title>XI Congreso Internacional</title>
     <style>
-        @media print {
-            body {
-                width: 210mm;
-                height: 297mm;
-                margin: 0;
-                padding: 0;
-            }
-        }
-
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            height: 100vh;
             margin: 0;
-        }
-
-        .ticket-container {
-            width: 100%;
-            max-width: 210mm;
-            padding: 20px;
-            box-sizing: border-box;
+            background-color: #f0f0f0;
         }
 
         .ticket {
-            background-color: #ffffff;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            width: 100%;
-            max-width: 400px;
-            margin: 0 auto;
-        }
-
-        .ticket-header {
-            background-color: #133E6B;
-            color: white;
+            background-color: white;
+            border: 2px solid #003366;
+            border-radius: 10px;
             padding: 20px;
+            width: 300px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #003366;
+            font-size: 20px;
             text-align: center;
-            font-size: 24px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 2px;
+            margin-top: 0;
         }
 
-        .ticket-qr {
-            text-align: center;
-            padding: 30px 0;
-            background-color: #f8f9fa;
-            border-bottom: 1px solid #e9ecef;
-        }
-
-        .ticket-qr img {
-            width: 200px;
-            height: 200px;
-        }
-
-        .ticket-body {
-            padding: 20px;
-        }
-
-        .ticket-info {
-            margin-bottom: 15px;
-            border-bottom: 1px solid #e9ecef;
-            padding-bottom: 10px;
-        }
-
-        .ticket-info:last-child {
-            border-bottom: none;
-        }
-
-        .ticket-label {
-            font-weight: bold;
-            color: #133E6B;
-            margin-bottom: 5px;
-            font-size: 14px;
-            text-transform: uppercase;
-        }
-
-        .ticket-value {
+        h2 {
+            color: #003366;
             font-size: 16px;
-            color: #495057;
-        }
-
-        .ticket-footer {
-            background-color: #133E6B;
-            color: white;
             text-align: center;
-            padding: 15px;
-            font-size: 14px;
-            font-weight: bold;
+            margin-bottom: 5px;
         }
 
-        @media (max-width: 480px) {
-            .ticket-container {
-                padding: 10px;
-            }
+        p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
 
-            .ticket {
-                width: 100%;
-            }
+        .qr-code {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .qr-code img {
+            width: 150px;
+            height: 150px;
+        }
+
+        .info {
+            border-top: 1px solid #ccc;
+            padding-top: 10px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .button {
+            background-color: #003366;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
         }
     </style>
 </head>
 
 <body>
-    <div class="ticket-container">
-        <div class="ticket">
-            <div class="ticket-header">
-                Ticket de Evento
-            </div>
-            <div class="ticket-qr">
-                @if (!empty($qrCodeBase64))
-                    <img src="data:image/png;base64,{{ $qrCodeBase64 }}" alt="Código QR">
-                @else
-                    <p>No se pudo generar el código QR.</p>
-                @endif
-            </div>
-            <div class="ticket-body">
-                <div class="ticket-info">
-                    <div class="ticket-label">Nombre del Evento:</div>
-                    <div class="ticket-value">{{ $registro->evento->nombre_evento }}</div>
-                </div>
-                <div class="ticket-info">
-                    <div class="ticket-label">Fecha</div>
-                    <div class="ticket-value">{{ $registro->evento->fecha_inicio }}</div>
-                </div>
-                <div class="ticket-info">
-                    <div class="ticket-label">Documento</div>
-                    <div class="ticket-value">{{ $registro->numero_documento }}</div>
-                </div>
-                <div class="ticket-info">
-                    <div class="ticket-label">Nombre</div>
-                    <div class="ticket-value">{{ $registro->nombres }} {{ $registro->apellidos }}</div>
-                </div>
-                <div class="ticket-info">
-                    <div class="ticket-label">Email</div>
-                    <div class="ticket-value">{{ $registro->email }}</div>
-                </div>
-            </div>
-            <div class="ticket-footer">
-                #A1B2C3 - Válido hasta el día del evento
-            </div>
+    <div class="ticket">
+        <h1>{{ $registro->evento->nombre_evento }}</h1>
+        <h2>Ingeniería de Sistemas</h2>
+        <p><span><strong>{{ $registro->evento->fecha_inicio }}-{{ $registro->evento->fecha_fin }}</strong></span>
+            |
+            <span><strong>{{ $registro->evento->hora_inicio }}-{{ $registro->evento->hora_salida }}</strong></span>
+        </p>
+        <p class="location">Facultad de Ingeniera de Sistemas y Mecánica Eléctrica</p>
+        <div class="qr-code">
+            @if (!empty($qrCodeBase64))
+                <img src="data:image/png;base64,{{ $qrCodeBase64 }}" alt="Código QR">
+            @else
+                <p>No se pudo generar el código QR.</p>
+            @endif
+        </div>
+        <div class="info">
+            <h3>Información del Asistente</h3>
+            <p><strong>Nombre:</strong>{{ $registro->apellidos }} {{ $registro->nombres }} </p>
+            <p><strong>Documento:</strong> {{ $registro->numero_documento }}</p>
+            <p><strong>Teléfono:</strong> {{ $registro->numero_celular }}</p>
+            <p><strong>Asistente:</strong> {{ $registro->tipo_asistente }}</p>
+            <p><strong>Institucion:</strong> {{ $registro->institucion_procedencia }}</p>
+        </div>
+        <p><em>Este ticket es personal e intransferible. Presente el código QR al ingresar al evento.</em></p>
+        <div class="buttons">
+            <button class="button">Imprimir Ticket</button>
+            <button class="button">Enviar a correo</button>
         </div>
     </div>
 </body>
 
+</html> --}}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XI Congreso Internacional</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .ticket {
+            background-color: white;
+            border: 2px solid #003366;
+            border-radius: 10px;
+            padding: 20px;
+            width: 350px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        h1 {
+            color: #003366;
+            font-size: 22px;
+            margin-top: 0;
+            margin-bottom: 5px;
+        }
+        h2 {
+            color: #003366;
+            font-size: 18px;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+        .qr-code {
+            margin: 20px 0;
+        }
+        .qr-code img {
+            width: 200px;
+            height: 200px;
+        }
+        .info {
+            border-top: 1px solid #ccc;
+            padding-top: 10px;
+            text-align: left;
+        }
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .button {
+            background-color: #003366;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .note {
+            font-style: italic;
+            font-size: 12px;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="ticket">
+        <h1>{{ $registro->evento->nombre_evento }}</h1>
+        <h2>Ingeniería de Sistemas</h2>
+        <p><span><strong>{{ $registro->evento->fecha_inicio }}-{{ $registro->evento->fecha_fin }}</strong></span>
+            |
+            <span><strong>{{ $registro->evento->hora_inicio }}-{{ $registro->evento->hora_salida }}</strong></span>
+        </p>
+        <p class="location">Facultad de Ingeniera de Sistemas y Mecánica Eléctrica</p>
+        <div class="qr-code">
+            @if (!empty($qrCodeBase64))
+                <img src="data:image/png;base64,{{ $qrCodeBase64 }}" alt="Código QR">
+            @else
+                <p>No se pudo generar el código QR.</p>
+            @endif
+        </div>
+        <div class="info">
+            <h3>Información del Asistente</h3>
+            <p><strong>Nombre:</strong>{{ $registro->apellidos }} {{ $registro->nombres }} </p>
+            <p><strong>Documento:</strong> {{ $registro->numero_documento }}</p>
+            <p><strong>Teléfono:</strong> {{ $registro->numero_celular }}</p>
+            <p><strong>Asistente:</strong> {{ $registro->tipo_asistente }}</p>
+            <p><strong>Institucion:</strong> {{ $registro->institucion_procedencia }}</p>
+        </div>
+        <p><em>Este ticket es personal e intransferible. Presente el código QR al ingresar al evento.</em></p>
+    </div>
+</body>
 </html>
