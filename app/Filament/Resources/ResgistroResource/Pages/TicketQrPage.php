@@ -11,7 +11,8 @@ use Illuminate\Support\Facades\Mail;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class TicketQrPage extends Page
-{  public ?Resgistro $record = null;
+{
+    public ?Resgistro $record = null;
     protected static string $resource = ResgistroResource::class;
     protected static string $view = 'filament.resources.resgistro-resource.pages.ticket-qr-page';
 
@@ -21,15 +22,15 @@ class TicketQrPage extends Page
     }
 
     public function getQRCode()
-    {if (!$this->record) {
-        return '';
+    {
+        if (!$this->record) {
+            return '';
+        }
+        return QrCode::size(200)->generate($this->record->numero_documento);
     }
-    return QrCode::size(200)->generate($this->record->numero_documento);
 
-    }
 
- 
-    public function enviarCorreo()
+    /* public function enviarCorreo()
     {
         if (!$this->record) {
             Notification::make()
@@ -76,6 +77,38 @@ class TicketQrPage extends Page
                 ->danger()
                 ->send();
         }
+    } */
+    public function enviarCorreo()
+    {
+        if (!$this->record) {
+            Notification::make()
+                ->title('Error')
+                ->body('No se pudo encontrar el registro.')
+                ->danger()
+                ->send();
+            return;
+        }
+
+        try {
+            // Enviar el correo con el PDF adjunto
+            Mail::to($this->record->email)
+                ->send(new ConfirmacionInscripcionMailable($this->record));
+
+            // Actualizar el estado de verificación
+            $this->record->verificado = true;
+            $this->record->save();
+
+            Notification::make()
+                ->title('Éxito')
+                ->body('Correo enviado exitosamente y el estado de verificación ha sido actualizado.')
+                ->success()
+                ->send();
+        } catch (\Exception $e) {
+            Notification::make()
+                ->title('Error')
+                ->body('Hubo un error al enviar el correo: ' . $e->getMessage())
+                ->danger()
+                ->send();
+        }
     }
 }
- 
