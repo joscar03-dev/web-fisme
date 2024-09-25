@@ -136,9 +136,7 @@
             border-radius: 10px;
             padding: 20px;
             width: 50%;
-            /* Ajusta el tamaño según necesites */
             max-width: 600px;
-            /* Tamaño máximo */
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             text-align: center;
             margin: auto;
@@ -175,7 +173,7 @@
         .info {
             border-top: 1px solid #ccc;
             padding-top: 10px;
-            text-align: left;
+            text-align: center;
         }
 
         .note {
@@ -190,10 +188,13 @@
     <div class="ticket">
         <h1>{{ $registro->evento->nombre_evento }}</h1>
         <h2>{{ $registro->evento->lugar }}</h2>
-        <p><span><strong>{{ $registro->evento->fecha_inicio }}-{{ $registro->evento->fecha_fin }}</strong></span>
+        <p>
+            <span><strong>{{ \Carbon\Carbon::parse($registro->evento->fecha_inicio)->format('d') }} - {{ \Carbon\Carbon::parse($registro->evento->fecha_fin)->format('d M') }}</strong></span>
             |
-            <span><strong>{{ $registro->evento->hora_inicio }}-{{ $registro->evento->hora_salida }}</strong></span>
+            <span><strong>{{ \Carbon\Carbon::parse($registro->evento->hora_inicio)->format('g:i A') }} - {{ \Carbon\Carbon::parse($registro->evento->hora_salida)->format('g:i A') }}</strong></span>
         </p>
+        
+             {{-- 'g:i:A' 'H:i'--}}
         <p class="location">Facultad de Ingeniera de Sistemas y Mecánica Eléctrica</p>
         <div class="qr-code">
             @if (!empty($qrCodeBase64))

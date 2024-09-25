@@ -76,7 +76,7 @@
             <li><strong>Fecha:</strong> {{ \Carbon\Carbon::parse($registro->evento->fecha_inicio)->format('d/m/Y') }}</li>
             <li><strong>Lugar:</strong> {{ $registro->evento->lugar }}</li>
         </ul>
-        <p>Por favor, presente este correo o el código QR adjunto al ingresar al evento.</p>
+        <p>Por favor presente esete código QR adjunto al ingresar al evento.</p>
         <p>Gracias por su participación.</p>
         <div class="footer">
             <p>Si tiene alguna pregunta, no dude en contactarnos.</p>
