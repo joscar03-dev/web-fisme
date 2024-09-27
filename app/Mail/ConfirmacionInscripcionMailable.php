@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Mail;
-
 use App\Models\Resgistro;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -12,7 +10,6 @@ use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
-
 class ConfirmacionInscripcionMailable extends Mailable
 {
     use Queueable, SerializesModels;
