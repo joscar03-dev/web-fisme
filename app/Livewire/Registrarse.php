@@ -23,6 +23,11 @@ class Registrarse extends Component
     public $evento_id;
     public $tipo_asistente;
     public $institucion_procedencia;
+    public $modalidad;
+    public $entidad_financiera;
+    public $fecha_pago;
+    public $n_comprobante;
+    public $tipo;
 
     public $evento;
 
@@ -35,6 +40,9 @@ class Registrarse extends Component
         'email' => 'required|email',
         'img_boucher' => 'required|image|max:2048', // max 2MB
         'institucion_procedencia' => 'required|min:2',
+        'tipo' => 'required|string',
+        'modalidad' => 'required|string',
+        'entidad_financiera' => 'required|string',
     ];
 
     public function mount($slug)
@@ -51,7 +59,7 @@ class Registrarse extends Component
         try {
             $imagePath = $this->img_boucher->store('registro', 'public');
 
-            $registro = Resgistro::create([
+            Resgistro::create([
                 'tipo_documento' => $this->tipo_documento,
                 'numero_documento' => $this->numero_documento,
                 'nombres' => $this->nombres,
@@ -62,6 +70,11 @@ class Registrarse extends Component
                 'evento_id' => $this->evento_id,
                 'tipo_asistente' => $this->tipo_asistente,
                 'institucion_procedencia' => $this->institucion_procedencia,
+                'tipo' => $this->tipo,
+                'modalidad' => $this->modalidad,
+                'entidad_financiera' => $this->entidad_financiera,
+                'fecha_pago' => Carbon::parse($this->fecha_pago),
+                'n_comprobante' => $this->n_comprobante,
             ]);
 
             $this->reset(['tipo_documento', 'numero_documento', 'nombres', 'apellidos', 'numero_celular', 'email', 'img_boucher', 'institucion_procedencia']);

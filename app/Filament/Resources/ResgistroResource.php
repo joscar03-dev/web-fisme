@@ -7,6 +7,7 @@ use App\Filament\Resources\ResgistroResource\Pages\TicketQrPage;
 use App\Filament\Resources\ResgistroResource\RelationManagers;
 use App\Models\Resgistro;
 use Filament\Forms;
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Section;
@@ -71,8 +72,13 @@ class ResgistroResource extends Resource
                                     ->email()
                                     ->required()
                                     ->maxLength(255),
+                                TextInput::make('tipo')
+                                    ->label('Tipo de Venta')
+                                    ->required(), // Campo requerido
 
-
+                                TextInput::make('modalidad')
+                                    ->label('Modalidad')
+                                    ->required(),
                             ]
                         )->columns(2),
                         Section::make('Descripcion del Evento')->schema(
@@ -110,6 +116,22 @@ class ResgistroResource extends Resource
                                     ->required(),
                             ]
                         )->columnSpan(2),
+                        Section::make('Informacion de Pago')->schema([
+                            TextInput::make('entidad_financiera')
+                                ->label('Entidad Financiera')
+                                ->required(),
+
+                            DatePicker::make('fecha_pago')
+                                ->label('Fecha de Pago')
+                                ->required(),
+
+                            TextInput::make('n_comprobante')
+                                ->label('Número de Comprobante')
+                                ->required(),
+                            TextInput::make('monto')
+                            ->label('Monto')
+                            ->required(),
+                        ])->columns(4)
                     ]
                 )->columnSpan(2),
             ])->columns(2);

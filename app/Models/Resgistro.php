@@ -24,6 +24,11 @@ class Resgistro extends Model
         'verificado',
         'estado',
         'usuario_verificacion',
+        'tipo',
+        'modalidad',
+        'entidad_financiera',
+        'fecha_pago',
+        'n_comprobante',
 
 
     ];

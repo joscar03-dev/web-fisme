@@ -1,0 +1,127 @@
+/* Asegúrate de que estos estilos solo se apliquen a la página del escáner QR */
+.qr-page {
+    padding: 2rem;
+    background-color: #f9fafb; /* Un fondo suave para el área del QR */
+}
+
+.qr-page h1 {
+    font-size: 2rem;
+    color: #1a202c; /* Tono gris oscuro */
+    margin-bottom: 1.5rem;
+    text-align: center; /* Centrar el título */
+}
+
+.qr-page .qr-container {
+    max-width: 100%;
+    padding: 1rem;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    margin: 0 auto;
+    text-align: center;
+}
+
+.qr-page .qr-container #my-qr-reader {
+    width: 500px; /* Ancho fijo para el lector de QR */
+    height: 240px; /* Altura fija */
+    border: 2px solid #133E6B; /* Borde gris suave */
+    border-radius: 5px;
+    margin: 1rem 0;
+}
+
+.qr-page input[type="file"] {
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    border: 2px solid #cbd5e0; /* Borde gris claro */
+    border-radius: 5px;
+    border: 2px solid #133E6B;
+}
+
+.qr-page button {
+    background-color: #133E6B; /* Azul índigo */
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.qr-page button:hover {
+    background-color: #0F3156; /* Azul índigo más oscuro al hacer hover */
+}
+
+.qr-page #result {
+    margin-top: 1.5rem;
+    font-size: 1.1rem;
+    color: #4a5568; /* Gris oscuro */
+}
+
+/* Para pantallas pequeñas, asegúrate de que todo sea responsivo */
+@media (max-width: 1024px) {
+    .qr-page .qr-container {
+        padding: 1rem;
+        width: 100%;
+    }
+
+    .qr-page .qr-container #my-qr-reader {
+        width: 100%; /* Hacer que el lector sea de ancho completo */
+        height: auto; /* Ajustar la altura automáticamente */
+    }
+
+    .qr-page button {
+        width: 100%; /* Botón de ancho completo en pantallas pequeñas */
+    }
+}
+
+/* Estilos para el contenedor */
+.qr-page .input-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.qr-page .input-container input[type="file"] {
+    display: none; /* Esconde el input original */
+}
+
+/* Crear un estilo moderno para el botón de subida de archivo */
+.qr-page .input-container label {
+    background-color: #133E6B; /* Color base del botón */
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-align: center;
+    display: inline-block;
+}
+
+.qr-page .input-container label:hover {
+    background-color: #0F3156; /* Color más oscuro en hover */
+}
+
+/* Estilo para el botón de "Escanear Imagen" */
+.qr-page .input-container button {
+    background-color: #133E6B;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.qr-page .input-container button:hover {
+    background-color: #0F3156;
+}
+
+/* Agregar un estilo moderno para los textos del input */
+.qr-page .input-container .file-name {
+    margin-top: 0.5rem;
+    color: #4A5568; /* Gris oscuro */
+    font-size: 0.9rem;
+    text-align: center;
+}

@@ -133,6 +133,45 @@
                             <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
                         @enderror
                     </div>
+                    <div>
+                        <!-- Campo Tipo -->
+                        <label for="tipo" class="block text-sm font-medium text-gray-700">Tipo</label>
+                        <select wire:model="tipo" id="tipo"
+                            class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-[#001f54] focus:border-[#001f54] sm:text-sm rounded-md">
+                            <option value="">Selecciona tipo</option>
+                            <option value="Preventa">Preventa</option>
+                            <option value="Venta Normal">Venta Normal</option>
+                        </select>
+                        @error('tipo')
+                            <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    
+                    <div class="mt-4">
+                        <!-- Campo Modalidad -->
+                        <label for="modalidad" class="block text-sm font-medium text-gray-700">Modalidad</label>
+                        <select wire:model="modalidad" id="modalidad"
+                            class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-[#001f54] focus:border-[#001f54] sm:text-sm rounded-md">
+                            <option value="">Selecciona modalidad</option>
+                            <option value="Online">Online</option>
+                            <option value="Presencial">Presencial</option>
+                        </select>
+                        @error('modalidad')
+                            <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    
+                    <div class="mt-4">
+                        <!-- Campo Entidad Financiera -->
+                        <label for="entidad_financiera" class="block text-sm font-medium text-gray-700">Entidad Financiera</label>
+                        <input type="text" wire:model="entidad_financiera" id="entidad_financiera"
+                            class="mt-1 block w-full pl-3 pr-3 py-2 text-base border-gray-300 focus:outline-none focus:ring-[#001f54] focus:border-[#001f54] sm:text-sm rounded-md"
+                            placeholder="Escribe la entidad financiera">
+                        @error('entidad_financiera')
+                            <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    
 
                     <div>
                         <label for="img_boucher" class="block text-sm font-medium text-gray-700 mb-2">
