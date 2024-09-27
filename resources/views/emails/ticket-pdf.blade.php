@@ -113,6 +113,7 @@
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -125,59 +126,56 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background-color: #f0f0f0;
+            padding: 0;
+            background-color: white;
         }
+
         .ticket {
             background-color: white;
             border: 2px solid #003366;
             border-radius: 10px;
             padding: 20px;
-            width: 350px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            width: 50%;
+            max-width: 600px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             text-align: center;
+            margin: auto;
         }
+
         h1 {
             color: #003366;
             font-size: 22px;
             margin-top: 0;
             margin-bottom: 5px;
         }
+
         h2 {
             color: #003366;
             font-size: 18px;
             margin-top: 0;
             margin-bottom: 10px;
         }
+
         p {
             margin: 5px 0;
             font-size: 14px;
         }
+
         .qr-code {
             margin: 20px 0;
         }
+
         .qr-code img {
             width: 200px;
             height: 200px;
         }
+
         .info {
             border-top: 1px solid #ccc;
             padding-top: 10px;
-            text-align: left;
+            text-align: center;
         }
-        .buttons {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-        }
-        .button {
-            background-color: #003366;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 14px;
-        }
+
         .note {
             font-style: italic;
             font-size: 12px;
@@ -185,14 +183,18 @@
         }
     </style>
 </head>
+
 <body>
     <div class="ticket">
         <h1>{{ $registro->evento->nombre_evento }}</h1>
-        <h2>Ingeniería de Sistemas</h2>
-        <p><span><strong>{{ $registro->evento->fecha_inicio }}-{{ $registro->evento->fecha_fin }}</strong></span>
+        <h2>{{ $registro->evento->lugar }}</h2>
+        <p>
+            <span><strong>{{ \Carbon\Carbon::parse($registro->evento->fecha_inicio)->format('d') }} - {{ \Carbon\Carbon::parse($registro->evento->fecha_fin)->format('d M') }}</strong></span>
             |
-            <span><strong>{{ $registro->evento->hora_inicio }}-{{ $registro->evento->hora_salida }}</strong></span>
+            <span><strong>{{ \Carbon\Carbon::parse($registro->evento->hora_inicio)->format('g:i A') }} - {{ \Carbon\Carbon::parse($registro->evento->hora_salida)->format('g:i A') }}</strong></span>
         </p>
+        
+             {{-- 'g:i:A' 'H:i'--}}
         <p class="location">Facultad de Ingeniera de Sistemas y Mecánica Eléctrica</p>
         <div class="qr-code">
             @if (!empty($qrCodeBase64))
@@ -212,4 +214,5 @@
         <p><em>Este ticket es personal e intransferible. Presente el código QR al ingresar al evento.</em></p>
     </div>
 </body>
+
 </html>
