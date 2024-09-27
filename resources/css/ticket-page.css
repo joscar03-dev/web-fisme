@@ -1,0 +1,170 @@
+.ticket-container {
+    max-width: 400px;
+    width: 100%;
+    justify-content: center;
+    margin: 0 auto; /* Centrar horizontalmente */
+    display: flex; /* Usar flex para alineación vertical */
+    align-items: center; /* Alineación vertical */
+    min-height: 100vh; /* Ocupa todo el alto de la pantalla */
+}
+
+.ticket-wrapper {
+    background-color: #133E6B;
+    padding: 4px;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    width: 100%; /* Asegurar que el ticket ocupe el ancho del contenedor */
+}
+
+.ticket-content {
+    background-color: white;
+    padding: 24px;
+    border-radius: 6px;
+    position: relative;
+    overflow: hidden;
+}
+
+.ticket-border-top,
+.ticket-border-bottom {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 8px;
+    background-color: #133E6B;
+}
+
+.ticket-border-top {
+    top: 0;
+}
+
+.ticket-border-bottom {
+    bottom: 0;
+}
+
+.event-info {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.event-title {
+    color: #133E6B;
+    font-size: 24px;
+    font-weight: 800;
+    margin-bottom: 8px;
+}
+
+.event-subtitle {
+    color: #4a5568;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.event-date {
+    color: #4a5568;
+    margin-top: 8px;
+}
+
+.event-date span {
+    font-weight: bold;
+    color: #133E6B;
+}
+
+.event-location {
+    color: #718096;
+    font-style: italic;
+}
+
+.qr-code {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 24px;
+}
+
+.qr-code-inner {
+    background-color: #f7fafc;
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.attendee-info {
+    background-color: #f7fafc;
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+.attendee-info h3 {
+    color: #133E6B;
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.attendee-info p {
+    color: #4a5568;
+    margin: 4px 0;
+}
+
+.attendee-info strong {
+    font-weight: 600;
+}
+
+.ticket-notice {
+    text-align: center;
+    color: #718096;
+    font-style: italic;
+    font-size: 14px;
+    margin-top: 24px;
+}
+
+.ticket-actions {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 24px;
+}
+
+.ticket-button {
+    background-color: #133E6B;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 9999px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.ticket-button:hover {
+    background-color: #0f2d4e;
+}
+
+.ticket-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(19, 62, 107, 0.5);
+}
+
+@media print {
+    body {
+        background-color: white;
+    }
+
+    .ticket-container,
+    .ticket-container * {
+        visibility: visible;
+    }
+
+    .ticket-container {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+    }
+
+    .ticket-actions {
+        display: none;
+    }
+}
