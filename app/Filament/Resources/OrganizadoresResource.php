@@ -26,7 +26,8 @@ class OrganizadoresResource extends Resource
     protected static ?string $model = Organizadores::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-building-library';
-
+    protected static ?string $navigationGroup = 'Evento';
+    protected static ?int $navigationSort = 7;
     public static function form(Form $form): Form
     {
         return $form

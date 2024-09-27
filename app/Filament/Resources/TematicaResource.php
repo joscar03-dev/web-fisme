@@ -21,7 +21,8 @@ class TematicaResource extends Resource
     protected static ?string $model = Tematica::class;
 
     protected static ?string $navigationIcon = 'heroicon-s-book-open';
-
+    protected static ?string $navigationGroup = 'Evento';
+    protected static ?int $navigationSort = 8;
     public static function form(Form $form): Form
     {
         return $form

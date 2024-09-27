@@ -46,4 +46,13 @@ class Resgistro extends Model
     {
         return $this->hasMany(Asistencia::class);
     }
+    public function scopeSinVerificar($query)
+    {
+        return $query->where('verificado', false);
+    }
+
+    public static function contarSinVerificar()
+    {
+        return self::sinVerificar()->count();
+    }
 }

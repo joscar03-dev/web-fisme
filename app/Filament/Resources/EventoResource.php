@@ -20,21 +20,25 @@ use Filament\Forms\Components\TimePicker;
 use Illuminate\Support\Str;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
+
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+
 
 class EventoResource extends Resource
 {
     protected static ?string $model = Evento::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-calendar-date-range';
-
+    protected static ?string $navigationGroup = 'Evento';
+    protected static ?int $navigationSort = 1;
     public static function form(Form $form): Form
     {
         return $form
@@ -381,7 +385,8 @@ class EventoResource extends Resource
             //
         ];
     }
-
+    
+    
     public static function getPages(): array
     {
         return [

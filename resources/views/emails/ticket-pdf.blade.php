@@ -117,71 +117,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>XI Congreso Internacional</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            padding: 0;
-            background-color: white;
-        }
-
-        .ticket {
-            background-color: white;
-            border: 2px solid #003366;
-            border-radius: 10px;
-            padding: 20px;
-            width: 50%;
-            max-width: 600px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            margin: auto;
-        }
-
-        h1 {
-            color: #003366;
-            font-size: 22px;
-            margin-top: 0;
-            margin-bottom: 5px;
-        }
-
-        h2 {
-            color: #003366;
-            font-size: 18px;
-            margin-top: 0;
-            margin-bottom: 10px;
-        }
-
-        p {
-            margin: 5px 0;
-            font-size: 14px;
-        }
-
-        .qr-code {
-            margin: 20px 0;
-        }
-
-        .qr-code img {
-            width: 200px;
-            height: 200px;
-        }
-
-        .info {
-            border-top: 1px solid #ccc;
-            padding-top: 10px;
-            text-align: center;
-        }
-
-        .note {
-            font-style: italic;
-            font-size: 12px;
-            margin-top: 15px;
-        }
-    </style>
+    <title>{{$registro->evento->nombre_evento}}</title>
+    @vite('resources/css/app.css')
 </head>
 
 <body>
@@ -213,6 +150,7 @@
         </div>
         <p><em>Este ticket es personal e intransferible. Presente el código QR al ingresar al evento.</em></p>
     </div>
+    @vite('resources/js/app.js')
 </body>
 
 </html>

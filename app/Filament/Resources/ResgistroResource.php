@@ -26,7 +26,17 @@ class ResgistroResource extends Resource
     protected static ?string $model = Resgistro::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-academic-cap';
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
 
+    }
+    public static function getNavigationBadgeColor(): string|array|null
+    {
+        return static::getModel()::count()>10?'success':'danger';
+    }
+            
+            
     public static function form(Form $form): Form
     {
         return $form

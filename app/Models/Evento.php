@@ -18,7 +18,6 @@ class Evento extends Model
         'fecha_fin',
         'hora_inicio',
         'hora_salida',
-
         'tipo_evento',
         'area_evento',
         'descripcion_breve',
@@ -28,6 +27,7 @@ class Evento extends Model
         'estado',
         'enlace_inscripcion'
     ];
+
     protected $dates = [
         'fecha_inicio',
         'fecha_fin',
@@ -43,7 +43,7 @@ class Evento extends Model
     }
     public function attendees()
     {
-        return $this->morphToMany(User::class, 'attendable'); // Asegúrate de que esto esté bien configurado
+        return $this->belongsToMany(User::class, 'evento_user', 'evento_id', 'user_id');
     }
     /**
      * Scope a query to only include featured events.

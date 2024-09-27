@@ -27,6 +27,8 @@ class PonenteResource extends Resource
     protected static ?string $model = Ponente::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-user-circle';
+    protected static ?string $navigationGroup = 'Evento';
+    protected static ?int $navigationSort = 3;
 
     public static function form(Form $form): Form
     {

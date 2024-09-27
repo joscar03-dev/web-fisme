@@ -25,7 +25,8 @@ class LugarTuristicoResource extends Resource
     protected static ?string $model = LugarTuristico::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-map';
-
+    protected static ?string $navigationGroup = 'Ubicación';
+    protected static ?int $navigationSort = 2;
     public static function form(Form $form): Form
     {
         return $form

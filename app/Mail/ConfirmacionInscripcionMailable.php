@@ -20,23 +20,19 @@ class ConfirmacionInscripcionMailable extends Mailable
     public function __construct(Resgistro $registro)
     {
         $this->registro = $registro;
-        // $this->pdf = Pdf::loadView('emails.ticket-pdf', ['registro' => $this->registro])->output();
-        $this->qrCodeBase64 = $this->getQRCode1(true);
-
-        // Generar el PDF basado en la vista del ticket
+        
+        $this->qrCodeBase64 = $this->getQRCode1(true);       
         $this->pdf = Pdf::loadView('emails.ticket-pdf', [
             'registro' => $this->registro,
-            'qrCodeBase64' => $this->qrCodeBase64, // Pasamos el código QR como Base64 a la vista
+            'qrCodeBase64' => $this->qrCodeBase64, 
         ])->output();
     }
-
     public function envelope(): Envelope
     {
         return new Envelope(
             subject: 'Confirmación de Inscripción',
         );
     }
-
     public function content(): Content
     {
         return new Content(
