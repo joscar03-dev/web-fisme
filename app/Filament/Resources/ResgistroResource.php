@@ -30,14 +30,13 @@ class ResgistroResource extends Resource
     public static function getNavigationBadge(): ?string
     {
         return static::getModel()::count();
-
     }
     public static function getNavigationBadgeColor(): string|array|null
     {
-        return static::getModel()::count()>10?'success':'danger';
+        return static::getModel()::count() > 10 ? 'success' : 'danger';
     }
-            
-            
+
+
     public static function form(Form $form): Form
     {
         return $form
@@ -73,12 +72,10 @@ class ResgistroResource extends Resource
                                     ->required()
                                     ->maxLength(255),
                                 TextInput::make('tipo')
-                                    ->label('Tipo de Venta')
-                                    , // Campo requerido
+                                    ->label('Tipo de Venta'), // Campo requerido
 
                                 TextInput::make('modalidad')
-                                    ->label('Modalidad')
-                                    ,
+                                    ->label('Modalidad'),
                             ]
                         )->columns(2),
                         Section::make('Descripcion del Evento')->schema(
@@ -92,14 +89,17 @@ class ResgistroResource extends Resource
                                 Select::make('tipo_asistente')
                                     ->label('Tipo de Asistente')
                                     ->options([
-                                        'Estudiante' => 'Estudiante',
-                                        'Profesional' => 'Profesional',
-                                        'Publico General' => 'Público General',
+                                        'ESTUDIANTE FISME' => 'ESTUDIANTE FISME',
+                                        'DOCENTE FISME' => 'DOCENTE FISME',
+                                        'EGRESADO FISME' => 'EGRESADO FISME',
+                                        'DOCENTE UNTRM' => 'DOCENTE UNTRM',
+                                        'PÚBLICO GENERAL - ESTUDIANTE' => 'PUBLICO GENERAL - ESTUDIANTE',
+                                        'PÚBLICO GENERAL - PROFESIONAL' => 'PUBLICO GENERAL - PROFESIONAL',
                                     ])
                                     ->required(),
                                 TextInput::make('institucion_procedencia')
                                     ->placeholder('Institucion Procedencia')
-                                    
+
                                     ->maxLength(255),
                                 FileUpload::make('img_boucher')
                                     ->image()
@@ -118,19 +118,16 @@ class ResgistroResource extends Resource
                         )->columnSpan(2),
                         Section::make('Informacion de Pago')->schema([
                             TextInput::make('entidad_financiera')
-                                ->label('Entidad Financiera')
-                               ,
+                                ->label('Entidad Financiera'),
 
                             DatePicker::make('fecha_pago')
-                                ->label('Fecha de Pago')
-                               ,
+                                ->label('Fecha de Pago'),
 
                             TextInput::make('n_comprobante')
-                                ->label('Número de Comprobante')
-                                ,
+                                ->label('Número de Comprobante'),
                             TextInput::make('monto')
-                            ->label('Monto')
-                            ,
+                                ->numeric()
+                                ->label('Monto'),
                         ])->columns(4)
                     ]
                 )->columnSpan(2),
