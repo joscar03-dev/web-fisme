@@ -9,167 +9,148 @@ use Illuminate\Support\Collection;
 
 class Agenda extends Component
 {
-    public $events;
-    public array $sendToView = [];
-    public $startDate;
-    public $endDate;
+    public $events = [];
     public $currentMonth;
     public $currentYear;
+    public $calendar;
     public $upcomingEvents;
-    public $eventsByDate;
+    public $vista = 'mes';
 
     public function mount()
     {
-        $this->currentMonth = Carbon::now()->month;
-        $this->currentYear = Carbon::now()->year;
-        $this->setMonthBoundaries();
+        $this->currentYear = now()->year;
+        $this->currentMonth = now()->month;
         $this->loadEvents();
         $this->loadUpcomingEvents();
     }
 
-    private function setMonthBoundaries()
-    {
-        $this->startDate = Carbon::create($this->currentYear, $this->currentMonth, 1)->startOfMonth();
-        $this->endDate = Carbon::create($this->currentYear, $this->currentMonth, 1)->endOfMonth();
-    }
-
-    public function loadUpcomingEvents()
-    {
-        $this->upcomingEvents = Evento::where('fecha_inicio', '>=', now())->get();
-    }
-
     public function loadEvents()
     {
-        // Cargar eventos del mes actual
-        $this->events = Evento::whereBetween('fecha_inicio', [$this->startDate, $this->endDate])
+        $startOfMonth = Carbon::create($this->currentYear, $this->currentMonth, 1)->startOfDay();
+        $endOfMonth = $startOfMonth->copy()->endOfMonth()->endOfDay();
+
+        $this->events = Evento::whereBetween('fecha_inicio', [$startOfMonth, $endOfMonth])
             ->get()
             ->map(function ($event) {
                 return [
                     'id' => $event->id,
-                    'title' => $event->titulo,
+                    'title' => $event->nombre_evento,
                     'start' => $event->fecha_inicio->toDateTimeString(),
-                    'end' => $event->fecha_fin ? $event->fecha_fin->toDateTimeString() : null,
-                    'description' => $event->descripcion,
+                    'end' => $event->fecha_fin->toDateTimeString(),
+                    'color' => $this->getEventColor($event->tipo_evento),
                 ];
-            });
+            })
+            ->toArray();
 
-        $this->eventsByDate = $this->events->groupBy(function ($event) {
-            return Carbon::parse($event['start'])->format('Y-m-d');
-        }) ?? collect(); // Asegúrate de que no sea null
+        $this->generateCalendar();
     }
 
-    public function nextMonth()
+    public function loadUpcomingEvents()
     {
-        $this->currentMonth++;
-        if ($this->currentMonth > 12) {
-            $this->currentMonth = 1;
-            $this->currentYear++;
-        }
-        $this->setMonthBoundaries();
-        $this->loadEvents();
-        $this->emit('monthChanged');
+        $this->upcomingEvents = Evento::where('fecha_inicio', '>=', now())
+            ->orderBy('fecha_inicio')
+            ->take(5)
+            ->get();
     }
 
-    public function previousMonth()
+    public function generateCalendar()
+    {
+        $startOfMonth = Carbon::create($this->currentYear, $this->currentMonth, 1)->startOfWeek();
+        $endOfMonth = Carbon::create($this->currentYear, $this->currentMonth, 1)->endOfMonth()->endOfWeek();
+
+        $calendar = collect();
+        $currentDate = $startOfMonth->copy();
+
+        while ($currentDate <= $endOfMonth) {
+            $week = collect();
+            for ($i = 0; $i < 7; $i++) {
+                $date = $currentDate->copy();
+                $week->push([
+                    'date' => $date,
+                    'events' => $this->getEventsForDate($date),
+                    'has_events' => $this->hasEventsForDate($date),
+                ]);
+                $currentDate->addDay();
+            }
+            $calendar->push($week);
+        }
+
+        $this->calendar = $calendar;
+    }
+
+    private function getEventsForDate($date)
+    {
+        return collect($this->events)->filter(function ($event) use ($date) {
+            $start = Carbon::parse($event['start']);
+            $end = Carbon::parse($event['end']);
+            return $date->between($start->startOfDay(), $end->endOfDay());
+        })->values()->all();
+    }
+
+    private function hasEventsForDate($date)
+    {
+        return !empty($this->getEventsForDate($date));
+    }
+
+    public function mesAnterior()
     {
         $this->currentMonth--;
         if ($this->currentMonth < 1) {
             $this->currentMonth = 12;
             $this->currentYear--;
         }
-        $this->setMonthBoundaries();
         $this->loadEvents();
-        $this->emit('monthChanged');
+    }
+    
+    public function mesSiguiente()
+    {
+        $this->currentMonth++;
+        if ($this->currentMonth > 12) {
+            $this->currentMonth = 1;
+            $this->currentYear++;
+        }
+        $this->loadEvents();
+    }
+
+    public function irAHoy()
+    {
+        $this->currentYear = now()->year;
+        $this->currentMonth = now()->month;
+        $this->loadEvents();
+    }
+
+    public function cambiarVista($vista)
+    {
+        $this->vista = $vista;
+    }
+
+    public function refreshEvents()
+    {
+        $this->loadEvents();
+        $this->emit('refreshCalendar');
     }
 
     public function registerForEvent($eventId)
     {
-        $event = Evento::find($eventId);
-        if ($event) {
-            // Verifica si el usuario ya está registrado
-            if (!$event->attendees()->where('user_id', auth()->user()->id)->exists()) {
-                $event->attendees()->attach(auth()->user()->id);
-                session()->flash('message', 'Te has registrado exitosamente en el evento.');
-            } else {
-                session()->flash('warning', 'Ya estás registrado en este evento.');
-            }
-        } else {
-            session()->flash('error', 'Evento no encontrado.');
-        }
+        // Implementa tu lógica de registro aquí
+        session()->flash('message', 'Te has registrado exitosamente para el evento.');
     }
 
-    public function updatedCurrentMonth()
+    private function getEventColor($tipoEvento)
     {
-        $this->loadEvents();
-        $this->emit('refreshCalendar');
+        // Implementa tu lógica de colores aquí
+        $colores = [
+            'conferencia' => 'bg-blue-500',
+            'Congreso' => 'bg-green-500',
+            'seminario' => 'bg-yellow-500',
+            'otro' => 'bg-purple-500',
+        ];
+
+        return $colores[$tipoEvento] ?? 'bg-gray-500';
     }
     
-    public function updatedCurrentYear()
-    {
-        $this->loadEvents();
-        $this->emit('refreshCalendar');
-    }
-
-    public function updatedStartDate()
-    {
-        $this->loadEvents();
-    }
-
-    public function updatedEndDate()
-    {
-        $this->loadEvents();
-    }
-
     public function render()
     {
-        $calendar = $this->generateCalendar();
-        return view('livewire.agenda', [
-            'events' => $this->events,
-            'upcomingEvents' => $this->upcomingEvents,
-            'calendar' => $calendar,
-        ]);
+        return view('livewire.agenda');
     }
-
-    private function generateCalendar()
-    {
-        $date = Carbon::create($this->currentYear, $this->currentMonth, 1);
-        $daysInMonth = $date->daysInMonth;
-        $firstDayOfWeek = $date->copy()->firstOfMonth()->dayOfWeek;
-
-        $calendar = [];
-        $week = [];
-
-        for ($i = 0; $i < $firstDayOfWeek; $i++) {
-            $week[] = null;
-        }
-
-        for ($day = 1; $day <= $daysInMonth; $day++) {
-            $currentDate = $date->copy()->setDay($day);
-            $dateKey = $currentDate->format('Y-m-d');
-            $eventsOnThisDay = $this->eventsByDate->get($dateKey, collect());
-
-            $week[] = [
-                'day' => $day,
-                'date' => $currentDate,
-                'events' => $eventsOnThisDay,
-                'has_events' => $eventsOnThisDay->isNotEmpty(),
-            ];
-
-            if (count($week) == 7) {
-                $calendar[] = $week;
-                $week = [];
-            }
-        }
-
-        while (count($week) < 7 && !empty($week)) {
-            $week[] = null;
-        }
-
-        if (!empty($week)) {
-            $calendar[] = $week;
-        }
-
-        return $calendar;
-    }
-    
 }

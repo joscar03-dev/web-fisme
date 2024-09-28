@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import 'fullcalendar/main.css';
 
 @keyframes fadeInUp {
     from {

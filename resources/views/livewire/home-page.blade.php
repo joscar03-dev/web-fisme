@@ -352,7 +352,7 @@
     <!-- Historia Section -->
 
     <!-- Contact -->
-    <div class="bg-gradient-to-r from-[#001f54] to-[#4b6587]">
+    {{-- <div class="bg-gradient-to-r from-[#001f54] to-[#4b6587]">
         <div class="max-w-5xl px-4 xl:px-0 py-10 lg:py-20 mx-auto">
             <!-- Title -->
             <div class="max-w-3xl mb-10 lg:mb-14">
@@ -574,7 +574,7 @@
             </div>
             <!-- End Grid -->
         </div>
-    </div>
+    </div> --}}
     <!-- End Contact -->
 </div>
 <script src="https://cdn.jsdelivr.net"></script>
