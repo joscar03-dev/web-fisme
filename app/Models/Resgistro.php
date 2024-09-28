@@ -29,6 +29,7 @@ class Resgistro extends Model
         'entidad_financiera',
         'fecha_pago',
         'n_comprobante',
+        'monto',
 
 
     ];
