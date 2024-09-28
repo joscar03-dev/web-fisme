@@ -20,23 +20,41 @@
         <div class="lg:w-1/3 md:w-1/2 bg-white flex flex-col md:ml-auto w-full md:py-8 mt-8 md:mt-0">
             <h2 class="text-gray-900 text-lg mb-1 font-medium title-font">Contáctanos</h2>
             <p class="leading-relaxed mb-5 text-gray-600">Estamos aquí para responder a tus preguntas y escuchar tus sugerencias.</p>
-            <div class="relative mb-4">
-                <label for="name" class="leading-7 text-sm text-gray-600">Nombre</label>
-                <input type="text" id="name" name="name"
-                    class="w-full bg-white rounded border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
-            </div>
-            <div class="relative mb-4">
-                <label for="email" class="leading-7 text-sm text-gray-600">Email</label>
-                <input type="email" id="email" name="email"
-                    class="w-full bg-white rounded border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
-            </div>
-            <div class="relative mb-4">
-                <label for="message" class="leading-7 text-sm text-gray-600">Mensaje</label>
-                <textarea id="message" name="message"
-                    class="w-full bg-white rounded border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"></textarea>
-            </div>
-            <button
-                class="text-white bg-blue-500 border-0 py-2 px-6 focus:outline-none hover:bg-blue-600 rounded text-lg">Enviar</button>
+            
+            @if($success)
+                <div class="mb-4 text-sm text-green-600">
+                    Mensaje enviado con éxito. Gracias por contactarnos.
+                </div>
+            @endif
+
+            <form wire:submit.prevent="sendMessage">
+                <div class="relative mb-4">
+                    <label for="name" class="leading-7 text-sm text-gray-600">Nombre</label>
+                    <input type="text" id="name" wire:model.lazy="name"
+                        class="w-full bg-white rounded border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out @error('name') @enderror">
+                    @error('name')
+                        <p class="text-red-500 text-xs italic mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+                <div class="relative mb-4">
+                    <label for="email" class="leading-7 text-sm text-gray-600">Email</label>
+                    <input type="email" id="email" wire:model.lazy="email"
+                        class="w-full bg-white rounded border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out @error('email')  @enderror">
+                    @error('email')
+                        <p class="text-red-500 text-xs italic mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+                <div class="relative mb-4">
+                    <label for="message" class="leading-7 text-sm text-gray-600">Mensaje</label>
+                    <textarea id="message" wire:model.lazy="message"
+                        class="w-full bg-white rounded border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out @error('message')@enderror"></textarea>
+                    @error('message')
+                        <p class="text-red-500 text-xs italic mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+                <button type="submit"
+                    class="text-white bg-blue-500 border-0 py-2 px-6 focus:outline-none hover:bg-blue-600 rounded text-lg">Enviar</button>
+            </form>
             <p class="text-xs text-gray-500 mt-3">Tu mensaje es importante para nosotros. Nos pondremos en contacto contigo lo antes posible.</p>
         </div>
     </div>

@@ -139,7 +139,7 @@
                         <select wire:model="tipo" id="tipo"
                             class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-[#001f54] focus:border-[#001f54] sm:text-sm rounded-md">
                             <option value="">Selecciona tipo</option>
-                            <option value="Preventa">Preventa</option>
+                          
                             <option value="Venta Normal">Venta Normal</option>
                         </select>
                         @error('tipo')

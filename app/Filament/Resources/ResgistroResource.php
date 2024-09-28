@@ -74,11 +74,11 @@ class ResgistroResource extends Resource
                                     ->maxLength(255),
                                 TextInput::make('tipo')
                                     ->label('Tipo de Venta')
-                                    ->required(), // Campo requerido
+                                    , // Campo requerido
 
                                 TextInput::make('modalidad')
                                     ->label('Modalidad')
-                                    ->required(),
+                                    ,
                             ]
                         )->columns(2),
                         Section::make('Descripcion del Evento')->schema(
@@ -99,7 +99,7 @@ class ResgistroResource extends Resource
                                     ->required(),
                                 TextInput::make('institucion_procedencia')
                                     ->placeholder('Institucion Procedencia')
-                                    ->required()
+                                    
                                     ->maxLength(255),
                                 FileUpload::make('img_boucher')
                                     ->image()
@@ -119,18 +119,18 @@ class ResgistroResource extends Resource
                         Section::make('Informacion de Pago')->schema([
                             TextInput::make('entidad_financiera')
                                 ->label('Entidad Financiera')
-                                ->required(),
+                               ,
 
                             DatePicker::make('fecha_pago')
                                 ->label('Fecha de Pago')
-                                ->required(),
+                               ,
 
                             TextInput::make('n_comprobante')
                                 ->label('Número de Comprobante')
-                                ->required(),
+                                ,
                             TextInput::make('monto')
                             ->label('Monto')
-                            ->required(),
+                            ,
                         ])->columns(4)
                     ]
                 )->columnSpan(2),

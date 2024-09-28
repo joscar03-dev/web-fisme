@@ -6,7 +6,10 @@ export default defineConfig({
         laravel({
             input: [
                 'resources/css/app.css',
-                'resources/js/app.js'
+                'resources/js/app.js',
+                'resources/css/qr-scanner.css',
+                'resources/css/ticket-page.css',
+
             ],
             refresh: true,
         }),

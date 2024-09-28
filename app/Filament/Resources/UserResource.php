@@ -35,19 +35,20 @@ class UserResource extends Resource
                 TextInput::make('email')
                     ->email()
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->unique(User::class, 'email', ignoreRecord: true),
                 TextInput::make('password')
                     ->password()
                     ->dehydrateStateUsing(fn($state) => Hash::make($state))
                     ->dehydrated(fn($state) => filled($state))
                     ->required(fn(string $context): bool => $context === 'create'),
                 Select::make('roles')
-                    ->multiple()
+                    
                     ->relationship('roles', 'name')
                     ->preload()
-                    ->required()
-                    ->reactive(),
-                    Select::make('eventos')
+                  
+                    ,
+                Select::make('eventos')
                     ->multiple()
                     ->relationship('eventos', 'nombre_evento')
                     ->preload(),
