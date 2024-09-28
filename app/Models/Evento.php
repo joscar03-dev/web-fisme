@@ -28,9 +28,12 @@ class Evento extends Model
         'enlace_inscripcion'
     ];
 
-    protected $dates = [
-        'fecha_inicio',
-        'fecha_fin',
+    protected $dates = ['fecha_inicio', 'fecha_fin'];
+
+    // Alternativamente, puedes usar $casts para definir el tipo
+    protected $casts = [
+        'fecha_inicio' => 'datetime',
+        'fecha_fin' => 'datetime',
     ];
     public function getRouteKeyName()
     {

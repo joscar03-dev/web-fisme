@@ -30,7 +30,7 @@ class Contact extends Component
         $validatedData = $this->validate();
 
         try {
-            Mail::to('informes@untrm.edu.pe')->send(new ContactFormMail($validatedData));
+            Mail::to('7583976221@untrm.edu.pe')->send(new ContactFormMail($validatedData));
             $this->reset(['name', 'email', 'message']);
             $this->notificationStatus = 'success';
             $this->notificationMessage = 'Mensaje enviado con éxito. Gracias por contactarnos.';
