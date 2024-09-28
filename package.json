@@ -14,6 +14,7 @@
         "vite": "^5.0.0"
     },
     "dependencies": {
+        "@preline/file-upload": "^2.5.0",
         "@preline/overlay": "^2.4.1",
         "alpinejs": "^3.14.1",
         "dropzone": "^6.0.0-beta.2",
