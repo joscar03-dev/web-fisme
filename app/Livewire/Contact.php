@@ -7,10 +7,12 @@ use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 
 class Contact extends Component
-{public $name = '';
+{
+    public $name = '';
     public $email = '';
     public $message = '';
-    public $success = false;
+    public $notificationStatus = '';
+    public $notificationMessage = '';
 
     protected $rules = [
         'name' => 'required|min:3',
@@ -27,15 +29,26 @@ class Contact extends Component
     {
         $validatedData = $this->validate();
 
-        Mail::to('informes@untrm.edu.pe')->send(new ContactFormMail($validatedData));
-
-        $this->reset(['name', 'email', 'message']);
-        $this->success = true;
+        try {
+            Mail::to('informes@untrm.edu.pe')->send(new ContactFormMail($validatedData));
+            $this->reset(['name', 'email', 'message']);
+            $this->notificationStatus = 'success';
+            $this->notificationMessage = 'Mensaje enviado con éxito. Gracias por contactarnos.';
+        } catch (\Exception $e) {
+            $this->notificationStatus = 'error';
+            $this->notificationMessage = 'No se pudo enviar el mensaje. Por favor, inténtelo de nuevo más tarde.';
+        }
     }
 
     public function render()
     {
         return view('livewire.contact');
+    }
+
+    public function resetNotification()
+    {
+        $this->notificationStatus = '';
+        $this->notificationMessage = '';
     }
    
 }

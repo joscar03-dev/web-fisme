@@ -21,9 +21,32 @@
             <h2 class="text-gray-900 text-lg mb-1 font-medium title-font">Contáctanos</h2>
             <p class="leading-relaxed mb-5 text-gray-600">Estamos aquí para responder a tus preguntas y escuchar tus sugerencias.</p>
             
-            @if($success)
-                <div class="mb-4 text-sm text-green-600">
-                    Mensaje enviado con éxito. Gracias por contactarnos.
+            @if($notificationStatus)
+                <div class="bg-blue-100 border border-blue-200 text-gray-800 rounded-lg p-4 dark:bg-blue-800/10 dark:border-blue-900 dark:text-white mb-4" role="alert" tabindex="-1" aria-labelledby="notification-label">
+                    <div class="flex">
+                        <div class="shrink-0">
+                            <svg class="shrink-0 size-4 mt-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <path d="M12 16v-4"></path>
+                                <path d="M12 8h.01"></path>
+                            </svg>
+                        </div>
+                        <div class="ms-3">
+                            <h3 id="notification-label" class="font-semibold">
+                                Estado del envío
+                            </h3>
+                            <div class="mt-2 text-sm text-gray-600 dark:text-neutral-400">
+                                {{ $notificationMessage }}
+                            </div>
+                            <div class="mt-4">
+                                <div class="flex gap-x-3">
+                                    <button type="button" wire:click="resetNotification" class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 focus:outline-none focus:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:text-blue-400">
+                                        Cerrar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             @endif
 
@@ -31,7 +54,7 @@
                 <div class="relative mb-4">
                     <label for="name" class="leading-7 text-sm text-gray-600">Nombre</label>
                     <input type="text" id="name" wire:model.lazy="name"
-                        class="w-full bg-white rounded border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out @error('name') @enderror">
+                        class="w-full bg-white rounded border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out @error('name')  @enderror">
                     @error('name')
                         <p class="text-red-500 text-xs italic mt-1">{{ $message }}</p>
                     @enderror
@@ -47,7 +70,7 @@
                 <div class="relative mb-4">
                     <label for="message" class="leading-7 text-sm text-gray-600">Mensaje</label>
                     <textarea id="message" wire:model.lazy="message"
-                        class="w-full bg-white rounded border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out @error('message')@enderror"></textarea>
+                        class="w-full bg-white rounded border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out @error('message')  @enderror"></textarea>
                     @error('message')
                         <p class="text-red-500 text-xs italic mt-1">{{ $message }}</p>
                     @enderror
