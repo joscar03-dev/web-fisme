@@ -36,7 +36,7 @@ class Inscripciones extends Component
         'apellidos' => 'required|min:2',
         'numero_celular' => 'required|min:9|max:20',
         'email' => 'required|email',
-        'img_boucher' => 'required|image|max:1024', // max 1MB
+       'img_boucher' => 'required|image|max:1024', // max 1MB
         'evento_id' => 'required|exists:eventos,id',
         'tipo_asistente' => 'required|string',
         'institucion_procedencia' => 'required|min:2',
@@ -66,7 +66,7 @@ class Inscripciones extends Component
         $this->validate();
 
         // Guardar la imagen del boucher
-        $imagePath = $this->img_boucher->store('registro', 'public');
+       $imagePath = $this->img_boucher->store('registro', 'public');
      
         // Crear el registro en la base de datos
         Resgistro::create([
@@ -95,7 +95,7 @@ class Inscripciones extends Component
             'apellidos',
             'numero_celular',
             'email',
-            'img_boucher',
+            // 'img_boucher',
             'evento_id',
             'tipo_asistente',
             'institucion_procedencia',

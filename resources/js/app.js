@@ -4,9 +4,6 @@ const loading = document.getElementById('loading-screen');
 loading.style.visibility = 'initial';
 loading.style.opacity = '1';
 
-
-
-
 // Inicializa el calendario
 document.addEventListener('DOMContentLoaded', function () {
     // console.log('end Loading');
