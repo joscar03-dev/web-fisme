@@ -66,7 +66,8 @@ class Inscripciones extends Component
         $this->validate();
 
         // Guardar la imagen del boucher
-        $imagePath = $this->img_boucher->store('bouchers', 'public');   
+        $imagePath = $this->img_boucher->store('registro', 'public');
+     
         // Crear el registro en la base de datos
         Resgistro::create([
             'tipo_documento' => $this->tipo_documento,

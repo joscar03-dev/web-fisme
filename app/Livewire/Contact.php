@@ -27,14 +27,21 @@ class Contact extends Component
 
     public function sendMessage()
     {
+
         $validatedData = $this->validate();
 
         try {
-            Mail::to('7583976221@untrm.edu.pe')->send(new ContactFormMail($validatedData));
+            // Envía el correo al email ingresado por el usuario en el formulario
+            Mail::to($this->email)->send(new ContactFormMail($validatedData));
+    
+            // Reinicia los campos del formulario después del envío
             $this->reset(['name', 'email', 'message']);
+    
+            // Notificación de éxito
             $this->notificationStatus = 'success';
             $this->notificationMessage = 'Mensaje enviado con éxito. Gracias por contactarnos.';
         } catch (\Exception $e) {
+            // Notificación de error
             $this->notificationStatus = 'error';
             $this->notificationMessage = 'No se pudo enviar el mensaje. Por favor, inténtelo de nuevo más tarde.';
         }

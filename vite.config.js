@@ -9,6 +9,7 @@ export default defineConfig({
                 'resources/js/app.js',
                 'resources/css/qr-scanner.css',
                 'resources/css/ticket-page.css',
+               
 
             ],
             refresh: true,

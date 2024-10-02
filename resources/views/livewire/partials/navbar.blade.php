@@ -1,8 +1,5 @@
 <nav x-data="{ open: false, activeLink: '{{ request()->path() }}' }" x-init="$watch('activeLink', value => $wire.call('setActiveLink', value))" class="bg-white shadow-sm">
     <div id="loading-bar" class="h-1 bg-[#00dffd] fixed top-0 left-0 z-50" style="width: 0%;"></div>
-
-
-
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-20">
             <div class="flex items-center">
@@ -50,7 +47,7 @@
     <!-- Menú para dispositivos móviles -->
     <div x-show="open" class="sm:hidden" id="mobile-menu">
         <div class="pt-2 pb-3 space-y-1">
-            @foreach (['home' => 'Inicio', 'agenda' => 'Agenda', 'inscribirte' => 'Inscribirte', 'contacto' => 'Contacto'] as $route => $label)
+            @foreach (['home' => 'Inicio', 'agenda' => 'Agenda', 'inscripcion' => 'Inscribirte', 'contacto' => 'Contacto'] as $route => $label)
                 <a href="{{ $route === 'home' ? route('home') : ($route === 'contacto' ? route('contacto') : $route) }}"
                     class="block pl-3 pr-4 py-2 text-base font-medium transition-colors duration-200 ease-in-out"
                     x-on:click.prevent="activeLink = '{{ $route }}'; open = false; $wire.call('navigateTo', '{{ $route }}')"

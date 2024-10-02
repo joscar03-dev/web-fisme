@@ -125,6 +125,7 @@
     </div>
 </div>
 
+
 @push('scripts')
 <script>
     document.addEventListener('livewire:load', function () {

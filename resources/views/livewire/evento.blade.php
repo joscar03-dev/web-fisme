@@ -248,24 +248,22 @@
                             <div class="flex-none w-full bg-white bg-opacity-10 backdrop-blur-md rounded-lg shadow-lg p-4 transform transition-all duration-300 hover:scale-105"
                                 x-data="{ showDetails: false }" x-on:mouseenter="showDetails = true"
                                 x-on:mouseleave="showDetails = false">
-                                <div class="flex items-center space-x-4 overflow-hidden">
+                                <div class="flex flex-col sm:flex-row items-start sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 overflow-hidden p-4">
                                     <img src="{{ url('storage', $ponente->imagen) }}"
-                                        alt="Imagen de {{ $ponente->nombre }} {{ $ponente->apellidos }}"
-                                        class="w-20 h-20 object-cover rounded-full">
-                                    <div class="flex-grow">
-                                        <h4 class="text-lg font-semibold text-white truncate">
+                                         alt="Imagen de {{ $ponente->nombre }} {{ $ponente->apellidos }}"
+                                         class="w-20 h-20 object-cover rounded-full">
+                                    <div class="flex-grow w-full sm:w-auto">
+                                        <h4 class="text-lg font-semibold text-white break-words">
                                             {{ $tema->nombre_tema }}
                                         </h4>
-
-
                                         <p class="text-sm font-semibold text-blue-300 mt-2">
                                             {{ Carbon\Carbon::parse($tema->hora_inicio)->format('H:i') }} -
                                             {{ Carbon\Carbon::parse($tema->hora_fin)->format('H:i') }}
                                         </p>
-                                        <p class="text-sm font-medium text-white truncate"> {{ $ponente->nombre }}
-                                            {{ $ponente->apellidos }}
+                                        <p class="text-sm font-medium text-white break-words">
+                                            {{ $ponente->nombre }} {{ $ponente->apellidos }}
                                         </p>
-                                        <p class="text-sm font-medium text-indigo-300 truncate">
+                                        <p class="text-sm font-medium text-indigo-300 break-words">
                                             {{ $ponente->institucion }}
                                         </p>
                                     </div>
@@ -329,7 +327,7 @@
         </div>
     </section> --}}
     @if ($evento->partners->isNotEmpty())
-        <section class="bg-gray-100 py-16" id="registro">
+        <section class="bg-gray-100 py-16" >
             <div class="container mx-auto px-4">
                 <div class="text-center mb-12">
                     <h2 class="text-3xl sm:text-4xl font-bold text-[#1d4570] mb-4">Nuestros Partners</h2>
@@ -357,7 +355,7 @@
     <section class="text-gray-600 body-font overflow-hidden bg-gradient-to-r from-gray-100 to-gray-200">
         <div class="container px-5 py-24 mx-auto">
             <!-- Título de la sección -->
-            <div class="flex flex-col text-center w-full mb-20">
+            <div id="registro" class="flex flex-col text-center w-full mb-20">
                 <h1 class="sm:text-4xl text-3xl font-bold title-font mb-4 text-[#1d4570]">Inversión para el Evento
                     Académico
                 </h1>
