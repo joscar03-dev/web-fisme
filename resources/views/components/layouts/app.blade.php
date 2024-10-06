@@ -33,7 +33,7 @@
     </main>
     @livewire('partials.footer')
     {{-- @livewire('cookie-consent') --}}
-    @livewireScripts
+
 
     @vite('resources/js/app.js')
 

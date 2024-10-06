@@ -71,11 +71,21 @@ class ResgistroResource extends Resource
                                     ->email()
                                     ->required()
                                     ->maxLength(255),
-                                TextInput::make('tipo')
-                                    ->label('Tipo de Venta'), // Campo requerido
-
-                                TextInput::make('modalidad')
-                                    ->label('Modalidad'),
+                                    Select::make('tipo')
+                                    ->label('Tipo Venta ')
+                                    ->options([
+                                        'normal' => 'Venta Normal',
+                                        'preventa' => 'Preventa',
+                               
+                                    ]),
+                                    Select::make('modalidad')
+                                    ->label('Modalidad')
+                                    ->options([
+                                        'Online' => 'Online',
+                                        'Presencial' => 'Presencial',
+                               
+                                    ]),
+                                
                             ]
                         )->columns(2),
                         Section::make('Descripcion del Evento')->schema(
