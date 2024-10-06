@@ -19,7 +19,7 @@ class DocumentosConcurso extends Model
     // Relación con la tabla `consursos`
     public function concurso()
     {
-        return $this->belongsTo(Consurso::class, 'consurso_id');
+        return $this->belongsTo(Concurso::class, 'consurso_id');
     }
 
     // Relación con la tabla `tipo_documentos`
