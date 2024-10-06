@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('documentos_concursos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('consurso_id')
-                ->constrained('consursos')
+            $table->foreignId('concurso_id')
+                ->constrained('concursos')
                 ->onDelete('cascade');
             $table->foreignId('tipo_documento_id')
                 ->constrained('tipo_documentos')

@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('inscripcion_consursos', function (Blueprint $table) {
+        Schema::create('inscripcion_concursos', function (Blueprint $table) {
             $table->id();
             $table->string('tipo_documento', 255);           
             $table->string('numero_documento', 15);
@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('institucion_procedencia', 20)->nullable();
             $table->string('email')->nullable();
             $table->string('img_boucher')->nullable();
-            $table->foreignId('consurso_id')->constrained('consursos');
+            $table->foreignId('concurso_id')->constrained('concursos');
             $table->timestamp('fecha_registro')->useCurrent();
             $table->boolean('verificado')->default(false);
             $table->foreignId('usuario_verificacion')->nullable()->constrained('users');
@@ -37,6 +37,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('inscripcion_consursos');
+        Schema::dropIfExists('inscripcion_concursos');
     }
 };

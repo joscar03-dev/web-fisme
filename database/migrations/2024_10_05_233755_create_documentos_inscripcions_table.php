@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('documentos_inscripcions', function (Blueprint $table) {
 
             $table->id();
-            $table->foreignId('inscripcion_consurso_id')
-                ->constrained('inscripcion_consursos')
+            $table->foreignId('inscripcion_concurso_id')
+                ->constrained('inscripcion_concursos')
                 ->onDelete('cascade');
             $table->foreignId('tipo_documento_id')
                 ->constrained('tipo_documentos')

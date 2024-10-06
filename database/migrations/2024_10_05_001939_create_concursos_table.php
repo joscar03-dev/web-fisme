@@ -11,12 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('precio_concursos', function (Blueprint $table) {
+        Schema::create('concursos', function (Blueprint $table) {
             $table->id();
-            $table->string('tipo_participante',255)->nullable();
-            $table->decimal('precio',10,2)->nullable();
+            $table->string('nombre', 255);
+            $table->string('slug', 255);
+            $table->string('tipo_concurso', 255)->nullable();
+            $table->string('descripcion', 255)->nullable();
+            $table->dateTime('fecha_inicio')->nullable();
+            $table->dateTime('fecha_fin')->nullable();           
             $table->boolean('estado')->default(true);
-            $table->foreignId('consurso_id')->constrained('consursos');
             $table->timestamps();
         });
     }
@@ -26,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('precio_concursos');
+        Schema::dropIfExists('concursos');
     }
 };
