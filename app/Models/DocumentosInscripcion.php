@@ -13,6 +13,7 @@ class DocumentosInscripcion extends Model
     protected $fillable = [
         'inscripcion_concurso_id',
         'tipo_documento_id',
+        'ruta',
     ];
 
     // Relación con la tabla `inscripcion_concursos`

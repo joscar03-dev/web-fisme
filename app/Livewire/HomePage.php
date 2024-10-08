@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\Concurso;
 use App\Models\Evento;
 use Illuminate\Support\Carbon;
 use Livewire\Component;
@@ -10,6 +11,7 @@ class HomePage extends Component
 {
 
     public $eventos;
+    public $concursos;
     public $currentIndex = 0;
     public $tipo = '';
     public $area = '';
@@ -27,6 +29,7 @@ class HomePage extends Component
     {
         $this->loadEvents(); // Carga inicial de eventos
         $this->showEventos();
+        $this->showConcursos();
     }
 
     public function loadEvents()
@@ -90,6 +93,12 @@ class HomePage extends Component
         $this->selectedTema = Temas::with('ponentes')->find($temaId);
         $this->ponentes = $this->selectedTema ? $this->selectedTema->ponentes : collect(); // Asegurarse de que sea una colección
         $this->emit('tema-changed');
+    }
+
+    // Mostrar concursos
+    public function showConcursos()
+    {
+        $this->concursos = Concurso::all(); // Obtiene todos los concursos
     }
 
     public function render()

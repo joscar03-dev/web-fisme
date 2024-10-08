@@ -23,7 +23,27 @@ class ConcursoResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Forms\Components\TextInput::make('nombre')
+                    ->required()
+                    ->maxLength(255),
+
+                Forms\Components\TextInput::make('slug')
+                    ->required()
+                    ->maxLength(255)
+                    ->unique(ignoreRecord: true), // Para garantizar que el slug sea único
+
+                Forms\Components\TextInput::make('tipo_concurso')
+                    ->required()
+                    ->maxLength(255),
+
+                Forms\Components\Textarea::make('descripcion')
+                    ->required(),
+
+                Forms\Components\DatePicker::make('fecha_inicio')
+                    ->required(),
+
+                Forms\Components\DatePicker::make('fecha_fin')
+                    ->required(),
             ]);
     }
 
@@ -31,26 +51,46 @@ class ConcursoResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('nombre')
+                    ->sortable()
+                    ->searchable(),
+
+                Tables\Columns\TextColumn::make('slug')
+                    ->sortable()
+                    ->searchable(),
+
+                Tables\Columns\TextColumn::make('tipo_concurso')
+                    ->sortable()
+                    ->searchable(),
+
+                Tables\Columns\TextColumn::make('fecha_inicio')
+                    ->date(),
+
+                Tables\Columns\TextColumn::make('fecha_fin')
+                    ->date(),
             ])
             ->filters([
-                //
+                // Puedes agregar filtros si deseas
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                Tables\Actions\DeleteBulkAction::make(),
             ]);
+    }
+
+    public static function getRelations(): array
+    {
+        return [];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ManageConcursos::route('/'),
+            'index' => Pages\ListConcursos::route('/'),
+            'create' => Pages\CreateConcurso::route('/create'),
+            'edit' => Pages\EditConcurso::route('/{record}/edit'),
         ];
     }
 }

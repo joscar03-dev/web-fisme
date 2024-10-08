@@ -45,20 +45,21 @@
         <div class="relative overflow-hidden">
             <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
                 <!-- Componente de Carrusel con Interacción y Transiciones -->
-                <div x-data="{ currentIndex: 0, isMobile: window.innerWidth < 768 }" x-init="setInterval(() => currentIndex = (currentIndex + 1) % {{ $eventos->count() ?: 0 }}, 8000);
-                window.addEventListener('resize', () => isMobile = window.innerWidth < 768);"
-                    class="relative z-10 pb-8 sm:pb-16 md:pb-20 lg:pb-28 xl:pb-32 min-h-[80vh] lg:min-h-screen flex items-center">
-
+                <div x-data="{ currentIndex: 0, isMobile: window.innerWidth < 768 }" 
+                     x-init="setInterval(() => currentIndex = (currentIndex + 1) % {{ $eventos->count() ?: 0 }}, 8000);
+                     window.addEventListener('resize', () => isMobile = window.innerWidth < 768);"
+                     class="relative z-10 pb-8 sm:pb-16 md:pb-20 lg:pb-28 xl:pb-32 min-h-[80vh] lg:min-h-screen flex items-center">
+        
                     @forelse ($eventos as $index => $evento)
                         <div x-show="currentIndex === {{ $index }}"
-                            x-transition:enter="transition ease-out duration-700"
-                            x-transition:enter-start="opacity-0 transform translate-x-full"
-                            x-transition:enter-end="opacity-100 transform translate-x-0"
-                            x-transition:leave="transition ease-in duration-500"
-                            x-transition:leave-start="opacity-100 transform translate-x-0"
-                            x-transition:leave-end="opacity-0 transform -translate-x-full"
-                            class="absolute inset-0 w-full h-full">
-
+                             x-transition:enter="transition ease-out duration-700"
+                             x-transition:enter-start="opacity-0 transform translate-x-full"
+                             x-transition:enter-end="opacity-100 transform translate-x-0"
+                             x-transition:leave="transition ease-in duration-500"
+                             x-transition:leave-start="opacity-100 transform translate-x-0"
+                             x-transition:leave-end="opacity-0 transform -translate-x-full"
+                             class="absolute inset-0 w-full h-full">
+        
                             <div class="flex flex-col lg:flex-row items-stretch h-full">
                                 <!-- Imagen (ahora arriba en móviles, a la derecha en desktop) -->
                                 <div class="w-full lg:w-1/2 flex items-center justify-center order-1 lg:order-2 h-full">
@@ -262,7 +263,7 @@
     </div>
 
 
-    {{-- <section class="text-gray-600 body-font bg-gradient-to-r from-gray-100 to-indigo-50">
+   {{-- <section class="text-gray-600 body-font bg-gradient-to-r from-gray-100 to-indigo-50">
         @foreach ($eventos as $evento)
             <div class="container mx-auto py-16 px-4 sm:px-6 lg:px-8">
                 <div class="flex flex-col lg:flex-row items-center">
@@ -320,6 +321,7 @@
                             class="inline-block bg-[#1d4570] text-white text-lg font-semibold py-3 px-8 rounded-full hover:bg-[#00dffd] transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#00dffd] focus:ring-opacity-50">
                             Inscríbete ahora
                         </a>
+
                     </div>
                 </div>
 
@@ -422,6 +424,7 @@
             </div>
         @endforeach
     </section> --}}
+
 
 
 

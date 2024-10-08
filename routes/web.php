@@ -7,10 +7,12 @@ use App\Livewire\Contact;
 use App\Livewire\Evento;
 use App\Livewire\Eventos;
 use App\Livewire\HomePage;
+use App\Livewire\InscripcionConcursos;
 use App\Livewire\Inscripciones;
 use App\Livewire\LectorAsistencias;
 use App\Livewire\Organizadores;
 use App\Livewire\Registrarse;
+use App\Livewire\SubirDocumentos;
 use App\Mail\PruebaMailable;
 use App\Models\Resgistro;
 use Illuminate\Support\Facades\Mail;
@@ -61,3 +63,6 @@ Route::post('/enviar-correo/{registro}', [TicketQrPage::class, 'enviarCorreo'])-
 
 // mantenimiento 
 Route::view('/pagina-mantenimiento', 'components.mantenimiento')->name('mantenimiento');
+
+Route::get('/inscripcion-concursos/{concurso_id}', InscripcionConcursos::class)->name('inscripcion-concursos');
+Route::get('/inscripcion-concursos/{inscripcion_concurso_id}/subir-documentos', SubirDocumentos::class)->name('subir-documentos');
