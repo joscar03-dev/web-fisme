@@ -64,5 +64,5 @@ Route::post('/enviar-correo/{registro}', [TicketQrPage::class, 'enviarCorreo'])-
 // mantenimiento 
 Route::view('/pagina-mantenimiento', 'components.mantenimiento')->name('mantenimiento');
 
-Route::get('/inscripcion-concursos/{concurso_id}', InscripcionConcursos::class)->name('inscripcion-concursos');
+Route::get('/inscripcion-concursos/{slug}', InscripcionConcursos::class)->name('inscripcion-concursos');
 Route::get('/inscripcion-concursos/{inscripcion_concurso_id}/subir-documentos', SubirDocumentos::class)->name('subir-documentos');

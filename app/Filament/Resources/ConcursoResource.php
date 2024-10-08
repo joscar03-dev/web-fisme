@@ -6,6 +6,11 @@ use App\Filament\Resources\ConcursoResource\Pages;
 use App\Filament\Resources\ConcursoResource\RelationManagers;
 use App\Models\Concurso;
 use Filament\Forms;
+use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Set;
+use Illuminate\Support\Str;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -25,25 +30,47 @@ class ConcursoResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('nombre')
                     ->required()
+                    ->live(onBlur: true)
+                    ->afterStateUpdated(fn(string $operation, $state, Set $set)
+                    => $operation === 'create' ? $set('slug', Str::slug($state)) : null)
                     ->maxLength(255),
-
-                Forms\Components\TextInput::make('slug')
+                TextInput::make('slug')
                     ->required()
-                    ->maxLength(255)
-                    ->unique(ignoreRecord: true), // Para garantizar que el slug sea único
-
-                Forms\Components\TextInput::make('tipo_concurso')
+                    ->disabled()
+                    ->maxLength('255')
+                    ->dehydrated()
+                    ->unique(Concurso::class, 'slug', ignoreRecord: true),
+                Select::make('tipo_concurso')
                     ->required()
-                    ->maxLength(255),
-
-                Forms\Components\Textarea::make('descripcion')
-                    ->required(),
-
+                    ->options([
+                        'Investigacion' => 'Investigacion',
+                    ]),
                 Forms\Components\DatePicker::make('fecha_inicio')
                     ->required(),
 
                 Forms\Components\DatePicker::make('fecha_fin')
                     ->required(),
+                RichEditor::make('descripcion')
+                    ->label('Descripción')
+                    ->toolbarButtons([
+                        'bold',
+                        'italic',
+                        'underline',
+                        'strike',
+                        'bulletList',
+                        'orderedList',
+                        'link',
+                        'codeBlock',
+                        'blockquote',
+                        'h2',
+                        'h3',
+                        'undo',
+                        'redo',
+                    ])
+                    ->required()
+                    ->placeholder('Escribe aquí una descripción...')
+                    ->columnSpan('full'),
+
             ]);
     }
 

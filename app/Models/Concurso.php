@@ -17,7 +17,13 @@ class Concurso extends Model
         'fecha_fin',
         'estado',
     ];
+    protected $dates = ['fecha_inicio', 'fecha_fin'];
 
+    // Alternativamente, puedes usar $casts para definir el tipo
+    protected $casts = [
+        'fecha_inicio' => 'datetime',
+        'fecha_fin' => 'datetime',
+    ];
     // Relación con documentos de concursos
     public function inscripciones()
     {

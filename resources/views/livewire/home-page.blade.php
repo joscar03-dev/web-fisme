@@ -201,14 +201,14 @@
             </div>
     
             <!-- Contenido del concurso -->
+            @foreach ($concursos as $concurso)
             <div class="relative z-10 max-w-4xl mx-auto px-4 py-16 sm:px-6 lg:px-8">
                 <div class="bg-white bg-opacity-60 backdrop-filter backdrop-blur-md rounded-lg shadow-xl p-8">
-                    <h2 class="text-4xl font-extrabold text-center mb-8 text-[#001f54e6]">Gran Concurso de Innovación 2024</h2>
-    
+                    <h2 class="text-4xl font-extrabold text-center mb-8 text-[#001f54e6]">{{ $concurso->nombre }}</h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                         <div class="flex items-center">
                             <x-heroicon-o-calendar class="h-6 w-6 text-[#001f54e6] mr-2" />
-                            <span class="text-[#001f54e6] font-semibold">Inicio: 1 de Marzo, 2024</span>
+                            <span class="text-[#001f54e6] font-semibold">Inicio: {{ $concurso->fecha_inicio }}</span>
                         </div>
                         <div class="flex items-center">
                             <x-heroicon-o-calendar class="h-6 w-6 text-[#001f54e6] mr-2" />
@@ -252,13 +252,15 @@
                     </ul>
     
                     <div class="text-center">
-                        <button wire:click="inscribirse"
+                        <a wire:click="inscribirse" href="{{ route('inscripcion-concursos', $concurso->slug) }}"
                             class="bg-[#001f54e6] text-white font-bold py-3 px-8 rounded-full text-xl transition-all duration-300 hover:bg-[#001f54] hover:shadow-lg transform hover:scale-105">
                             ¡Inscríbete Ahora!
-                        </button>
+                    </a>
                     </div>
                 </div>
             </div>
+            @endforeach
+            
         </div>
     </div>
 

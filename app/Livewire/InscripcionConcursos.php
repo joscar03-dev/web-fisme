@@ -12,7 +12,7 @@ class InscripcionConcursos extends Component
 {
     use WithFileUploads;
 
-    public $concurso_id;
+    public $slug;
     public $tipo_documento;
     public $numero_documento;
     public $nombres;
@@ -23,14 +23,14 @@ class InscripcionConcursos extends Component
     public $email;
     public $img_boucher;
 
-    public function mount($concurso_id)
+    public function mount($slug)
     {
-        $this->concurso_id = $concurso_id;
+        $this->slug= $slug;
     }
 
     public function submit()
     {
-        $inscripcion = InscripcionConcurso::where('numero_documento', $this->numero_documento)->first();
+        $inscripcion = InscripcionConcurso::where('slug', $this->slug)->first();
 
         if ($inscripcion) {
             $documentosSubidos = DocumentosInscripcion::where('inscripcion_concurso_id', $inscripcion->id)->exists();
