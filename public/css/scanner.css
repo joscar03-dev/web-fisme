@@ -1,0 +1,134 @@
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.qr-page {
+    padding: 1rem;
+}
+
+.qr-container {
+    max-width: 100%;
+    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+}
+
+h1 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.qr-options {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+#my-qr-reader {
+    width: 100%;
+    max-width: 300px;
+    height: 200px;
+    border: 2px solid #3498db;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+#result {
+    margin-top: 1.5rem;
+    text-align: center;
+}
+
+h2 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+}
+
+#qr-result-text {
+    background-color: #ecf0f1;
+    border: 1px solid #bdc3c7;
+    border-radius: 4px;
+    padding: 0.75rem;
+    margin-top: 0.5rem;
+    color: #34495e;
+    font-size: 0.9rem;
+    word-break: break-all;
+}
+
+#toggle-scan {
+    display: block;
+    width: 100%;
+    max-width: 200px;
+    margin: 1.5rem auto 0;
+    padding: 0.75rem 1rem;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#toggle-scan:hover {
+    background-color: #2980b9;
+}
+
+/* Estilos responsivos */
+@media (min-width: 768px) {
+    .qr-page {
+        padding: 2rem;
+    }
+
+    .qr-container {
+        max-width: 800px;
+        padding: 2rem;
+    }
+
+    h1 {
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .qr-options {
+        flex-direction: row;
+        justify-content: center;
+        gap: 2rem;
+    }
+
+    #my-qr-reader {
+        max-width: 500px;
+        height: 300px;
+    }
+
+    #result {
+        margin-top: 2rem;
+    }
+
+    h2 {
+        font-size: 1.25rem;
+    }
+
+    #qr-result-text {
+        padding: 1rem;
+        font-size: 1rem;
+    }
+
+    #toggle-scan {
+        margin-top: 2rem;
+    }
+}

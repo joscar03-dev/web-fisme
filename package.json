@@ -20,8 +20,10 @@
         "dropzone": "^6.0.0-beta.2",
         "fullcalendar": "^6.1.15",
         "html5-qrcode": "^2.3.8",
+        "laravel-echo": "^1.16.1",
         "lodash": "^4.17.21",
         "pagedone": "^1.2.2",
-        "preline": "^2.4.1"
+        "preline": "^2.4.1",
+        "pusher-js": "^8.4.0-rc2"
     }
 }
