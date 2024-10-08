@@ -45,40 +45,42 @@
         <div class="relative overflow-hidden">
             <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
                 <!-- Componente de Carrusel con Interacción y Transiciones -->
-                <div x-data="{ currentIndex: 0, isMobile: window.innerWidth < 768 }" 
-                     x-init="setInterval(() => currentIndex = (currentIndex + 1) % {{ $eventos->count() ?: 0 }}, 8000);
-                     window.addEventListener('resize', () => isMobile = window.innerWidth < 768);"
-                     class="relative z-10 pb-8 sm:pb-16 md:pb-20 lg:pb-28 xl:pb-32 min-h-[80vh] lg:min-h-screen flex items-center">
-        
+                <div x-data="{ currentIndex: 0, isMobile: window.innerWidth < 768 }" x-init="setInterval(() => currentIndex = (currentIndex + 1) % {{ $eventos->count() ?: 0 }}, 8000);
+                window.addEventListener('resize', () => isMobile = window.innerWidth < 768);"
+                    class="relative z-10 pb-8 sm:pb-16 md:pb-20 lg:pb-28 xl:pb-32 min-h-[80vh] lg:min-h-screen flex items-center">
+
                     @forelse ($eventos as $index => $evento)
                         <div x-show="currentIndex === {{ $index }}"
-                             x-transition:enter="transition ease-out duration-700"
-                             x-transition:enter-start="opacity-0 transform translate-x-full"
-                             x-transition:enter-end="opacity-100 transform translate-x-0"
-                             x-transition:leave="transition ease-in duration-500"
-                             x-transition:leave-start="opacity-100 transform translate-x-0"
-                             x-transition:leave-end="opacity-0 transform -translate-x-full"
-                             class="absolute inset-0 w-full h-full">
-        
+                            x-transition:enter="transition ease-out duration-700"
+                            x-transition:enter-start="opacity-0 transform translate-x-full"
+                            x-transition:enter-end="opacity-100 transform translate-x-0"
+                            x-transition:leave="transition ease-in duration-500"
+                            x-transition:leave-start="opacity-100 transform translate-x-0"
+                            x-transition:leave-end="opacity-0 transform -translate-x-full"
+                            class="absolute inset-0 w-full h-full">
+
                             <div class="flex flex-col lg:flex-row items-stretch h-full">
                                 <!-- Imagen (ahora arriba en móviles, a la derecha en desktop) -->
                                 <div class="w-full lg:w-1/2 flex items-center justify-center order-1 lg:order-2 h-full">
                                     <div class="relative w-full h-full overflow-hidden rounded-lg shadow-2xl">
                                         <img src="{{ asset('storage/' . $evento['imagen_catalogo']) }}"
-                                             alt="Imagen del evento"
-                                             class="absolute inset-0 w-full h-full object-cover" />
+                                            alt="Imagen del evento"
+                                            class="absolute inset-0 w-full h-full object-cover" />
                                     </div>
                                 </div>
-        
+
                                 <!-- Texto (ahora abajo en móviles, a la izquierda en desktop) -->
                                 <div class="w-full lg:w-3/5 flex items-center justify-center px-4 order-2 lg:order-1">
-                                    <div class="text-center lg:text-left backdrop-filter backdrop-blur-md bg-white/30 rounded-lg p-4 sm:p-6 w-full">
+                                    <div
+                                        class="text-center lg:text-left backdrop-filter backdrop-blur-md bg-white/30 rounded-lg p-4 sm:p-6 w-full">
                                         @if ($evento['fecha_inicio'])
-                                            <h2 class="text-xs sm:text-sm text-gray-800 font-semibold tracking-wide uppercase">
+                                            <h2
+                                                class="text-xs sm:text-sm text-gray-800 font-semibold tracking-wide uppercase">
                                                 {{ $evento['fecha_inicio'] }}
                                             </h2>
                                         @endif
-                                        <h1 class="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-extrabold text-[#001f54e6] mt-2">
+                                        <h1
+                                            class="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-extrabold text-[#001f54e6] mt-2">
                                             <span class="block">{{ $evento['nombre_evento'] }}</span>
                                         </h1>
                                         <p class="mt-2 sm:mt-3 text-xs sm:text-sm md:text-base text-gray-600">
@@ -86,8 +88,8 @@
                                         </p>
                                         <div class="mt-4 sm:mt-5">
                                             <a wire:key="{{ $evento->slug }}"
-                                               href="{{ route('evento.detalle', $evento->slug) }}"
-                                               class="inline-flex items-center justify-center px-4 sm:px-6 py-2 sm:py-3 border border-transparent text-sm md:text-base font-medium rounded-md text-white bg-[#001f54e6] hover:bg-blue-500 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105">
+                                                href="{{ route('evento.detalle', $evento->slug) }}"
+                                                class="inline-flex items-center justify-center px-4 sm:px-6 py-2 sm:py-3 border border-transparent text-sm md:text-base font-medium rounded-md text-white bg-[#001f54e6] hover:bg-blue-500 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105">
                                                 Inscríbete ahora
                                             </a>
                                         </div>
@@ -100,21 +102,21 @@
                             <p class="text-lg sm:text-xl text-gray-600">No hay eventos disponibles en este momento.</p>
                         </div>
                     @endforelse
-        
+
                     <!-- Botones de control -->
                     <button
                         @click="currentIndex = (currentIndex - 1 + {{ $eventos->count() }}) % {{ $eventos->count() }}"
                         class="absolute left-2 top-1/2 transform -translate-y-1/2 z-10 p-2 text-white bg-[#001f54e6] hover:bg-blue-500 rounded-full">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                             class="w-4 h-4 sm:w-5 sm:h-5">
+                            class="w-4 h-4 sm:w-5 sm:h-5">
                             <path d="M15 18L9 12L15 6" />
                         </svg>
                     </button>
-        
+
                     <button @click="currentIndex = (currentIndex + 1) % {{ $eventos->count() }}"
-                            class="absolute right-2 top-1/2 transform -translate-y-1/2 z-10 p-2 text-white bg-[#001f54e6] hover:bg-blue-500 rounded-full">
+                        class="absolute right-2 top-1/2 transform -translate-y-1/2 z-10 p-2 text-white bg-[#001f54e6] hover:bg-blue-500 rounded-full">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                             class="w-4 h-4 sm:w-5 sm:h-5">
+                            class="w-4 h-4 sm:w-5 sm:h-5">
                             <path d="M9 18L15 12L9 6" />
                         </svg>
                     </button>
@@ -243,6 +245,7 @@
                             class="inline-block bg-[#1d4570] text-white text-lg font-semibold py-3 px-8 rounded-full hover:bg-[#00dffd] transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#00dffd] focus:ring-opacity-50">
                             Inscríbete ahora
                         </a>
+
                     </div>
                 </div>
 
@@ -345,6 +348,26 @@
             </div>
         @endforeach
     </section>
+
+    <section>
+        <div>
+            <h2>Concursos Disponibles</h2>
+            @if($concursos->isNotEmpty())
+                @foreach($concursos as $concurso)
+                    <div>
+                        <h3>{{ $concurso->nombre }}</h3>
+                        <p>{{ $concurso->descripcion }}</p>
+                        <a href="{{ route('inscripcion-concursos', $concurso->id) }}">
+                            <button>Inscríbete</button>
+                        </a>
+                    </div>
+                @endforeach
+            @else
+                <p>No hay concursos disponibles en este momento.</p>
+            @endif
+        </div>
+    </section>
+    
 
 
 
