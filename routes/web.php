@@ -51,21 +51,18 @@ Route::get('/cookies/manage', function () {
     return view('cookies.manage');
 })->name('cookies.manage');
 
+//filament
+Route::post('/admin/asistencias/escanear', [EscanearAsistenciaPage::class, 'registerAsistencia'])->name('filament.admin.resources.asistencias.escanear.register');
 
 
-
-
-Route::post('/asistencias/store', [EscanearAsistenciaPage::class, 'registerAsistencia'])
-    ->name('filament.asistencias.store');
-Route::get('/lector-asistencias', LectorAsistencias::class)->name('lector.asistencias');
-Route::get('/event/{id}', [Registrarse::class, 'show'])->name('event.show');
+// Route::get('/event/{id}', [Registrarse::class, 'show'])->name('event.show');
 
 
 Route::post('/enviar-correo/{registro}', [TicketQrPage::class, 'enviarCorreo'])->name('enviarCorreo');
 
 
-/// mantenimiento 
+// mantenimiento 
 Route::view('/pagina-mantenimiento', 'components.mantenimiento')->name('mantenimiento');
 
-Route::get('/inscripcion-concursos/{concurso_id}', InscripcionConcursos::class)->name('inscripcion-concursos');
+Route::get('/inscripcion-concursos/{slug}', InscripcionConcursos::class)->name('inscripcion-concursos');
 Route::get('/inscripcion-concursos/{inscripcion_concurso_id}/subir-documentos', SubirDocumentos::class)->name('subir-documentos');

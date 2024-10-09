@@ -45,20 +45,21 @@
         <div class="relative overflow-hidden">
             <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
                 <!-- Componente de Carrusel con Interacción y Transiciones -->
-                <div x-data="{ currentIndex: 0, isMobile: window.innerWidth < 768 }" x-init="setInterval(() => currentIndex = (currentIndex + 1) % {{ $eventos->count() ?: 0 }}, 8000);
-                window.addEventListener('resize', () => isMobile = window.innerWidth < 768);"
-                    class="relative z-10 pb-8 sm:pb-16 md:pb-20 lg:pb-28 xl:pb-32 min-h-[80vh] lg:min-h-screen flex items-center">
-
+                <div x-data="{ currentIndex: 0, isMobile: window.innerWidth < 768 }" 
+                     x-init="setInterval(() => currentIndex = (currentIndex + 1) % {{ $eventos->count() ?: 0 }}, 8000);
+                     window.addEventListener('resize', () => isMobile = window.innerWidth < 768);"
+                     class="relative z-10 pb-8 sm:pb-16 md:pb-20 lg:pb-28 xl:pb-32 min-h-[80vh] lg:min-h-screen flex items-center">
+        
                     @forelse ($eventos as $index => $evento)
                         <div x-show="currentIndex === {{ $index }}"
-                            x-transition:enter="transition ease-out duration-700"
-                            x-transition:enter-start="opacity-0 transform translate-x-full"
-                            x-transition:enter-end="opacity-100 transform translate-x-0"
-                            x-transition:leave="transition ease-in duration-500"
-                            x-transition:leave-start="opacity-100 transform translate-x-0"
-                            x-transition:leave-end="opacity-0 transform -translate-x-full"
-                            class="absolute inset-0 w-full h-full">
-
+                             x-transition:enter="transition ease-out duration-700"
+                             x-transition:enter-start="opacity-0 transform translate-x-full"
+                             x-transition:enter-end="opacity-100 transform translate-x-0"
+                             x-transition:leave="transition ease-in duration-500"
+                             x-transition:leave-start="opacity-100 transform translate-x-0"
+                             x-transition:leave-end="opacity-0 transform -translate-x-full"
+                             class="absolute inset-0 w-full h-full">
+        
                             <div class="flex flex-col lg:flex-row items-stretch h-full">
                                 <!-- Imagen (ahora arriba en móviles, a la derecha en desktop) -->
                                 <div class="w-full lg:w-1/2 flex items-center justify-center order-1 lg:order-2 h-full">
@@ -185,9 +186,86 @@
         </div>
     </div>
     <!-- Countdown Timer Section -->
+    <!-- Seccion Concurso -->
+
+    <div class="text-gray-600">
+        <div class="relative overflow-hidden">
+            <!-- Video de fondo -->
+            <div class="absolute inset-0 w-full h-full">
+                <video id="background-video" autoplay loop muted playsinline class="w-full h-full object-cover">
+                    <source src="{{ asset('videos/video_1080.mp4') }}">
+                    Tu navegador no soporta el tag de video.
+                </video>
+                <!-- Capa de superposición para oscurecer ligeramente el video -->
+                <div class="absolute inset-0 bg-black opacity-30"></div>
+            </div>
+    
+            <!-- Contenido del concurso -->
+            @foreach ($concursos as $concurso)
+            <div class="relative z-10 max-w-4xl mx-auto px-4 py-16 sm:px-6 lg:px-8">
+                <div class="bg-white bg-opacity-60 backdrop-filter backdrop-blur-md rounded-lg shadow-xl p-8">
+                    <h2 class="text-4xl font-extrabold text-center mb-8 text-[#001f54e6]">{{ $concurso->nombre }}</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                        <div class="flex items-center">
+                            <x-heroicon-o-calendar class="h-6 w-6 text-[#001f54e6] mr-2" />
+                            <span class="text-[#001f54e6] font-semibold">Inicio: {{ $concurso->fecha_inicio }}</span>
+                        </div>
+                        <div class="flex items-center">
+                            <x-heroicon-o-calendar class="h-6 w-6 text-[#001f54e6] mr-2" />
+                            <span class="text-[#001f54e6] font-semibold">Fin: 30 de Abril, 2024</span>
+                        </div>
+                    </div>
+    
+                    <div class="flex items-center justify-center bg-[#001f54e6] text-white rounded-full py-3 px-6 font-bold text-xl mb-8 transform hover:scale-105 transition-transform duration-300">
+                      
+                        <span>Inscripción: S/. 50 </span>
+                    </div>
+    
+                    <h3 class="text-lg font-semibold mb-4 text-[#001f54e6]">Documentos del concurso:</h3>
+                    <ul class="space-y-3 mb-8">
+                        <!-- Enlace para Bases del concurso -->
+                        <li>
+                            <a href="{{ asset('documents/EP2-JOSUE DAVID CAYOTOPA TAMAY.pdf') }}" download
+                                class="flex items-center text-[#001f54e6] hover:text-gray-800 transition-colors duration-200">
+                                <x-heroicon-o-document-arrow-down class="h-5 w-5 mr-2" />
+                                <span class="font-medium">Bases del concurso</span>
+                            </a>
+                        </li>
+    
+                        <!-- Enlace para Formato de presentación -->
+                        <li>
+                            <a href="{{ asset('documents/formato_presentacion.pdf') }}" download
+                                class="flex items-center text-[#001f54e6] hover:text-gray-800 transition-colors duration-200">
+                                <x-heroicon-o-document-arrow-down class="h-5 w-5 mr-2" />
+                                <span class="font-medium">Formato de presentación</span>
+                            </a>
+                        </li>
+    
+                        <!-- Enlace para Criterios de evaluación -->
+                        <li>
+                            <a href="{{ asset('documents/criterios_evaluacion.pdf') }}" download
+                                class="flex items-center text-[#001f54e6] hover:text-gray-800 transition-colors duration-200">
+                                <x-heroicon-o-document-arrow-down class="h-5 w-5 mr-2" />
+                                <span class="font-medium">Criterios de evaluación</span>
+                            </a>
+                        </li>
+                    </ul>
+    
+                    <div class="text-center">
+                        <a wire:click="inscribirse" href="{{ route('inscripcion-concursos', $concurso->slug) }}"
+                            class="bg-[#001f54e6] text-white font-bold py-3 px-8 rounded-full text-xl transition-all duration-300 hover:bg-[#001f54] hover:shadow-lg transform hover:scale-105">
+                            ¡Inscríbete Ahora!
+                    </a>
+                    </div>
+                </div>
+            </div>
+            @endforeach
+            
+        </div>
+    </div>
 
 
-    <section class="text-gray-600 body-font bg-gradient-to-r from-gray-100 to-indigo-50">
+   {{-- <section class="text-gray-600 body-font bg-gradient-to-r from-gray-100 to-indigo-50">
         @foreach ($eventos as $evento)
             <div class="container mx-auto py-16 px-4 sm:px-6 lg:px-8">
                 <div class="flex flex-col lg:flex-row items-center">
@@ -250,7 +328,7 @@
                 </div>
 
                 <!-- Ponentes y temas -->
-                {{-- <section class="mt-20">
+               <section class="mt-20">
                     <div class="container px-5 py-24 mx-auto">
                         <div class="text-center mb-20">
                             <h2 class="text-xs text-[#00dffd] tracking-widest font-medium title-font mb-1">EXPLORA
@@ -344,30 +422,10 @@
                             </div>
                         </div>
                     </div>
-                </section> --}}
+                </section> 
             </div>
         @endforeach
-    </section>
-
-    <section>
-        <div>
-            <h2>Concursos Disponibles</h2>
-            @if($concursos->isNotEmpty())
-                @foreach($concursos as $concurso)
-                    <div>
-                        <h3>{{ $concurso->nombre }}</h3>
-                        <p>{{ $concurso->descripcion }}</p>
-                        <a href="{{ route('inscripcion-concursos', $concurso->id) }}">
-                            <button>Inscríbete</button>
-                        </a>
-                    </div>
-                @endforeach
-            @else
-                <p>No hay concursos disponibles en este momento.</p>
-            @endif
-        </div>
-    </section>
-    
+    </section> --}}
 
 
 
@@ -376,7 +434,7 @@
     <!-- Historia Section -->
 
     <!-- Contact -->
-    {{-- <div class="bg-gradient-to-r from-[#001f54] to-[#4b6587]">
+    <div class="bg-gradient-to-r from-[#001f54] to-[#4b6587]">
         <div class="max-w-5xl px-4 xl:px-0 py-10 lg:py-20 mx-auto">
             <!-- Title -->
             <div class="max-w-3xl mb-10 lg:mb-14">
@@ -598,7 +656,7 @@
             </div>
             <!-- End Grid -->
         </div>
-    </div> --}}
+    </div>
     <!-- End Contact -->
 </div>
 <script src="https://cdn.jsdelivr.net"></script>
@@ -695,4 +753,12 @@
             });
         })();
     })()
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const video = document.getElementById('background-video');
+        if (video) {
+            video.play().catch(error => {
+                console.error("Error al intentar reproducir el video:", error);
+            });
+        }
+    });
 </script>

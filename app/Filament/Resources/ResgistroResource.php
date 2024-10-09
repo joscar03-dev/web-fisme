@@ -115,6 +115,8 @@ class ResgistroResource extends Resource
                                     ->image()
                                     ->disk('public')
                                     ->directory('registro')
+                                    ->openable()
+                                    ->downloadable()
                                     ->visibility('private'),
                                 Forms\Components\Toggle::make('verificado')
                                     ->label('Inscripción Verficada')
