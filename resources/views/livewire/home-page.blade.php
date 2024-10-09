@@ -208,11 +208,13 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                         <div class="flex items-center">
                             <x-heroicon-o-calendar class="h-6 w-6 text-[#001f54e6] mr-2" />
-                            <span class="text-[#001f54e6] font-semibold">Inicio: {{ $concurso->fecha_inicio }}</span>
+                            <span class="text-[#001f54e6] font-semibold">
+                                Inicio: {{ \Carbon\Carbon::parse($concurso->fecha_inicio)->translatedFormat('j \d\e F, Y') }}
+                            </span>
                         </div>
                         <div class="flex items-center">
                             <x-heroicon-o-calendar class="h-6 w-6 text-[#001f54e6] mr-2" />
-                            <span class="text-[#001f54e6] font-semibold">Fin: 30 de Abril, 2024</span>
+                            <span class="text-[#001f54e6] font-semibold">Fin: {{ \Carbon\Carbon::parse($concurso->fecha_fin)->translatedFormat('j \d\e F, Y') }}</span>
                         </div>
                     </div>
     
@@ -222,6 +224,7 @@
                     </div>
     
                     <h3 class="text-lg font-semibold mb-4 text-[#001f54e6]">Documentos del concurso:</h3>
+
                     <ul class="space-y-3 mb-8">
                         <!-- Enlace para Bases del concurso -->
                         <li>
@@ -439,7 +442,7 @@
             <!-- Title -->
             <div class="max-w-3xl mb-10 lg:mb-14">
                 <h2 class="text-white font-semibold text-2xl md:text-4xl md:leading-tight">Contáctanos</h2>
-                <p class="mt-1 text-gray-300">Cualquiera que sea tu objetivo - te ayudaremos a alcanzarlo.</p>
+                <p class="mt-1 text-gray-300">Facultad de Ingeniería de Sistemas y Mecánica Eléctrica - UNTRM</p>
             </div>
             <!-- End Title -->
 
@@ -555,7 +558,7 @@
                   peer-[:not(:placeholder-shown)]:text-xs
                   peer-[:not(:placeholder-shown)]:-translate-y-1.5
                   peer-[:not(:placeholder-shown)]:text-[#00dffd]">Cuéntanos
-                                    sobre tu proyecto</label>
+                                    sobre ti</label>
                             </div>
                             <!-- End Textarea -->
                         </div>
@@ -596,8 +599,8 @@
                             <h4 class="text-white font-semibold">Nuestra dirección:</h4>
 
                             <address class="mt-1 text-gray-300 text-sm not-italic">
-                                300 Bath Street, Tay House<br>
-                                Glasgow G2 4JR, United Kingdom
+                                Jr. Libertad 1300<br>
+                                , Bagua 01721
                             </address>
                         </div>
                     </div>
@@ -617,37 +620,8 @@
 
                             <a class="mt-1 text-gray-300 text-sm hover:text-[#00dffd] transition duration-300 ease-in-out focus:outline-none focus:text-[#00dffd]"
                                 href="mailto:hello@example.so" target="_blank">
-                                hello@example.so
+                                centpro.fisme@untrm.edu.pe
                             </a>
-                        </div>
-                    </div>
-                    <!-- End Item -->
-
-                    <!-- Item -->
-                    <div class="flex gap-x-5">
-                        <svg class="shrink-0 size-6 text-[#00dffd]" xmlns="http://www.w3.org/2000/svg" width="24"
-                            height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="m3 11 18-5v12L3 14v-3z" />
-                            <path d="M11.6 16.8a3 3 0 1 1-5.8-1.6" />
-                        </svg>
-                        <div class="grow">
-                            <h4 class="text-white font-semibold">Estamos contratando</h4>
-                            <p class="mt-1 text-gray-300">Nos complace anunciar que estamos expandiendo nuestro equipo
-                                y buscamos personas talentosas como tú para unirse a nosotros.</p>
-                            <p class="mt-2">
-                                <a class="group inline-flex items-center gap-x-2 font-medium text-sm text-[#00dffd] decoration-2 hover:underline focus:outline-none focus:underline transition duration-300 ease-in-out"
-                                    href="#">
-                                    Ofertas de trabajo
-                                    <svg class="shrink-0 size-4 transition duration-300 ease-in-out group-hover:translate-x-1"
-                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M5 12h14" />
-                                        <path d="m12 5 7 7-7 7" />
-                                    </svg>
-                                </a>
-                            </p>
                         </div>
                     </div>
                     <!-- End Item -->
