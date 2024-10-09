@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\Concurso;
 use App\Models\DocumentosInscripcion;
 use App\Models\InscripcionConcurso;
+use App\Models\TipoDocumento;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -22,10 +23,17 @@ class InscripcionConcursos extends Component
     public $institucion_procedencia;
     public $email;
     public $img_boucher;
+    public $concurso_id;
+
+    public $documentos = [];
+    public $tipos_documentos = [];
+    public $inscripcion_id;
+    public $mostrarSubirDocumentos = false;
 
     public function mount($slug)
     {
         $this->slug= $slug;
+        $this->tipos_documentos = TipoDocumento::take(3)->get();
     }
 
     public function submit()
@@ -71,13 +79,30 @@ class InscripcionConcursos extends Component
                 'estado' => 1,
             ]);
 
-            
-            session()->flash('message', 'Inscripción realizada exitosamente.');
 
+            $this->inscripcion_id = $inscripcion->id;
+
+            // Subir documentos
+            foreach ($this->tipos_documentos as $index => $tipo_documento) {
+                if (isset($this->documentos[$index])) {
+                    $path = $this->documentos[$index]->store('documentos_inscripciones', 'public');
+    
+                    DocumentosInscripcion::create([
+                        'inscripcion_concurso_id' => $this->inscripcion_id,
+                        'tipo_documento_id' => $tipo_documento->id,
+                        'ruta' => $path,
+                    ]);
+                }
+            }
+    
+            // Mostrar mensaje de éxito
+            session()->flash('message', 'Inscripción y subida de documentos realizada exitosamente.');
+    
+            // Resetear formulario
             $this->resetForm();
         }
 
-        return redirect()->route('subir-documentos', $inscripcion->id);
+        // return redirect()->route('subir-documentos', $inscripcion->id);
     }
 
     private function resetForm()
@@ -91,6 +116,7 @@ class InscripcionConcursos extends Component
         $this->institucion_procedencia = '';
         $this->email = '';
         $this->img_boucher = null;
+        $this->documentos = [];
     }
 
     public function render()
