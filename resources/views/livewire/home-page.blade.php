@@ -45,21 +45,20 @@
         <div class="relative overflow-hidden">
             <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
                 <!-- Componente de Carrusel con Interacción y Transiciones -->
-                <div x-data="{ currentIndex: 0, isMobile: window.innerWidth < 768 }" 
-                     x-init="setInterval(() => currentIndex = (currentIndex + 1) % {{ $eventos->count() ?: 0 }}, 8000);
-                     window.addEventListener('resize', () => isMobile = window.innerWidth < 768);"
-                     class="relative z-10 pb-8 sm:pb-16 md:pb-20 lg:pb-28 xl:pb-32 min-h-[80vh] lg:min-h-screen flex items-center">
-        
+                <div x-data="{ currentIndex: 0, isMobile: window.innerWidth < 768 }" x-init="setInterval(() => currentIndex = (currentIndex + 1) % {{ $eventos->count() ?: 0 }}, 8000);
+                window.addEventListener('resize', () => isMobile = window.innerWidth < 768);"
+                    class="relative z-10 pb-8 sm:pb-16 md:pb-20 lg:pb-28 xl:pb-32 min-h-[80vh] lg:min-h-screen flex items-center">
+
                     @forelse ($eventos as $index => $evento)
                         <div x-show="currentIndex === {{ $index }}"
-                             x-transition:enter="transition ease-out duration-700"
-                             x-transition:enter-start="opacity-0 transform translate-x-full"
-                             x-transition:enter-end="opacity-100 transform translate-x-0"
-                             x-transition:leave="transition ease-in duration-500"
-                             x-transition:leave-start="opacity-100 transform translate-x-0"
-                             x-transition:leave-end="opacity-0 transform -translate-x-full"
-                             class="absolute inset-0 w-full h-full">
-        
+                            x-transition:enter="transition ease-out duration-700"
+                            x-transition:enter-start="opacity-0 transform translate-x-full"
+                            x-transition:enter-end="opacity-100 transform translate-x-0"
+                            x-transition:leave="transition ease-in duration-500"
+                            x-transition:leave-start="opacity-100 transform translate-x-0"
+                            x-transition:leave-end="opacity-0 transform -translate-x-full"
+                            class="absolute inset-0 w-full h-full">
+
                             <div class="flex flex-col lg:flex-row items-stretch h-full">
                                 <!-- Imagen (ahora arriba en móviles, a la derecha en desktop) -->
                                 <div class="w-full lg:w-1/2 flex items-center justify-center order-1 lg:order-2 h-full">
@@ -199,240 +198,68 @@
                 <!-- Capa de superposición para oscurecer ligeramente el video -->
                 <div class="absolute inset-0 bg-black opacity-30"></div>
             </div>
-    
+
             <!-- Contenido del concurso -->
             @foreach ($concursos as $concurso)
-            <div class="relative z-10 max-w-4xl mx-auto px-4 py-16 sm:px-6 lg:px-8">
-                <div class="bg-white bg-opacity-60 backdrop-filter backdrop-blur-md rounded-lg shadow-xl p-8">
-                    <h2 class="text-4xl font-extrabold text-center mb-8 text-[#001f54e6]">{{ $concurso->nombre }}</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                        <div class="flex items-center">
-                            <x-heroicon-o-calendar class="h-6 w-6 text-[#001f54e6] mr-2" />
-                            <span class="text-[#001f54e6] font-semibold">
-                                Inicio: {{ \Carbon\Carbon::parse($concurso->fecha_inicio)->translatedFormat('j \d\e F, Y') }}
-                            </span>
+                <div class="relative z-10 max-w-4xl mx-auto px-4 py-16 sm:px-6 lg:px-8">
+                    <div class="bg-white bg-opacity-60 backdrop-filter backdrop-blur-md rounded-lg shadow-xl p-8">
+                        <h2 class="text-4xl font-extrabold text-center mb-8 text-[#001f54e6]">{{ $concurso->nombre }}
+                        </h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                            <div class="flex items-center">
+                                <x-heroicon-o-calendar class="h-6 w-6 text-[#001f54e6] mr-2" />
+                                <span class="text-[#001f54e6] font-semibold">
+                                    Inicio:
+                                    {{ \Carbon\Carbon::parse($concurso->fecha_inicio)->translatedFormat('j \d\e F, Y') }}
+                                </span>
+                            </div>
+                            <div class="flex items-center">
+                                <x-heroicon-o-calendar class="h-6 w-6 text-[#001f54e6] mr-2" />
+                                <span class="text-[#001f54e6] font-semibold">Fin:
+                                    {{ \Carbon\Carbon::parse($concurso->fecha_fin)->translatedFormat('j \d\e F, Y') }}</span>
+                            </div>
                         </div>
-                        <div class="flex items-center">
-                            <x-heroicon-o-calendar class="h-6 w-6 text-[#001f54e6] mr-2" />
-                            <span class="text-[#001f54e6] font-semibold">Fin: {{ \Carbon\Carbon::parse($concurso->fecha_fin)->translatedFormat('j \d\e F, Y') }}</span>
-                        </div>
-                    </div>
-    
-                    <div class="flex items-center justify-center bg-[#001f54e6] text-white rounded-full py-3 px-6 font-bold text-xl mb-8 transform hover:scale-105 transition-transform duration-300">
-                      
-                        <span>Inscripción: S/. 50 </span>
-                    </div>
-    
-                    <h3 class="text-lg font-semibold mb-4 text-[#001f54e6]">Documentos del concurso:</h3>
+                        @foreach ($concurso->precios as $precio)
+                            <div
+                                class="flex items-center justify-center bg-[#001f54e6] text-white rounded-full py-3 px-6 font-bold text-xl mb-8 transform hover:scale-105 transition-transform duration-300">
 
-                    <ul class="space-y-3 mb-8">
-                        <!-- Enlace para Bases del concurso -->
-                        <li>
-                            <a href="{{ asset('documents/EP2-JOSUE DAVID CAYOTOPA TAMAY.pdf') }}" download
-                                class="flex items-center text-[#001f54e6] hover:text-gray-800 transition-colors duration-200">
-                                <x-heroicon-o-document-arrow-down class="h-5 w-5 mr-2" />
-                                <span class="font-medium">Bases del concurso</span>
+                                <span>Inscripción: S/. {{ $precio->precio }}</span>
+                            </div>
+                        @endforeach
+
+
+
+                        <h3 class="text-lg font-semibold mb-4 text-[#001f54e6]">Documentos del concurso:</h3>
+
+                        <ul class="space-y-3 mb-8">
+                            <!-- Enlace para Bases del concurso -->
+                            @foreach ($concurso->documentosConcursos as $documento)
+                                <li>
+                                    <a href="{{ asset('documents/EP2-JOSUE DAVID CAYOTOPA TAMAY.pdf') }}" download
+                                        class="flex items-center text-[#001f54e6] hover:text-gray-800 transition-colors duration-200">
+                                        <x-heroicon-o-document-arrow-down class="h-5 w-5 mr-2" />
+                                        <span class="font-medium">{{ $documento->tipoDocumento->nombre }}</span>
+                                    </a>
+                                </li>
+                            @endforeach
+
+
+                            <!-- Enlace para Formato de presentación -->
+
+                        </ul>
+
+                        <div class="text-center">
+                            <a wire:click="inscribirse" href="{{ route('inscripcion-concursos', $concurso->slug) }}"
+                                class="bg-[#001f54e6] text-white font-bold py-3 px-8 rounded-full text-xl transition-all duration-300 hover:bg-[#001f54] hover:shadow-lg transform hover:scale-105">
+                                ¡Inscríbete Ahora!
                             </a>
-                        </li>
-    
-                        <!-- Enlace para Formato de presentación -->
-                        <li>
-                            <a href="{{ asset('documents/formato_presentacion.pdf') }}" download
-                                class="flex items-center text-[#001f54e6] hover:text-gray-800 transition-colors duration-200">
-                                <x-heroicon-o-document-arrow-down class="h-5 w-5 mr-2" />
-                                <span class="font-medium">Formato de presentación</span>
-                            </a>
-                        </li>
-    
-                        <!-- Enlace para Criterios de evaluación -->
-                        <li>
-                            <a href="{{ asset('documents/criterios_evaluacion.pdf') }}" download
-                                class="flex items-center text-[#001f54e6] hover:text-gray-800 transition-colors duration-200">
-                                <x-heroicon-o-document-arrow-down class="h-5 w-5 mr-2" />
-                                <span class="font-medium">Criterios de evaluación</span>
-                            </a>
-                        </li>
-                    </ul>
-    
-                    <div class="text-center">
-                        <a wire:click="inscribirse" href="{{ route('inscripcion-concursos', $concurso->slug) }}"
-                            class="bg-[#001f54e6] text-white font-bold py-3 px-8 rounded-full text-xl transition-all duration-300 hover:bg-[#001f54] hover:shadow-lg transform hover:scale-105">
-                            ¡Inscríbete Ahora!
-                    </a>
+                        </div>
                     </div>
                 </div>
-            </div>
             @endforeach
-            
+
         </div>
     </div>
-
-
-   {{-- <section class="text-gray-600 body-font bg-gradient-to-r from-gray-100 to-indigo-50">
-        @foreach ($eventos as $evento)
-            <div class="container mx-auto py-16 px-4 sm:px-6 lg:px-8">
-                <div class="flex flex-col lg:flex-row items-center">
-                    <!-- Imagen del evento (lado izquierdo en pantallas grandes) -->
-                    <div class="w-full lg:w-1/2 mb-10 lg:mb-0 lg:pr-10">
-                        <div class="relative overflow-hidden rounded-lg shadow-xl">
-                            <img src="{{ url('storage', $evento->imagen_catalogo) }}" alt="Imagen del evento"
-                                class="w-full h-auto object-cover transform hover:scale-105 transition-transform duration-500 ease-in-out">
-                            <div
-                                class="absolute inset-0 bg-black opacity-0 hover:opacity-25 transition-opacity duration-300">
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Detalles del evento -->
-                    <div class="w-full lg:w-1/2 lg:pl-10">
-                        <h1 class="text-4xl font-extrabold mb-6 text-gray-900 leading-tight">
-                            {{ $evento->nombre_evento }}</h1>
-                        <p class="text-xl mb-6 text-gray-600 leading-relaxed">{{ $evento->descripcion_breve }}</p>
-
-                        <!-- Organizadores -->
-                        <div class="mb-6">
-                            <h2 class="text-2xl font-semibold text-gray-700 mb-3">Organizadores:</h2>
-                            <ul class="space-y-2">
-                                @foreach ($evento->organizadores as $organizador)
-                                    <li class="flex items-center text-gray-600">
-                                        <svg class="w-5 h-5 mr-2 text-[#00dffd]" fill="currentColor"
-                                            viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd"
-                                                d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                                                clip-rule="evenodd" />
-                                        </svg>
-                                        {{ $organizador->nombre }}
-                                    </li>
-                                @endforeach
-                            </ul>
-                        </div>
-
-                        <!-- Fechas -->
-                        <div class="mb-8">
-                            <h2 class="text-2xl font-semibold text-gray-700 mb-3">Fechas:</h2>
-                            <p class="flex items-center text-lg text-gray-600">
-                                <svg class="w-6 h-6 mr-2 text-[#00dffd]" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                </svg>
-                                {{ \Carbon\Carbon::parse($evento->fecha_inicio)->format('d/m/Y') }} -
-                                {{ \Carbon\Carbon::parse($evento->fecha_fin)->format('d/m/Y') }}
-                            </p>
-                        </div>
-
-                        <!-- Botón de inscripción -->
-                        <a href="#"
-                            class="inline-block bg-[#1d4570] text-white text-lg font-semibold py-3 px-8 rounded-full hover:bg-[#00dffd] transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#00dffd] focus:ring-opacity-50">
-                            Inscríbete ahora
-                        </a>
-
-                    </div>
-                </div>
-
-                <!-- Ponentes y temas -->
-               <section class="mt-20">
-                    <div class="container px-5 py-24 mx-auto">
-                        <div class="text-center mb-20">
-                            <h2 class="text-xs text-[#00dffd] tracking-widest font-medium title-font mb-1">EXPLORA
-                                NUESTROS</h2>
-                            <h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900 mb-4">Temas del Evento
-                            </h1>
-                            <p class="text-base leading-relaxed xl:w-2/4 lg:w-3/4 mx-auto text-gray-500">
-                                Descubre los fascinantes temas que abordaremos en nuestro evento. Desde tecnologías
-                                emergentes hasta tendencias innovadoras,
-                                nuestros expertos te guiarán a través de los avances más recientes en el mundo de la
-                                tecnología.
-                            </p>
-                            <div class="flex mt-6 justify-center">
-                                <div class="w-16 h-1 rounded-full bg-[#00dffd] inline-flex"></div>
-                            </div>
-                        </div>
-
-                        <div class="flex flex-wrap justify-center -m-4">
-                            @foreach ($evento->temas as $tema)
-                                <div class="p-4 md:w-1/2 lg:w-1/3">
-                                    <div
-                                        class="h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
-                                        <img class="lg:h-48 md:h-36 w-full object-cover object-center"
-                                            src="{{ url('storage', $tema->imagen) }}"
-                                            alt="{{ $tema->nombre_tema }}">
-                                        <div class="p-6">
-                                            <h2
-                                                class="tracking-widest text-xs title-font font-medium text-[#00dffd] mb-1">
-                                                {{ $tema->subtitulo_tema }}</h2>
-                                            <h1 class="title-font text-lg font-medium text-gray-900 mb-3">
-                                                {{ $tema->nombre_tema }}</h1>
-                                            <p class="leading-relaxed mb-3 line-clamp-3">{{ $tema->descripcion_tema }}
-                                            </p>
-                                            <div class="flex items-center flex-wrap">
-                                                <span class="text-[#1d4570] inline-flex items-center md:mb-2 lg:mb-0">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                        class="w-4 h-4 mr-1">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                    </svg>
-                                                    {{ \Carbon\Carbon::parse($tema->hora_inicio)->format('H:i') }} -
-                                                    {{ \Carbon\Carbon::parse($tema->hora_fin)->format('H:i') }}
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-
-                        <!-- Ponentes -->
-                        <div class="mt-20">
-                            <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Nuestros Ponentes</h2>
-                            <div class="flex flex-wrap justify-center -mx-4">
-                                @foreach ($evento->temas as $tema)
-                                    @foreach ($tema->ponentes as $ponente)
-                                        <div class="w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 px-4 mb-8">
-                                            <div
-                                                class="bg-white rounded-xl shadow-lg overflow-hidden transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-2xl">
-                                                <div class="relative">
-                                                    <img src="{{ url('storage', $ponente->imagen) }}"
-                                                        alt="Imagen de {{ $ponente->nombre }} {{ $ponente->apellidos }}"
-                                                        class="w-full h-48 object-cover">
-                                                    <img src="{{ url('storage', $ponente->logo_pais) }}"
-                                                        alt="Bandera de {{ $ponente->pais }}"
-                                                        class="absolute bottom-2 right-2 w-10 h-10 rounded-full border-2 border-white shadow-sm"
-                                                        title="{{ $ponente->pais }}">
-                                                </div>
-                                                <div class="p-6">
-                                                    <h4 class="text-xl font-semibold text-gray-800 mb-2">
-                                                        {{ $ponente->nombre }} {{ $ponente->apellidos }}</h4>
-                                                    <p class="text-sm font-medium text-[#00dffd] mb-2">
-                                                        {{ $ponente->institucion }}</p>
-                                                    <p class="text-gray-600 text-sm leading-relaxed line-clamp-3 mb-4">
-                                                        {{ $ponente->biografia_breve }}</p>
-                                                    <button
-                                                        class="text-[#1d4570] hover:text-[#00dffd] text-sm font-medium focus:outline-none focus:underline transition duration-300"
-                                                        onclick="toggleBio(this, '{{ $ponente->id }}')">
-                                                        Leer más
-                                                    </button>
-                                                    <p id="bio-{{ $ponente->id }}"
-                                                        class="hidden text-gray-600 text-sm leading-relaxed mt-2">
-                                                        {{ $ponente->biografia_completa }}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                @endforeach
-                            </div>
-                        </div>
-                    </div>
-                </section> 
-            </div>
-        @endforeach
-    </section> --}}
-
-
-
-
 
     <!-- Historia Section -->
 
@@ -619,7 +446,7 @@
                             <h4 class="text-white font-semibold">Envíanos un email:</h4>
 
                             <a class="mt-1 text-gray-300 text-sm hover:text-[#00dffd] transition duration-300 ease-in-out focus:outline-none focus:text-[#00dffd]"
-                                href="mailto:hello@example.so" target="_blank">
+                                href="mailto:centpro.fisme@untrm.edu.pe" target="_blank">
                                 centpro.fisme@untrm.edu.pe
                             </a>
                         </div>

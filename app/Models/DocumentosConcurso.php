@@ -14,6 +14,7 @@ class DocumentosConcurso extends Model
     protected $fillable = [
         'consurso_id',
         'tipo_documento_id',
+        'url',
     ];
 
     // Relación con la tabla `consursos`

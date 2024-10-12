@@ -33,6 +33,19 @@ class AsistenciaResource extends Resource
         return $table
             ->columns([
                 //
+                Tables\Columns\TextColumn::make('nombres_completos')
+                ->sortable()
+                ->limit(30)
+                ->searchable(),
+                Tables\Columns\TextColumn::make('numero_documento')
+                ->sortable()
+                ->limit(30)
+                ->searchable(),
+                Tables\Columns\TextColumn::make('fecha')
+                ->sortable()
+                ->searchable(),
+
+
             ])
             ->filters([
                 //

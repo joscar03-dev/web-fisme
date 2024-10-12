@@ -64,17 +64,35 @@ return [
     */
 
     'temporary_file_upload' => [
-        'disk' => 'public',        // Example: 'local', 's3'              | Default: 'default'
-        'rules' => 'file|mimes:jpeg,png,jpg,gif,svg|max:5120',       // Example: ['file', 'mimes:png,jpg']  | Default: ['required', 'file', 'max:12288'] (12MB)
-        'directory' => null,   // Example: 'tmp'                      | Default: 'livewire-tmp'
-        'middleware' => null,  // Example: 'throttle:5,1'             | Default: 'throttle:60,1'
-        'preview_mimes' => [   // Supported file types for temporary pre-signed file URLs...
-            'png', 'gif', 'bmp', 'svg', 'wav', 'mp4',
-            'mov', 'avi', 'wmv', 'mp3', 'm4a',
-            'jpg', 'jpeg', 'mpga', 'webp', 'wma',
+        'disk' => 'public',
+        'rules' => 'file|mimes:jpeg,png,jpg,gif,svg,pdf,doc,docx,xls,xlsx|max:5120',  // Aquí incluimos los tipos de archivo que deseas permitir
+        'directory' => null,
+        'middleware' => null,
+        'preview_mimes' => [
+            'png',
+            'gif',
+            'bmp',
+            'svg',
+            'wav',
+            'mp4',
+            'mov',
+            'avi',
+            'wmv',
+            'mp3',
+            'm4a',
+            'jpg',
+            'jpeg',
+            'mpga',
+            'webp',
+            'wma',
+            'pdf',
+            'doc',
+            'docx',
+            'xls',
+            'xlsx',  // Añadir los tipos de archivos permitidos para la vista previa, si es aplicable
         ],
-        'max_upload_time' => 10, // Max duration (in minutes) before an upload is invalidated...
-        'cleanup' => true, // Should cleanup temporary uploads older than 24 hrs...
+        'max_upload_time' => 10,
+        'cleanup' => true,
     ],
 
     /*
