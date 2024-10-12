@@ -46,6 +46,7 @@ class EscanearAsistenciaPage extends Page
         // Crear nueva asistencia
         $asistencia = Asistencia::create([
             'numero_documento' => $numeroDocumento,
+            
             'fecha' => now(),
             'hora' => now()->format('H:i:s'),
             'nombres_completos' => $registro->nombres . ' ' . $registro->apellidos,

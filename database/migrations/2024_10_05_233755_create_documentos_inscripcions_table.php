@@ -20,6 +20,7 @@ return new class extends Migration
             $table->foreignId('tipo_documento_id')
                 ->constrained('tipo_documentos')
                 ->onDelete('cascade');
+                $table->string('ruta')->nullable();
 
             $table->timestamps();
         });

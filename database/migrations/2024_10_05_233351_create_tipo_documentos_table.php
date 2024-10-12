@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('tipo_documento', 255);
             $table->string('nombre', 255);
-            $table->string('url', 255);
             $table->boolean('estado')->default(true);
             $table->timestamps();
         });

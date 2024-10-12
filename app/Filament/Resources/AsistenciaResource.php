@@ -52,6 +52,7 @@ class AsistenciaResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->headerActions([
                 // Botón "Crear"

@@ -276,7 +276,7 @@
             <!-- Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 lg:gap-x-16">
                 <div class="md:order-2 border-b border-gray-700 pb-10 mb-10 md:border-b-0 md:pb-0 md:mb-0">
-                    <form>
+                    <form >
                         <div class="space-y-4">
                             <!-- Input -->
                             <div class="relative">

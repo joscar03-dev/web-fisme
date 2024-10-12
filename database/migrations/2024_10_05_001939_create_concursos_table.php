@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('concursos', function (Blueprint $table) {
             $table->id();
             $table->string('nombre', 255);
-            $table->string('slug', 255);
+            $table->string('slug', 255)->nullable();
             $table->string('tipo_concurso', 255)->nullable();
             $table->string('descripcion', 255)->nullable();
             $table->dateTime('fecha_inicio')->nullable();
