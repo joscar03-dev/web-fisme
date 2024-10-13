@@ -22,8 +22,8 @@ class DocumentosInscripcionRelationManager extends RelationManager
             ->schema([
                 Forms\Components\FileUpload::make('ruta')
                     ->label('Subir Documento')
-                    ->directory('documentos_inscripciones')  // Carpeta donde se guardarán los archivos
-                    ->disk('public')  // Asegúrate de que esté configurado en el sistema de archivos
+                    ->directory('documentos_inscripciones')
+                    ->disk('public') 
                     ->required()
                     ->openable()
                     ->downloadable()

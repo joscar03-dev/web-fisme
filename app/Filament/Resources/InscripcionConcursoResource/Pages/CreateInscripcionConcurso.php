@@ -17,16 +17,16 @@ class CreateInscripcionConcurso extends CreateRecord
     
     protected function beforeSave(): void
     {
-        // Asignar siempre la fecha de registro al crear el registro
+        
         $this->record->fecha_registro = now();
 
-        // Verificar el estado del toggle de verificación
+      
         if ($this->data['verificado'] ?? false) {
-            // Si está marcado, asignar la fecha y el usuario logueado
+           
             $this->record->fecha_verificacion = now();
             $this->record->usuario_verificacion = Auth::user()->name;
         } else {
-            // Si no está marcado, limpiar los campos de verificación
+            
             $this->record->fecha_verificacion = null;
             $this->record->usuario_verificacion = null;
         }

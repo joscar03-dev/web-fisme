@@ -18,12 +18,12 @@ class EditInscripcionConcurso extends EditRecord
 
     protected function beforeSave(): void
     {
-        // Si el toggle de verificación está activado, asignar la fecha y el usuario
+        
         if ($this->data['verificado']) {
             $this->record->fecha_verificacion = now();
             $this->record->usuario_verificacion = Auth::user()->id;
         } else {
-            // Si el toggle está desactivado, limpiar ambos campos
+            
             $this->record->fecha_verificacion = null;
             $this->record->usuario_verificacion = null;
         }
