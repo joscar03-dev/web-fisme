@@ -89,11 +89,11 @@ class InscripcionConcursoResource extends Resource
                     ->reactive()// Escucha cambios en tiempo real
                     ->afterStateUpdated(function (callable $set, $state) {
                         if ($state) {
-                            $set('usuario_verificacion', auth()->user()->id); // Asignar usuario al activarlo
-                            $set('fecha_verificacion', now()); // Asignar fecha actual
+                            $set('usuario_verificacion', auth()->user()->id); 
+                            $set('fecha_verificacion', now()); 
                         } else {
-                            $set('usuario_verificacion', null); // Limpiar usuario si se desactiva
-                            $set('fecha_verificacion', null); // Limpiar fecha si se desactiva
+                            $set('usuario_verificacion', null); 
+                            $set('fecha_verificacion', null); 
                         }
                     }),
                 Forms\Components\DateTimePicker::make('fecha_verificacion')
