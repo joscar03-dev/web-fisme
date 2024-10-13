@@ -1,4 +1,4 @@
-
+<x-filament-panels::page>
     @vite('resources/css/ticket-page.css')
     
     <div class="ticket-container">
