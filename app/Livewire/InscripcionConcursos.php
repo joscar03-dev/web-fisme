@@ -24,7 +24,7 @@ class InscripcionConcursos extends Component
     public $email;
     public $img_boucher;
     public $concurso_id;
-
+    public $concurso;
     public $documentos = [];
     public $tipos_documentos = [];
     public $inscripcion_id;
@@ -32,77 +32,67 @@ class InscripcionConcursos extends Component
 
     public function mount($slug)
     {
-        $this->slug= $slug;
+        $this->concurso = Concurso::where('slug', $slug)->firstOrFail();
+        $this->concurso_id = $this->concurso->id;
         $this->tipos_documentos = TipoDocumento::take(3)->get();
     }
 
     public function submit()
     {
-        $inscripcion = InscripcionConcurso::where('slug', $this->slug)->first();
+        // Validar solo los campos de inscripción y documentos
+        $this->validate([
+            'tipo_documento' => 'required|string|max:255',
+            'numero_documento' => 'required|string|max:255|unique:inscripcion_concursos,numero_documento',
+            'nombres' => 'required|string|max:255',
+            'apellidos' => 'required|string|max:255',
+            'numero_celular' => 'required|string|max:15',
+            'tipo_participante' => 'required|string',
+            'institucion_procedencia' => 'nullable|string|max:255',
+            'email' => 'required|email|max:255',
+            'img_boucher' => 'required|image|max:2048', // Valida el boucher como imagen (max 2MB)
+            'documentos.*' => 'required|file|max:2048', // Valida que cada documento sea obligatorio y máximo de 2MB
+        ]);
 
-        if ($inscripcion) {
-            $documentosSubidos = DocumentosInscripcion::where('inscripcion_concurso_id', $inscripcion->id)->exists();
+        // Almacenar el boucher
+        $boucherPath = $this->img_boucher->store('bouchers_concursos', 'public');
 
-            if ($documentosSubidos) {
-                session()->flash('message', 'Ya has completado tu inscripción y has subido todos los documentos.');
-                return;
-            } else {
-                return redirect()->route('subir-documentos', $inscripcion->id);
+        // Crear la inscripción
+        $inscripcion = InscripcionConcurso::create([
+            'concurso_id' => $this->concurso_id,
+            'tipo_documento' => $this->tipo_documento,
+            'numero_documento' => $this->numero_documento,
+            'nombres' => $this->nombres,
+            'apellidos' => $this->apellidos,
+            'numero_celular' => $this->numero_celular,
+            'tipo_participante' => $this->tipo_participante,
+            'institucion_procedencia' => $this->institucion_procedencia,
+            'email' => $this->email,
+            'img_boucher' => $boucherPath,
+            'fecha_registro' => now(),
+            'estado' => 1,
+        ]);
+
+        // Obtener el id de la inscripción
+        $this->inscripcion_id = $inscripcion->id;
+
+        // Subir y guardar los documentos
+        foreach ($this->tipos_documentos as $index => $tipo_documento) {
+            if (isset($this->documentos[$index])) {
+                $path = $this->documentos[$index]->store('documentos_inscripciones', 'public');
+
+                DocumentosInscripcion::create([
+                    'inscripcion_concurso_id' => $this->inscripcion_id,
+                    'tipo_documento_id' => $tipo_documento->id,
+                    'ruta' => $path,
+                ]);
             }
-        } else {
-            $this->validate([
-                'tipo_documento' => 'required|string|max:255',
-                'numero_documento' => 'required|string|max:255|unique:inscripcion_concursos,numero_documento',
-                'nombres' => 'required|string|max:255',
-                'apellidos' => 'required|string|max:255',
-                'numero_celular' => 'required|string|max:15',
-                'tipo_participante' => 'required|string',
-                'institucion_procedencia' => 'nullable|string|max:255',
-                'email' => 'required|email|max:255',
-                'img_boucher' => 'required|image|max:2048', // Valida el boucher como imagen (max 2MB)
-            ]);
-
-            $boucherPath = $this->img_boucher->store('bouchers', 'public');
-
-            $inscripcion = InscripcionConcurso::create([
-                'concurso_id' => $this->concurso_id,
-                'tipo_documento' => $this->tipo_documento,
-                'numero_documento' => $this->numero_documento,
-                'nombres' => $this->nombres,
-                'apellidos' => $this->apellidos,
-                'numero_celular' => $this->numero_celular,
-                'tipo_participante' => $this->tipo_participante,
-                'institucion_procedencia' => $this->institucion_procedencia,
-                'email' => $this->email,
-                'img_boucher' => $boucherPath,
-                'fecha_registro' => now(),
-                'estado' => 1,
-            ]);
-
-
-            $this->inscripcion_id = $inscripcion->id;
-
-            // Subir documentos
-            foreach ($this->tipos_documentos as $index => $tipo_documento) {
-                if (isset($this->documentos[$index])) {
-                    $path = $this->documentos[$index]->store('documentos_inscripciones', 'public');
-    
-                    DocumentosInscripcion::create([
-                        'inscripcion_concurso_id' => $this->inscripcion_id,
-                        'tipo_documento_id' => $tipo_documento->id,
-                        'ruta' => $path,
-                    ]);
-                }
-            }
-    
-            // Mostrar mensaje de éxito
-            session()->flash('message', 'Inscripción y subida de documentos realizada exitosamente.');
-    
-            // Resetear formulario
-            $this->resetForm();
         }
 
-        // return redirect()->route('subir-documentos', $inscripcion->id);
+        // Mostrar mensaje de éxito
+        session()->flash('message', 'Inscripción y subida de documentos realizada exitosamente.');
+
+        // Resetear el formulario
+        $this->resetForm();
     }
 
     private function resetForm()

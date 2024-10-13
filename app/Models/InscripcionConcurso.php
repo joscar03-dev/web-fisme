@@ -9,6 +9,7 @@ class InscripcionConcurso extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'concurso_id',
         'tipo_documento',
         'numero_documento',
         'nombres',
@@ -24,6 +25,11 @@ class InscripcionConcurso extends Model
         'usuario_verificacion',
         'fecha_verificacion',
         'estado',
+    ];
+
+    protected $dates = [
+        'fecha_registro',
+        'fecha_verificacion',
     ];
 
     // Relación con la tabla `concursos`

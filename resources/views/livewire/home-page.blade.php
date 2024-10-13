@@ -249,7 +249,7 @@
                         </ul>
 
                         <div class="text-center">
-                            <a wire:click="inscribirse" href="{{ route('inscripcion-concursos', $concurso->slug) }}"
+                            <a href="{{ route('inscripcion-concursos', $concurso->slug) }}"
                                 class="bg-[#001f54e6] text-white font-bold py-3 px-8 rounded-full text-xl transition-all duration-300 hover:bg-[#001f54] hover:shadow-lg transform hover:scale-105">
                                 ¡Inscríbete Ahora!
                             </a>

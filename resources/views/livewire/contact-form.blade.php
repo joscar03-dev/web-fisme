@@ -60,8 +60,7 @@
                                     class="peer p-4 block w-full bg-gray-800 border-transparent rounded-lg text-sm text-white placeholder:text-transparent focus:outline-none focus:ring-2 focus:ring-[#00dffd] focus:border-transparent"
                                     placeholder="Cuéntanos sobre tu proyecto"></textarea>
                                 <label for="message"
-                                    class="absolute top-0 start-0 p-4 h-full text-gray-400 text-sm truncate pointer-events-none transition ease-in-out duration-300 peer-focus:text-xs peer-focus:-translate-y-1.5 peer-focus:text-[#00dffd]">Cuéntanos
-                                    sobre tu proyecto</label>
+                                    class="absolute top-0 start-0 p-4 h-full text-gray-400 text-sm truncate pointer-events-none transition ease-in-out duration-300 peer-focus:text-xs peer-focus:-translate-y-1.5 peer-focus:text-[#00dffd]">Tu mensaje es importante para nosotros. Nos pondremos en contacto contigo lo antes posible.</label>
                             </div>
                         </div>
     

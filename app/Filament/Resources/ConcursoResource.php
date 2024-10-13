@@ -27,7 +27,7 @@ class ConcursoResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-bell';
     protected static ?string $navigationGroup = 'Concurso';
-    protected static ?int $navigationSort = 1;
+    protected static ?int $navigationSort = 2;
     public static function form(Form $form): Form
     {
         return $form
