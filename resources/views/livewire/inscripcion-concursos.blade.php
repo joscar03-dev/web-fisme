@@ -15,11 +15,13 @@
             <!-- Tipo de Documento -->
             <div>
                 <label for="tipo_documento" class="block font-medium text-[#133E6B]">Tipo de Documento:</label>
-                <input type="text" id="tipo_documento" wire:model="tipo_documento"
-                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#133E6B] focus:ring focus:ring-[#133E6B] focus:ring-opacity-50">
-                @error('tipo_documento')
-                    <span class="text-red-500 text-sm">{{ $message }}</span>
-                @enderror
+                <select wire:model="tipo_documento" id="tipo_documento"
+                            class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-[#001f54] focus:border-[#001f54] sm:text-sm rounded-md">
+                            <option value="">Selecciona tipo de documento</option>
+                            <option value="DNI">DNI</option>
+                            <option value="CE">CE</option>
+                            <option value="Pasaporte">Pasaporte</option>
+                        </select>
             </div>
 
             <!-- Número de Documento -->
@@ -68,8 +70,8 @@
                 <select id="tipo_participante" wire:model="tipo_participante"
                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#133E6B] focus:ring focus:ring-[#133E6B] focus:ring-opacity-50">
                     <option value="">Seleccionar</option>
-                    <option value="estudiante">Estudiante</option>
-                    <option value="profesional">Profesional</option>
+                    <option value="ESTUDIANTE">Estudiante</option>
+                    <option value="PROFESIONAL">Profesional</option>
                 </select>
                 @error('tipo_participante')
                     <span class="text-red-500 text-sm">{{ $message }}</span>
