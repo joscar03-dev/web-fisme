@@ -9,7 +9,6 @@ use Livewire\Component;
 
 class HomePage extends Component
 {
-
     public $eventos;
     public $concursos;
     public $currentIndex = 0;

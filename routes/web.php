@@ -54,10 +54,6 @@ Route::get('/cookies/manage', function () {
 //filament
 Route::post('/admin/asistencias/escanear', [EscanearAsistenciaPage::class, 'registerAsistencia'])->name('filament.admin.resources.asistencias.escanear.register');
 
-
-// Route::get('/event/{id}', [Registrarse::class, 'show'])->name('event.show');
-
-
 Route::post('/enviar-correo/{registro}', [TicketQrPage::class, 'enviarCorreo'])->name('enviarCorreo');
 
 

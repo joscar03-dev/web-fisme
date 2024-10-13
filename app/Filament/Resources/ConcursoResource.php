@@ -144,6 +144,14 @@ class ConcursoResource extends Resource
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
+
+    public static function getRelations(): array
+    {
+        return [
+            DocumentosConcursosRelationManager::class,
+        ];
+    }
+
     public static function getPages(): array
     {
         return [
