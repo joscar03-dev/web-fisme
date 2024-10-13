@@ -36,7 +36,9 @@
 
 
     @vite('resources/js/app.js')
-
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  
+    <x-livewire-alert::scripts />
     <script src=" {{ asset('js/app.js') }}"></script>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>

@@ -6,14 +6,16 @@ use App\Models\Evento;
 use App\Models\Resgistro;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Request;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
 class Registrarse extends Component
 {
+    use LivewireAlert;
     use WithFileUploads;
 
-   public $tipo_documento;
+    public $tipo_documento;
     public $numero_documento;
     public $nombres;
     public $apellidos;
@@ -84,7 +86,7 @@ class Registrarse extends Component
                 'apellidos' => $this->apellidos,
                 'numero_celular' => $this->numero_celular,
                 'email' => $this->email,
-                'img_boucher' => $imagePath, 
+                'img_boucher' => $imagePath,
                 'evento_id' => $this->evento_id,
                 'tipo_asistente' => $this->tipo_asistente,
                 'institucion_procedencia' => $this->institucion_procedencia,
@@ -95,11 +97,23 @@ class Registrarse extends Component
                 'n_comprobante' => $this->n_comprobante,
             ]);
 
-            $this->reset(['tipo_documento', 'numero_documento', 'nombres', 'apellidos', 'numero_celular', 'email', 'img_boucher', 'institucion_procedencia','tipo','modalidad','modalidad', 'fecha_pago','n_comprobante','entidad_financiera' ]);
-            session()->flash('message', 'Su registro se ha realizado con éxito');
+            $this->reset(['tipo_documento', 'numero_documento', 'nombres', 'apellidos', 'numero_celular', 'email', 'img_boucher', 'institucion_procedencia', 'tipo', 'modalidad', 'modalidad', 'fecha_pago', 'n_comprobante', 'entidad_financiera']);
 
+            $this->alert(
+                'success',
+                'Su registro se ha realizado con éxito',
+                [
+                    'position' => 'bottom-end',
+                    'timer' => 3000,
+                ]
+            );
         } catch (\Exception $e) {
-            session()->flash('error', 'Hubo un error al procesar su registro. Por favor, inténtelo de nuevo.');
+            $this->alert('error', 'Hubo un error al procesar su registro. Por favor, inténtelo de nuevo.',
+            
+            [
+                'position' => 'bottom-end',
+                'timer' => 3000,
+            ]);
         }
     }
 
@@ -107,5 +121,4 @@ class Registrarse extends Component
     {
         return view('livewire.registrarse');
     }
-
 }

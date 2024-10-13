@@ -133,7 +133,7 @@
             </div>
             <form wire:submit.prevent="register"class="space-y-6" method="POST">
                 @csrf
-                @if (session()->has('message'))
+                {{-- @if (session()->has('message'))
                     <div class="rounded-md bg-green-50 p-4 mb-4">
                         <div class="flex">
                             <div class="flex-shrink-0">
@@ -151,9 +151,9 @@
                             </div>
                         </div>
                     </div>
-                @endif
+                @endif --}}
 
-                @if (session()->has('error'))
+                {{-- @if (session()->has('error'))
                     <div class="rounded-md bg-red-50 p-4 mb-4">
                         <div class="flex">
                             <div class="flex-shrink-0">
@@ -171,7 +171,7 @@
                             </div>
                         </div>
                     </div>
-                @endif
+                @endif --}}
 
                 <div class="grid grid-cols-1 gap-6">
                     <div>

@@ -6,6 +6,7 @@ use App\Livewire\Agenda;
 use App\Livewire\Contact;
 use App\Livewire\Evento;
 use App\Livewire\Eventos;
+use App\Livewire\FelicitacionRegistro;
 use App\Livewire\HomePage;
 use App\Livewire\InscripcionConcursos;
 use App\Livewire\Inscripciones;
@@ -39,10 +40,9 @@ Route::get('/contact', Contact::class)->name('contacto');
 // Inscribirce
 Route::get('/inscripcion', Inscripciones::class)->name('inscripcion');
 Route::get('/event-registration/{slug}', Registrarse::class)->name('event.registration');
-
+Route::get('/felicitacion-inscripcion/{evento}/{nombre}', FelicitacionRegistro::class)->name('felicitacion-inscripcion');
 
 // Politicas
-
 Route::get('/cookies/policy', function () {
     return view('cookies.policy');
 })->name('cookies.policy');
