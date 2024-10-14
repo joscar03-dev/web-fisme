@@ -17,8 +17,8 @@ class Registrarse extends Component
 
     public $tipo_documento;
     public $numero_documento;
-    public $nombres;
-    public $apellidos;
+    public $nombres = '';
+    public $apellidos = '';
     public $numero_celular;
     public $email;
     public $img_boucher;
@@ -97,6 +97,18 @@ class Registrarse extends Component
                 'n_comprobante' => $this->n_comprobante,
             ]);
 
+            $nombreCompleto = trim($this->nombres) . ' ' . trim($this->apellidos);
+
+            if (empty($nombreCompleto) || $nombreCompleto === ' ') {
+                $nombreCompleto = 'Participante';
+            }
+            
+            return redirect()->route('confirmacion-inscripcion', [
+                'modelo' => $this->evento_id ? 'evento' : 'concurso',
+                'slug' => $this->evento->slug,
+                'nombre' => $nombreCompleto,
+            ]);
+
             $this->reset(['tipo_documento', 'numero_documento', 'nombres', 'apellidos', 'numero_celular', 'email', 'img_boucher', 'institucion_procedencia', 'tipo', 'modalidad', 'modalidad', 'fecha_pago', 'n_comprobante', 'entidad_financiera']);
 
             $this->alert(
@@ -108,12 +120,15 @@ class Registrarse extends Component
                 ]
             );
         } catch (\Exception $e) {
-            $this->alert('error', 'Hubo un error al procesar su registro. Por favor, inténtelo de nuevo.',
-            
-            [
-                'position' => 'bottom-end',
-                'timer' => 3000,
-            ]);
+            $this->alert(
+                'error',
+                'Hubo un error al procesar su registro. Por favor, inténtelo de nuevo.',
+
+                [
+                    'position' => 'bottom-end',
+                    'timer' => 3000,
+                ]
+            );
         }
     }
 
