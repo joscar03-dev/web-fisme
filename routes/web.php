@@ -42,6 +42,7 @@ Route::get('/inscripcion', Inscripciones::class)->name('inscripcion');
 Route::get('/event-registration/{slug}', Registrarse::class)->name('event.registration');
 Route::get('/felicitacion-inscripcion/{evento}/{nombre}', FelicitacionRegistro::class)->name('felicitacion-inscripcion');
 
+Route::get('/confirmacion-inscripcion/{modelo}/{slug}/{nombre}', FelicitacionRegistro::class)->name('confirmacion-inscripcion');
 // Politicas
 Route::get('/cookies/policy', function () {
     return view('cookies.policy');
