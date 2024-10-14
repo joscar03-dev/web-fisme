@@ -16,8 +16,8 @@ class InscripcionConcursos extends Component
     public $slug;
     public $tipo_documento;
     public $numero_documento;
-    public $nombres;
-    public $apellidos;
+    public $nombres = '';
+    public $apellidos = '';
     public $numero_celular;
     public $tipo_participante;
     public $institucion_procedencia;
@@ -91,8 +91,18 @@ class InscripcionConcursos extends Component
         // Mostrar mensaje de éxito
         session()->flash('message', 'Inscripción y subida de documentos realizada exitosamente.');
 
+        $nombreCompleto = trim($this->nombres) . ' ' . trim($this->apellidos);
+
+        if (empty($nombreCompleto) || $nombreCompleto === ' ') {
+            $nombreCompleto = 'Participante';
+        }
         // Resetear el formulario
         $this->resetForm();
+        return redirect()->route('confirmacion-inscripcion', [
+            'modelo' => $this->concurso_id ? 'concurso' : 'evento',
+            'slug' => $this->concurso->slug,
+            'nombre' => $nombreCompleto,
+        ]);
     }
 
     private function resetForm()
