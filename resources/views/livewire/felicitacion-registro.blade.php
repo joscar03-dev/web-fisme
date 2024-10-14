@@ -3,10 +3,11 @@
     <div class="text-center p-8 bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-lg shadow-xl max-w-lg">
         <h1 class="text-4xl font-bold mb-4 text-yellow-300">¡Felicitaciones!</h1>
         <p class="text-xl mb-6 text-white">
-            {{ $nombreCompleto }}, se ha concluido tu registro al evento: {{ $nombreEvento }}.
+            {{ $nombreCompleto }}, se ha concluido tu registro al {{ $tipo }}: {{ $nombreRegistro }}.
         </p>
         <a href="{{ route('home') }}" class="inline-block bg-yellow-300 text-[#001f54] font-bold py-2 px-4 rounded hover:bg-yellow-200 transition duration-300">
-            Ir a la página del evento
+            Ir a la página de inicio
+            {{-- {{ $tipo }} --}}
         </a>
     </div>
 
