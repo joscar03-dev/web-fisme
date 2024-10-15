@@ -21,6 +21,7 @@ use Filament\Tables\Actions\Action;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Validation\Rule;
 
 class ResgistroResource extends Resource
 {
@@ -54,9 +55,13 @@ class ResgistroResource extends Resource
                                         'Pasaporte' => 'Pasaporte',
                                     ])
                                     ->required(),
-                                TextInput::make('numero_documento')
+                                    Forms\Components\TextInput::make('numero_documento')
                                     ->required()
-                                    ->maxLength(20),
+                                    ->rule(function ($get) {
+                                        return Rule::unique('registros', 'numero_documento')
+                                            ->ignore($get('id')); // Ignorar el registro actual
+                                    })
+                                    ->maxLength(15),
                                 TextInput::make('nombres')
                                     ->required()
                                     ->maxLength(255),
