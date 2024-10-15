@@ -50,6 +50,11 @@ class InscripcionConcursoResource extends Resource
                         return Rule::unique('inscripcion_concursos', 'numero_documento')
                             ->ignore($get('id')); // Ignorar el registro actual
                     })
+                    ->validationAttribute('número de documento')
+                    ->reactive()
+                    ->validationMessages([
+                        'unique' => 'El número de documento ya ha sido registrado.',
+                    ])
                     ->maxLength(15),
                 Forms\Components\TextInput::make('nombres')
                     ->maxLength(255),
