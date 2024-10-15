@@ -23,6 +23,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Validation\Rule;
 
+
 class ResgistroResource extends Resource
 {
     protected static ?string $model = Resgistro::class;
@@ -61,7 +62,12 @@ class ResgistroResource extends Resource
                                         return Rule::unique('registros', 'numero_documento')
                                             ->ignore($get('id')); // Ignorar el registro actual
                                     })
-                                    ->maxLength(15),
+                                    ->validationAttribute('número de documento')
+                                    ->maxLength(15)
+                                    ->reactive()
+                                    ->validationMessages([
+                                        'unique' => 'El número de documento ya ha sido registrado.',
+                                    ]),
                                 TextInput::make('nombres')
                                     ->required()
                                     ->maxLength(255),
