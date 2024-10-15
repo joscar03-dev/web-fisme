@@ -49,8 +49,24 @@ class InscripcionConcursos extends Component
             'tipo_participante' => 'required|string',
             'institucion_procedencia' => 'nullable|string|max:255',
             'email' => 'required|email|max:255',
-            'img_boucher' => 'required|image|max:2048', // Valida el boucher como imagen (max 2MB)
-            'documentos.*' => 'required|file|max:2048', // Valida que cada documento sea obligatorio y máximo de 2MB
+            'img_boucher' => 'required|image|max:2048',
+            'documentos.*' => 'required|file|max:2048',
+        ], [
+            'tipo_documento.required' => 'El tipo de documento es obligatorio.',
+            'numero_documento.required' => 'El número de documento es obligatorio.',
+            'numero_documento.unique' => 'El número de documento ya ha sido registrado.',
+            'nombres.required' => 'El nombre es obligatorio.',
+            'apellidos.required' => 'El apellido es obligatorio.',
+            'numero_celular.required' => 'El número de celular es obligatorio.',
+            'tipo_participante.required' => 'El tipo de participante es obligatorio.',
+            'email.required' => 'El correo electrónico es obligatorio.',
+            'email.email' => 'Debe ingresar un correo electrónico válido.',
+            'img_boucher.required' => 'Debe subir el boucher de pago.',
+            'img_boucher.image' => 'El archivo debe ser una imagen.',
+            'img_boucher.max' => 'La imagen no debe superar los 2MB.',
+            'documentos.*.required' => 'Todos los documentos son obligatorios.',
+            'documentos.*.file' => 'Debe subir un archivo válido.',
+            'documentos.*.max' => 'Cada documento no debe superar los 2MB.',
         ]);
 
         // Almacenar el boucher
