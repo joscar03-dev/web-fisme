@@ -20,11 +20,19 @@ class ConfirmacionInscripcionMailable extends Mailable
     public function __construct(Resgistro $registro)
     {
         $this->registro = $registro;
-        
-        $this->qrCodeBase64 = $this->getQRCode1(true);       
+
+        // Generar el QR y guardarlo en la base de datos
+        $this->qrCodeBase64 = base64_encode(QrCode::format('png')->size(200)->generate($this->registro->numero_documento));
+
+        // Guardar el QR en la base de datos si aún no está guardado
+        if (!$this->registro->qr_code) {
+            $this->registro->qr_code = $this->qrCodeBase64;
+            $this->registro->save();
+        }
+
         $this->pdf = Pdf::loadView('emails.ticket-pdf', [
             'registro' => $this->registro,
-            'qrCodeBase64' => $this->qrCodeBase64, 
+            'qrCodeBase64' => $this->qrCodeBase64,
         ])->output();
     }
     public function envelope(): Envelope

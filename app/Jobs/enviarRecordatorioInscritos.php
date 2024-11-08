@@ -29,11 +29,13 @@ class enviarRecordatorioInscritos implements ShouldQueue
     public function handle(): void
     {
         $inscripciones = InscripcionConcurso::all();
-        $data = [
-            'titulo' => '¡Solo faltan X dias para el congreso!',
-            'mensaje' => 'Gracias por inscribirte. Te mantendremos informado sobre nuestras actualizaciones.',
-        ];
         foreach ($inscripciones as $inscripcion) {
+            $dias_restantes = now()->diffInDays($inscripcion->fecha_evento);
+            $data = [
+                'titulo' => "¡Solo faltan $dias_restantes días para el congreso!",
+                'mensaje' => 'Gracias por inscribirte. Te recordamos que el evento está próximo.',
+                'qrCodeBase64' => $inscripcion->qr_code, // QR recuperado de la base de datos
+            ];
             Mail::to($inscripcion->email)->send(new RecordatorioInscritos($data));
         }
     }

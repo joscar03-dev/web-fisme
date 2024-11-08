@@ -25,6 +25,7 @@ class InscripcionConcurso extends Model
         'usuario_verificacion',
         'fecha_verificacion',
         'estado',
+        'qr_code'
     ];
 
     protected $dates = [
