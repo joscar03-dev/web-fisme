@@ -20,11 +20,11 @@ class ConfirmacionInscripcionMailable extends Mailable
     public function __construct(Resgistro $registro)
     {
         $this->registro = $registro;
-        
-        $this->qrCodeBase64 = $this->getQRCode1(true);       
+
+        $this->qrCodeBase64 = $this->getQRCode1(true);
         $this->pdf = Pdf::loadView('emails.ticket-pdf', [
             'registro' => $this->registro,
-            'qrCodeBase64' => $this->qrCodeBase64, 
+            'qrCodeBase64' => $this->qrCodeBase64,
         ])->output();
     }
     public function envelope(): Envelope
@@ -42,17 +42,6 @@ class ConfirmacionInscripcionMailable extends Mailable
             ],
         );
     }
-
-    /* public function attachments(): array
-    {
-        return [
-            [
-                'data' => $this->pdf, // Aquí va el contenido del PDF
-                'name' => 'ticket-inscripcion.pdf', // Nombre del archivo adjunto
-                'mime' => 'application/pdf', // Tipo MIME del archivo
-            ]
-        ];
-    } */
     public function attachments(): array
     {
         // En lugar de devolver un array de arrays, usa la clase Attachment que Laravel proporciona
