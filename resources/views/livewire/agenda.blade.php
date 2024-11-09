@@ -39,7 +39,7 @@
 
             <!-- Cuadrícula del Calendario -->
             <div class="grid grid-cols-7 gap-px bg-gray-200">
-                @foreach (['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'] as $diaSemana)
+                @foreach (['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'] as $diaSemana)
                     <div class="text-center font-semibold text-gray-700 bg-gray-100 py-2">
                         {{ $diaSemana }}
                     </div>

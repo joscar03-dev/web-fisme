@@ -3,7 +3,9 @@
 namespace App\Jobs;
 
 use App\Mail\RecordatorioInscritos;
+use App\Models\Evento;
 use App\Models\InscripcionConcurso;
+use App\Models\Resgistro;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -28,15 +30,25 @@ class enviarRecordatorioInscritos implements ShouldQueue
      */
     public function handle(): void
     {
-        $inscripciones = InscripcionConcurso::all();
+        //obtener la fecha de inicio del evento de la tabla o modelo Evento
+        $evento = Evento::first();
+        $fecha_inicio = $evento->fecha_inicio;
+
+        $diasRestantes = now()->diffInDays($fecha_inicio, false); // false para obtener un valor negativo si ya pasó la fecha
+
+        // Armar el mensaje con los días restantes
+        $inscripciones = Resgistro::all(); // Obtiene todas las inscripciones
+
         foreach ($inscripciones as $inscripcion) {
-            $dias_restantes = now()->diffInDays($inscripcion->fecha_evento);
+            // Crear el array de datos para el correo, reemplazando X con $diasRestantes
             $data = [
-                'titulo' => "¡Solo faltan $dias_restantes días para el congreso!",
-                'mensaje' => 'Gracias por inscribirte. Te recordamos que el evento está próximo.',
-                'qrCodeBase64' => $inscripcion->qr_code, // QR recuperado de la base de datos
+                'titulo'   => "¡Solo faltan $diasRestantes días para el congreso!",
+                'mensaje'  => 'Gracias por inscribirte. Te mantendremos informado sobre nuestras actualizaciones.',
+                'nombre'   => $inscripcion->nombres,
             ];
-            Mail::to($inscripcion->email)->send(new RecordatorioInscritos($data));
+
+            // Enviar el correo a cada inscrito
+            Mail::to($inscripcion->email)->send(new RecordatorioInscritos($inscripcion, $data));
         }
     }
 }

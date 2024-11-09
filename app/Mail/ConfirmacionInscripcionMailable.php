@@ -21,15 +21,7 @@ class ConfirmacionInscripcionMailable extends Mailable
     {
         $this->registro = $registro;
 
-        // Generar el QR y guardarlo en la base de datos
-        $this->qrCodeBase64 = base64_encode(QrCode::format('png')->size(200)->generate($this->registro->numero_documento));
-
-        // Guardar el QR en la base de datos si aún no está guardado
-        if (!$this->registro->qr_code) {
-            $this->registro->qr_code = $this->qrCodeBase64;
-            $this->registro->save();
-        }
-
+        $this->qrCodeBase64 = $this->getQRCode1(true);
         $this->pdf = Pdf::loadView('emails.ticket-pdf', [
             'registro' => $this->registro,
             'qrCodeBase64' => $this->qrCodeBase64,
@@ -50,17 +42,6 @@ class ConfirmacionInscripcionMailable extends Mailable
             ],
         );
     }
-
-    /* public function attachments(): array
-    {
-        return [
-            [
-                'data' => $this->pdf, // Aquí va el contenido del PDF
-                'name' => 'ticket-inscripcion.pdf', // Nombre del archivo adjunto
-                'mime' => 'application/pdf', // Tipo MIME del archivo
-            ]
-        ];
-    } */
     public function attachments(): array
     {
         // En lugar de devolver un array de arrays, usa la clase Attachment que Laravel proporciona
