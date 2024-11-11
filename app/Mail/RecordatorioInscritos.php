@@ -52,12 +52,12 @@ class RecordatorioInscritos extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.recordatorio', // Vista para el correo de recordatorio
+            markdown: 'emails.recordatorio', // Vista para el correo de recordatorio
             with: [
                 'registro' => $this->registro,
                 'data' => $this->data,
-
             ],
+
         );
     }
 
