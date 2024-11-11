@@ -42,7 +42,7 @@ class enviarRecordatorioInscritos implements ShouldQueue
         foreach ($inscripciones as $inscripcion) {
             // Crear el array de datos para el correo, reemplazando X con $diasRestantes
             $data = [
-                'titulo'   => "¡Solo faltan $diasRestantes días para el congreso!",
+                'titulo'   => "¡Solo faltan $diasRestantes días para el VI Congreso Internacional de Ingeniería de Sistemas!",
                 'mensaje'  => 'Gracias por inscribirte. Te mantendremos informado sobre nuestras actualizaciones.',
                 'nombre'   => $inscripcion->nombres,
             ];
