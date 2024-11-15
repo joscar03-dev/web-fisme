@@ -6,6 +6,7 @@ use App\Filament\Resources\ResgistroResource\Pages;
 use App\Filament\Resources\ResgistroResource\Pages\TicketQrPage;
 use App\Filament\Resources\ResgistroResource\RelationManagers;
 use App\Models\Resgistro;
+use Filament\Actions\ExportAction;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
@@ -22,7 +23,11 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Validation\Rule;
-
+use Filament\Tables\Actions\BulkActionGroup;
+use Filament\Tables\Actions\DeleteBulkAction;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
+use pxlrbt\FilamentExcel\Columns\Column;
+use pxlrbt\FilamentExcel\Exports\ExcelExport;
 
 class ResgistroResource extends Resource
 {
@@ -45,7 +50,7 @@ class ResgistroResource extends Resource
             ->schema([
                 Group::make()->schema(
                     [
-                        //segmento 
+                        //segmento
                         Section::make('Informacion de  Asistente')->schema(
                             [
                                 Select::make('tipo_documento')
@@ -56,7 +61,7 @@ class ResgistroResource extends Resource
                                         'Pasaporte' => 'Pasaporte',
                                     ])
                                     ->required(),
-                                    Forms\Components\TextInput::make('numero_documento')
+                                Forms\Components\TextInput::make('numero_documento')
                                     ->required()
                                     ->rule(function ($get) {
                                         return Rule::unique('registros', 'numero_documento')
@@ -82,21 +87,21 @@ class ResgistroResource extends Resource
                                     ->email()
                                     ->required()
                                     ->maxLength(255),
-                                    Select::make('tipo')
+                                Select::make('tipo')
                                     ->label('Tipo Venta ')
                                     ->options([
                                         'normal' => 'Venta Normal',
                                         'preventa' => 'Preventa',
-                               
+
                                     ]),
-                                    Select::make('modalidad')
+                                Select::make('modalidad')
                                     ->label('Modalidad')
                                     ->options([
                                         'Online' => 'Online',
                                         'Presencial' => 'Presencial',
-                               
+
                                     ]),
-                                
+
                             ]
                         )->columns(2),
                         Section::make('Descripcion del Evento')->schema(
@@ -164,10 +169,15 @@ class ResgistroResource extends Resource
 
                 Tables\Columns\TextColumn::make('nombres')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('apellidos')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('numero_documento')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('institucion_procedencia'),
+                Tables\Columns\TextColumn::make('tipo_asistente'),
+                Tables\Columns\TextColumn::make('entidad_financiera'),
                 Tables\Columns\IconColumn::make('verificado')
                     ->boolean(),
                 Tables\Columns\IconColumn::make('estado')
@@ -183,7 +193,7 @@ class ResgistroResource extends Resource
                     ->url(fn(Resgistro $record) => route('filament.admin.resources.resgistros.ticket-qr', $record)) // Genera la URL
                     ->color('primary'), // Opcional: Cambiar el color del botón
                 Tables\Actions\ActionGroup::make(
-                    [ // botones que se necesitan para editar  y elimnar 
+                    [ // botones que se necesitan para editar  y elimnar
                         Tables\Actions\EditAction::make(),
                         Tables\Actions\ViewAction::make(),
                         Tables\Actions\DeleteAction::make(),
@@ -192,8 +202,31 @@ class ResgistroResource extends Resource
 
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                BulkActionGroup::make([
+                    // Acción de eliminar en bloque
+                    DeleteBulkAction::make(),
+
+                    // Acción de exportación en bloque
+                    ExportBulkAction::make()
+                        ->exports([
+                            ExcelExport::make()
+                                ->fromModel(Resgistro::class)  // Aquí trabajamos con el modelo
+                                ->modifyQueryUsing(fn($query) => $query->orderBy('apellidos', 'asc'))  // Aplica el orden
+                                ->except([  // Excluye las columnas no deseadas
+                                    'created_at',
+                                    'updated_at',
+                                    'id',
+                                    'img_boucher',
+                                    'estado',
+                                    'verificado',
+                                    'fecha_pago',
+                                    'n_comprobante',
+                                    'monto',
+                                    'usuario_verificacion',
+                                    'slug',
+                                ])
+                                ->withFilename(fn($resource) => 'registro-' . date('Y-m-d'))
+                        ])
                 ]),
             ]);
     }
