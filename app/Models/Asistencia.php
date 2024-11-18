@@ -16,13 +16,14 @@ class Asistencia extends Model
         'slug',
         'fecha',
         'hora',
+        'dia_asistencia',
         'nombres_completos',
         'registro_id',
         'estado',
     ];
 
     // Convierte los campos de tipo timestamp automáticamente
-   
+
     /**
      * Relación con el modelo Registro
      */
